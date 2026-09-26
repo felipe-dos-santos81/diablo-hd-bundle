@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from dtx.catalog import TILESETS, Entry, TilesetSpec
+from dtx.catalog import DEFAULT_PALETTE, TILESETS, Entry, TilesetSpec
 from dtx.export import write_frame_pair, write_json, write_sheet, write_swatch
 from dtx.formats.frame import Frame
 from dtx.formats.levelcel import TileType, decode_level_cell
@@ -22,6 +22,7 @@ from dtx.formats.width import resolve_widths, scan_frame
 from dtx.paths import extension, rel_path
 from dtx.verify import verify_written
 
+PALETTE_WARNING = "most pixels use level-specific palette indices 1-127; town.pal is probably wrong"
 RECORD_NAMES = {"trn": "trn.json", "tileset": "tileset.json", "layout": "layout.json"}
 
 
@@ -110,6 +111,16 @@ def export_image(ctx: Context, entry: Entry, archive: str, data: bytes, dest: Pa
     return {"frames": 1}
 
 
+def level_index_share(frames: list[Frame]) -> float:
+    """Fraction of opaque pixels whose palette index is 1-127 (the level-specific range)."""
+    opaque = level = 0
+    for frame in frames:
+        values = frame.indices[frame.opaque]
+        opaque += values.size
+        level += int(np.count_nonzero((values >= 1) & (values <= 127)))
+    return level / opaque if opaque else 0.0
+
+
 def export_sprite(ctx: Context, entry: Entry, archive: str, data: bytes, dest: Path) -> dict:
     fmt = extension(entry.path)
     palette = ctx.palette(entry.palette)
@@ -145,6 +156,8 @@ def export_sprite(ctx: Context, entry: Entry, archive: str, data: bytes, dest: P
     }
     if widths.candidates:
         meta["width_candidates"] = list(widths.candidates)
+    if entry.palette == DEFAULT_PALETTE and level_index_share([f for g in decoded for f in g]) > 0.5:
+        meta["palette_warning"] = PALETTE_WARNING
     write_json(dest / "meta.json", meta)
     return {"frames": len(records), "width_source": widths.source}
 

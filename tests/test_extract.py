@@ -29,7 +29,8 @@ def run(tmp_path, files, **kw):
     if "hellfire" in kw:
         archives.insert(0, FakeArchive("hellfire.mpq", kw.pop("hellfire")))
     stack = ArchiveStack(archives)
-    return extract_with(stack, tmp_path / "out", widths={"data\\good.cel": 2}, variants={}, verify=True, **kw)
+    kw.setdefault("verify", True)
+    return extract_with(stack, tmp_path / "out", widths={"data\\good.cel": 2}, variants={}, palettes={}, **kw)
 
 
 def test_full_run_writes_report_and_manifest(tmp_path):

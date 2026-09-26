@@ -62,7 +62,8 @@ def test_listfile_coverage(stack):
 
 def test_every_graphics_file_is_catalogued(stack):
     named, _ = stack.names()
-    entries, skips = build_catalog(named, refdata.load_widths(), refdata.load_variants())
+    entries, skips = build_catalog(named, refdata.load_widths(), refdata.load_variants(),
+                                   refdata.load_palettes())
     graphics_skips = [s for s in skips if s.path.endswith((".cel", ".cl2", ".pcx")) and "part of tileset" not in s.reason]
     assert graphics_skips == []
 

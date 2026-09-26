@@ -6,6 +6,12 @@ from dataclasses import dataclass
 from dtx.paths import directory, extension, stem
 
 DEFAULT_PALETTE = "levels\\towndata\\town.pal"
+# Default palette of each dungeon type (DevilutionX LoadLevelPalette / LoadPalette calls).
+# Indices 128-255 are shared by every level palette; 1-127 differ per level.
+LEVEL_PALETTES = (
+    "levels\\l1data\\l1_1.pal", "levels\\l2data\\l2_1.pal", "levels\\l3data\\l3_1.pal",
+    "levels\\l4data\\l4_1.pal", "nlevels\\l5data\\l5base.pal", "nlevels\\l6data\\l6base1.pal",
+)
 
 
 @dataclass(frozen=True)
@@ -65,7 +71,28 @@ def choose_palette(preference: Iterable[str], pal_dir: str, names: set[str]) -> 
     return default, tuple(p for p in in_dir if p != default)
 
 
-def classify(name: str, names: set[str], widths: Mapping, variants: Mapping) -> Entry | Skip:
+def sprite_palette(name: str, kind: str, names: set[str], object_palettes: Mapping) -> tuple[str | None, tuple[str, ...]]:
+    """Default palette and alternatives for a CEL/CL2 sprite:
+    1. a palette with the same stem next to the sprite (gendata\\cutl1d.cel -> gendata\\cutl1d.pal);
+    2. an object's level palette from the refdata table;
+    3. the tileset directory palettes for level sprites; else town.pal."""
+    folder = directory(name)
+    fallback: tuple[str | None, tuple[str, ...]] = (DEFAULT_PALETTE, ())
+    owner = DUN_OWNERS.get(folder)
+    if kind == "level_sprite" and owner is not None:
+        fallback = choose_palette(TILESETS[owner].palette_preference, folder, names)
+    sibling = stem(name) + ".pal"
+    table = object_palettes.get(name) if kind == "object" else None
+    default = next((p for p in (sibling, table) if p is not None and p in names), fallback[0])
+    if kind == "object":
+        options = [p for p in LEVEL_PALETTES + (DEFAULT_PALETTE,) if p in names]
+    else:
+        options = [p for p in (fallback[0],) + fallback[1] if p is not None]
+    return default, tuple(dict.fromkeys(p for p in options if p != default))
+
+
+def classify(name: str, names: set[str], widths: Mapping, variants: Mapping,
+             object_palettes: Mapping | None = None) -> Entry | Skip:
     ext, base, folder = extension(name), stem(name), directory(name)
     if ext == "pal":
         return Entry(name, "palette")
@@ -89,10 +116,7 @@ def classify(name: str, names: set[str], widths: Mapping, variants: Mapping) -> 
         return Entry(name, "layout", palette, alternatives, tileset=owner)
     if ext in ("cel", "cl2"):
         kind = next((k for prefix, k in SPRITE_PREFIXES if name.startswith(prefix)), "unknown_graphic")
-        palette, alternatives = DEFAULT_PALETTE, ()
-        owner = DUN_OWNERS.get(folder)
-        if kind == "level_sprite" and owner is not None:
-            palette, alternatives = choose_palette(TILESETS[owner].palette_preference, folder, names)
+        palette, alternatives = sprite_palette(name, kind, names, object_palettes or {})
         hint = widths.get(name)
         if isinstance(hint, list):
             hint = tuple(hint)
@@ -100,11 +124,12 @@ def classify(name: str, names: set[str], widths: Mapping, variants: Mapping) -> 
     return Skip(name, "not graphics")
 
 
-def build_catalog(names: Iterable[str], widths: Mapping, variants: Mapping) -> tuple[list[Entry], list[Skip]]:
+def build_catalog(names: Iterable[str], widths: Mapping, variants: Mapping,
+                  object_palettes: Mapping | None = None) -> tuple[list[Entry], list[Skip]]:
     name_set = set(names)
     entries: list[Entry] = []
     skips: list[Skip] = []
     for name in sorted(name_set):
-        result = classify(name, name_set, widths, variants)
+        result = classify(name, name_set, widths, variants, object_palettes)
         (entries if isinstance(result, Entry) else skips).append(result)
     return entries, skips

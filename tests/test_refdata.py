@@ -24,7 +24,8 @@ def fake_devilutionx(root):
     tsv(txt / "monsters" / "unique_monstdat.tsv", ["name", "mTrnName"], [["Gharbad", "general"]])
     tsv(txt / "missiles" / "missile_sprites.tsv", ["id", "width", "width2", "name", "numFrames"],
         [["Arrow", "96", "16", "arrows", "1"], ["Fireball", "96", "16", "fireba", "2"]])
-    tsv(txt / "objects" / "objdat.tsv", ["id", "file", "animWidth"], [["OBJ_L1LIGHT", "l1braz", "64"]])
+    tsv(txt / "objects" / "objdat.tsv", ["id", "file", "minLevel", "maxLevel", "levelType", "animWidth"],
+        [["OBJ_L1LIGHT", "l1braz", "0", "0", "DTYPE_CATHEDRAL", "64"]])
     sprites = txt / "classes" / "warrior" / "sprites.tsv"
     tsv(sprites, ["Variable", "Value"], [
         ["classPath", "warrior"], ["classChar", "w"], ["trn", "warrior"], ["stand", "96"], ["walk", "96"],
@@ -126,3 +127,50 @@ def test_side_panels_are_320_wide(tmp_path):
     for panel in ("data\\spellbk.cel", "data\\quest.cel", "data\\char.cel", "data\\inv\\inv.cel",
                   "data\\inv\\inv_rog.cel", "data\\inv\\inv_sor.cel"):
         assert widths[panel] == 320
+
+
+def test_object_palettes_from_level_type_and_level_band(tmp_path):
+    from dtx.refdata import object_palettes
+
+    dvx = tmp_path / "dvx"
+    tsv(dvx / "assets" / "txtdata" / "objects" / "objdat.tsv",
+        ["id", "file", "minLevel", "maxLevel", "levelType", "animWidth"], [
+            ["OBJ_L1LIGHT", "l1braz", "0", "0", "DTYPE_CATHEDRAL", "64"],
+            ["OBJ_CANDLE1", "l1braz", "0", "0", "", "0"],
+            ["OBJ_L5LDOOR", "l5door", "0", "0", "DTYPE_CRYPT", "64"],
+            ["OBJ_L2LDOOR", "l2doors", "0", "0", "DTYPE_CATACOMBS", "64"],
+            ["OBJ_URN", "urn", "21", "24", "", "96"],
+            ["OBJ_POD", "l6pod1", "17", "20", "", "96"],
+            ["OBJ_TNUDEM1", "tnudem", "13", "15", "", "128"],
+            ["OBJ_DECAP", "decap", "13", "15", "", "96"],
+            ["OBJ_SLAINHERO", "decap", "9", "9", "", "96"],  # first mapping wins
+            ["OBJ_CHEST1", "chest1", "1", "24", "", "96"],  # spans bands: no entry
+            ["OBJ_LEVER", "lever", "0", "0", "", "96"],  # no level info: no entry
+            ["OBJ_SARC", "sarc", "1", "4", "", "128"],
+        ])
+
+    table = object_palettes(dvx)
+
+    assert table == {
+        "objects\\l1braz.cel": "levels\\l1data\\l1_1.pal",
+        "objects\\l5door.cel": "nlevels\\l5data\\l5base.pal",
+        "objects\\l2doors.cel": "levels\\l2data\\l2_1.pal",
+        "objects\\urn.cel": "nlevels\\l5data\\l5base.pal",
+        "objects\\l6pod1.cel": "nlevels\\l6data\\l6base1.pal",
+        "objects\\tnudem.cel": "levels\\l4data\\l4_1.pal",
+        "objects\\decap.cel": "levels\\l4data\\l4_1.pal",
+        "objects\\sarc.cel": "levels\\l1data\\l1_1.pal",
+    }
+
+
+def test_build_writes_object_palettes(tmp_path):
+    dvx = tmp_path / "dvx"
+    fake_devilutionx(dvx)
+    files = {**PRESENT, "levels\\l1data\\l1_1.pal": b""}
+    stack = ArchiveStack([FakeArchive("DIABDAT.MPQ", files)])
+    out = tmp_path / "data"
+
+    build(dvx, stack, out)
+
+    palettes = json.loads((out / "palettes.json").read_text())
+    assert palettes == {"objects\\l1braz.cel": "levels\\l1data\\l1_1.pal"}

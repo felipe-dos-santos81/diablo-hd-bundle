@@ -33,6 +33,18 @@ PLAYER_ANIMS = {
     "st": "stand", "as": "stand", "wl": "walk", "aw": "walk", "at": "attack", "ht": "swHit",
     "bl": "block", "lm": "lightning", "fm": "fire", "qm": "magic", "dt": "death",
 }
+# DevilutionX dungeon_type -> the level's default palette.
+LEVEL_TYPE_PALETTES = {
+    "DTYPE_CATHEDRAL": "levels\\l1data\\l1_1.pal", "DTYPE_CATACOMBS": "levels\\l2data\\l2_1.pal",
+    "DTYPE_CAVES": "levels\\l3data\\l3_1.pal", "DTYPE_HELL": "levels\\l4data\\l4_1.pal",
+    "DTYPE_CRYPT": "nlevels\\l5data\\l5base.pal", "DTYPE_NEST": "nlevels\\l6data\\l6base1.pal",
+}
+# Dungeon level bands (currlevel): 1-4 cathedral, 5-8 catacombs, 9-12 caves, 13-16 hell,
+# 17-20 Hellfire nest, 21-24 Hellfire crypt.
+LEVEL_BANDS = (
+    (1, 4, "DTYPE_CATHEDRAL"), (5, 8, "DTYPE_CATACOMBS"), (9, 12, "DTYPE_CAVES"),
+    (13, 16, "DTYPE_HELL"), (17, 20, "DTYPE_NEST"), (21, 24, "DTYPE_CRYPT"),
+)
 BARE_EXTENSIONS = (".cel", ".cl2", ".pcx", ".pal", ".trn")
 LITERAL = re.compile(r'"((?:[A-Za-z0-9_]+\\\\)+[A-Za-z0-9_\-]+(?:\.[A-Za-z0-9]{2,4})?)"')
 RAW_LITERAL = re.compile(r'R"\(((?:[A-Za-z0-9_]+\\)+[A-Za-z0-9_\-]+(?:\.[A-Za-z0-9]{2,4})?)\)"')
@@ -89,6 +101,43 @@ def level_names() -> set[str]:
     names |= {f"nlevels\\l6data\\l6.{e}" for e in parts} | {"nlevels\\l6data\\l6base.pal"}
     names |= {f"nlevels\\l6data\\l6base{v}.pal" for v in range(1, 6)}
     return names
+
+
+def _int(value: str | None) -> int:
+    try:
+        return int((value or "").strip())
+    except ValueError:
+        return 0
+
+
+def _object_level_palette(row: dict[str, str]) -> str | None:
+    level_type = (row.get("levelType") or "").strip()
+    if level_type in LEVEL_TYPE_PALETTES:
+        return LEVEL_TYPE_PALETTES[level_type]
+    low, high = _int(row.get("minLevel")), _int(row.get("maxLevel"))
+    if low <= 0 or high <= 0:
+        return None
+    for first, last, dtype in LEVEL_BANDS:
+        if first <= low and high <= last:
+            return LEVEL_TYPE_PALETTES[dtype]
+    return None
+
+
+def object_palettes(dvx: Path) -> dict[str, str]:
+    """Object sprite -> level palette, from objdat.tsv levelType, or from minLevel..maxLevel when
+    the range lies inside one dungeon band. The first mapping found for a file wins."""
+    tables = [dvx / "assets" / "txtdata" / "objects" / "objdat.tsv",
+              dvx / "mods" / "hf" / "txtdata" / "objects" / "objdat.tsv"]
+    palettes: dict[str, str] = {}
+    for table in tables:
+        if not table.exists():
+            continue
+        for row in read_tsv(table):
+            file = canonical(row["file"].strip())
+            palette = _object_level_palette(row)
+            if file and palette:
+                palettes.setdefault(f"objects\\{file}.cel", palette)
+    return palettes
 
 
 def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[str]], set[str]]:
@@ -172,6 +221,8 @@ def build(dvx: Path, stack, out_dir: Path = DATA_DIR, community: Path | None = N
             if trns:
                 kept_variants[k] = trns
     (out_dir / "variants.json").write_text(json.dumps(kept_variants, indent=1) + "\n")
+    kept_palettes = {k: v for k, v in sorted(object_palettes(dvx).items()) if k in present_set and v in present_set}
+    (out_dir / "palettes.json").write_text(json.dumps(kept_palettes, indent=1) + "\n")
     return {"candidates": len(names), "present": len(present)}
 
 
@@ -181,6 +232,11 @@ def listfile_path() -> Path:
 
 def load_widths() -> dict:
     path = DATA_DIR / "widths.json"
+    return json.loads(path.read_text()) if path.exists() else {}
+
+
+def load_palettes() -> dict:
+    path = DATA_DIR / "palettes.json"
     return json.loads(path.read_text()) if path.exists() else {}
 
 

@@ -105,3 +105,27 @@ def test_verification_mismatch_raises(tmp_path, monkeypatch):
         export_sprite(ctx, Entry("data\\x.cel", "ui_sprite", "levels\\towndata\\town.pal", width_hint=2),
                       "DIABDAT.MPQ", sheet([cel_frame([[1, 2]])]), dest)
     assert not (dest / "meta.json").exists()
+
+
+def _meta_for_sprite(tmp_path, rows, palette="levels\\towndata\\town.pal", extra=None):
+    ctx = ctx_for(tmp_path, extra or {})
+    export_sprite(ctx, Entry("objects\\x.cel", "object", palette, width_hint=4), "DIABDAT.MPQ",
+                  sheet([cel_frame(rows)]), tmp_path / "s")
+    return json.loads((tmp_path / "s/meta.json").read_text())
+
+
+def test_palette_warning_for_town_palette_with_level_indices(tmp_path):
+    meta = _meta_for_sprite(tmp_path, [[5, 6, 7, None], [1, 127, 200, None]])  # 5 of 6 opaque in 1-127
+    assert meta["palette_warning"] == ("most pixels use level-specific palette indices 1-127; "
+                                       "town.pal is probably wrong")
+
+
+def test_no_palette_warning_for_shared_indices(tmp_path):
+    meta = _meta_for_sprite(tmp_path, [[128, 200, 255, None], [0, 5, 130, None]])
+    assert "palette_warning" not in meta
+
+
+def test_no_palette_warning_for_level_palette(tmp_path):
+    meta = _meta_for_sprite(tmp_path, [[5, 6, 7, 8]], palette="levels\\l1data\\l1_1.pal",
+                            extra={"levels\\l1data\\l1_1.pal": PAL_BYTES})
+    assert "palette_warning" not in meta

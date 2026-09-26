@@ -119,19 +119,21 @@ def _finish(out: Path, results: list[dict], skips: list, unnamed: dict) -> dict:
     return report
 
 
-def _catalog(stack, only, widths, variants):
+def _catalog(stack, only, widths, variants, palettes):
     names, unnamed = stack.names()
-    entries, skips = build_catalog(names, widths, variants)
+    entries, skips = build_catalog(names, widths, variants, palettes)
     if only:
         entries = [e for e in entries if e.kind in only]
     return entries, skips, unnamed
 
 
-def extract_with(stack, out: Path, *, only=None, verify=False, force=False, widths=None, variants=None) -> dict:
+def extract_with(stack, out: Path, *, only=None, verify=False, force=False, widths=None, variants=None,
+                 palettes=None) -> dict:
     out = Path(out)
     widths = refdata.load_widths() if widths is None else widths
     variants = refdata.load_variants() if variants is None else variants
-    entries, skips, unnamed = _catalog(stack, only, widths, variants)
+    palettes = refdata.load_palettes() if palettes is None else palettes
+    entries, skips, unnamed = _catalog(stack, only, widths, variants, palettes)
     ctx = Context(stack, out, verify)
     results = [r for e in entries for r in process_entry(ctx, e, force)]
     return _finish(out, results, skips, unnamed)
@@ -155,7 +157,8 @@ def run_extract(game_dir: Path, out: Path, *, only=None, verify=False, force=Fal
     with ArchiveStack.open_game(game_dir, refdata.listfile_path()) as stack:
         if jobs <= 1:
             return extract_with(stack, out, only=only, verify=verify, force=force)
-        entries, skips, unnamed = _catalog(stack, only, refdata.load_widths(), refdata.load_variants())
+        entries, skips, unnamed = _catalog(stack, only, refdata.load_widths(), refdata.load_variants(),
+                                           refdata.load_palettes())
     results: list[dict] = []
     with ProcessPoolExecutor(max_workers=jobs, initializer=_init_worker,
                              initargs=(str(game_dir), str(out), verify)) as pool:
