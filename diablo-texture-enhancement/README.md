@@ -161,10 +161,13 @@ batch retries the sheet with `prompts.GEOMETRY_CORRECTION` as its correction
 from Atlantis stands: do not loosen the gate to get a sheet through — fix
 its character's caption or the run's settings instead.
 
-A sheet is **STUCK** when its latest judged attempt was rejected and it has
-had 4 judged attempts (a failed, unfinished attempt never counts). The next
-batch renders it once more through `qwen-image-2.1-i2i-faithful`; if that is
-rejected too, the run reports it and leaves it alone:
+A sheet is **STUCK** when its latest attempt was rejected and 4 of its
+attempts were rejected, by the gate or by the review. Only rejections count:
+never a failed, unfinished attempt, nor a promoted one that was merely
+rendered again (because its anchor changed, or with `force=1`). The next
+batch renders it once more through `qwen-image-2.1-i2i-faithful` (unless a
+rejected attempt already used it); if that is rejected too, the run reports
+it and leaves it alone:
 
 - Fix the sheet's character's caption in `characters.yaml`, then:
   `make batch anim=<record dir> force=1`

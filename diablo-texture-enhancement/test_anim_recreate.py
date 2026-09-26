@@ -1,5 +1,6 @@
 import json
 import random
+import shutil
 import tempfile
 import unittest
 from pathlib import Path
@@ -227,6 +228,29 @@ class BatchTests(DriverTest):
         self.assertIn(f"new      {ZN}/s01  3 frames", out)
         self.assertIn("no caption - run: make caption", out)
         self.assertIn("sheets: blocked=8 new=2", out)
+
+
+class StatusTests(DriverTest):
+    def test_only_rejected_attempts_count_toward_stuck(self):
+        # Regression: every judged attempt counted, so a sheet re-rendered three
+        # times because its anchor changed went STUCK on its first rejection.
+        key = "missiles/fireba1.cl2/s01"
+        audit = self.dst / ".quality" / key
+        rejection = {key: Review(4, False, ("cell 1 grew a tail",), "review")}
+        cases = {"three stale re-renders, then a review rejection": ((True, None), "rejected"),
+                 "three review rejections, then a fourth": ((True, False), "stuck"),
+                 "three gate rejections, then a review rejection": ((False, None), "stuck")}
+        for label, ((promoted, accepted), expected) in cases.items():
+            with self.subTest(label):
+                shutil.rmtree(audit, ignore_errors=True)
+                audit.mkdir(parents=True)
+                for n in range(1, 5):
+                    (audit / f"attempt-{n}.json").write_text(json.dumps(
+                        {"attempt": n, "promoted": promoted or n == 4, "frames": {}}))
+                    if accepted is not None and n < 4:
+                        (audit / f"attempt-{n}.review.json").write_text(json.dumps(
+                            {"accepted": accepted, "issues": ["x"]}))
+                self.assertEqual(a.sheet_status(self.dst, key, rejection), (expected, 4))
 
 
 class SelectionTests(DriverTest):

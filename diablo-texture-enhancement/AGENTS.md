@@ -76,10 +76,13 @@ Rules that must survive any change:
   and a rename (`save_image_atomic`).
 - **Resumable by construction, including `blocked` and `stale`.** A sheet's
   status is derived from its audit folder alone (`sheet_status`): `new`
-  (never attempted), `stuck` (its latest judged attempt was rejected and it
-  has `MAX_ATTEMPTS` (4) or more judged attempts — a failed attempt never
-  counts, so a sheet that keeps failing on infrastructure is retried on
-  every run and the run exits 1), `failed` (the latest attempt has no
+  (never attempted), `stuck` (its latest judged attempt was rejected and
+  `MAX_ATTEMPTS` (4) or more of its attempts were rejected — by the gate
+  (not promoted) or by the review (reviews.yaml's current verdict for that
+  attempt, else its `attempt-N.review.json`; `judged_attempts`). A failed
+  attempt never counts, so a sheet that keeps failing on infrastructure is
+  retried on every run and the run exits 1; nor does a promoted attempt that
+  a stale or forced re-render replaced), `failed` (the latest attempt has no
   record), `rejected` (by the gate or the review), `missing` (promoted, but
   a frame it wrote is gone from disk), `done`. `status_of` layers the anchor
   rules on top: a sheet that is not `done` and whose anchor sheet is not
@@ -89,8 +92,8 @@ Rules that must survive any change:
   record's anchor SHA-256 no longer matches its anchor's current promoted
   canvas reports `stale` and renders again, exactly like `new`. A stuck
   sheet whose workflow names a `fallback` is rendered once more through it
-  on the next batch (`fallback_for`), and reported STUCK only once that
-  attempt is rejected too. The next attempt's corrections
+  on the next batch (`fallback_for`, while no rejected attempt has used
+  it), and reported STUCK only once that attempt is rejected too. The next attempt's corrections
   (`corrections_for`) are the current review's issues while no later attempt
   was promoted; a geometry rejection gives the one
   `prompts.GEOMETRY_CORRECTION` sentence instead of the gate's own strings.

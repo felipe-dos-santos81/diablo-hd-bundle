@@ -66,7 +66,7 @@ VLM_MODEL = os.environ.get("VLM_MODEL", "Qwen/Qwen3.8-27B")
 VLM_API_KEY = os.environ.get("VLM_API_KEY", "")
 MEMORY_FLOOR_GB = 45
 SEED = 42                   # attempt N of a sheet uses SEED + N - 1
-MAX_ATTEMPTS = 4            # a sheet with this many judged attempts, the latest rejected, waits
+MAX_ATTEMPTS = 4            # a sheet with this many rejected attempts, the latest among them, waits
 DEFAULT_MATCH_STRENGTH = 0.5
 DEFAULT_CONCURRENCY = 8     # review requests in flight at once
 CAPTION_SCALE = 4           # the caption contact sheets enlarge frames this much
@@ -214,10 +214,11 @@ def latest_attempt(audit):
                default=0)
 
 
-def read_record(audit, attempt):
-    """attempt-N.json as a mapping, or None when it is missing or unreadable."""
+def read_record(audit, attempt, suffix="json"):
+    """attempt-N.json (or attempt-N.<suffix>, e.g. review.json) as a mapping, or
+    None when it is missing or unreadable."""
     try:
-        value = json.loads((audit / f"attempt-{attempt}.json").read_text(encoding="utf-8"))
+        value = json.loads((audit / f"attempt-{attempt}.{suffix}").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
     return value if isinstance(value, dict) else None
@@ -230,34 +231,53 @@ def current_review(reviews, key, latest):
     return None if review is None or review.attempt > latest else review
 
 
+def judged_attempts(dst, key, reviews):
+    """{N: (record, rejected)} for every attempt of the sheet that has a record.
+    An attempt is rejected when the gate did not promote it, or its review
+    rejected it: reviews.yaml's current verdict when it is about N, else the
+    attempt's own attempt-N.review.json. A promoted attempt that was only
+    replaced (a stale or forced re-render) is not rejected; a failed attempt
+    has no record and is not judged at all."""
+    audit = audit_dir(dst, key)
+    latest = latest_attempt(audit)
+    review = current_review(reviews, key, latest)
+    judged = {}
+    for n in range(1, latest + 1):
+        record = read_record(audit, n)
+        if record is None:
+            continue
+        if review is not None and review.attempt == n:
+            accepted = review.accepted
+        else:
+            accepted = (read_record(audit, n, "review.json") or {}).get("accepted")
+        judged[n] = (record, not record.get("promoted") or accepted is False)
+    return judged
+
+
 def sheet_status(dst, key, reviews):
     """(status, latest attempt) of a sheet, from its audit folder alone:
     new       never attempted
-    stuck     its latest judged attempt was rejected, and it has MAX_ATTEMPTS or
-              more judged attempts
+    stuck     its latest judged attempt was rejected, and MAX_ATTEMPTS or more
+              of its attempts were rejected
     failed    the latest attempt never finished (it has no record)
     rejected  the latest attempt failed the gate, or its review rejected it
     missing   promoted and not rejected, but a frame it wrote is gone
     done      promoted and not rejected (reviewed, or waiting for review)
-    A failed attempt has no record and never counts toward STUCK."""
-    audit = audit_dir(dst, key)
-    attempt = latest_attempt(audit)
+    Only rejected attempts count toward STUCK (judged_attempts): never a
+    failed one, nor a promoted one a stale or forced re-render replaced."""
+    attempt = latest_attempt(audit_dir(dst, key))
     if attempt == 0:
         return "new", 0
-    review = current_review(reviews, key, attempt)
-    records = {n: r for n in range(1, attempt + 1) if (r := read_record(audit, n)) is not None}
-
-    def rejected(n):
-        return not records[n].get("promoted") or (review is not None and not review.accepted
-                                                  and review.attempt >= n)
-
-    if records and rejected(max(records)) and len(records) >= MAX_ATTEMPTS:
+    judged = judged_attempts(dst, key, reviews)
+    rejections = sum(rejected for _, rejected in judged.values())
+    if judged and judged[max(judged)][1] and rejections >= MAX_ATTEMPTS:
         return "stuck", attempt
-    if attempt not in records:
+    if attempt not in judged:
         return "failed", attempt
-    if rejected(attempt):
+    record, rejected = judged[attempt]
+    if rejected:
         return "rejected", attempt
-    if any(not (dst / rel).is_file() for rel in records[attempt].get("frames", {})):
+    if any(not (dst / rel).is_file() for rel in record.get("frames", {})):
         return "missing", attempt
     return "done", attempt
 
@@ -304,14 +324,14 @@ def corrections_for(dst, key, reviews):
     return [GEOMETRY_CORRECTION] if review.source == "geometry" else list(review.issues)
 
 
-def fallback_for(dst, key, workflow):
+def fallback_for(dst, key, workflow, reviews):
     """The workflow to render a stuck sheet through once more: `workflow`'s
-    fallback while no judged attempt of the sheet has used it; else None."""
+    fallback while no rejected attempt of the sheet (as sheet_status counts
+    them) has used it; else None."""
     if workflow.fallback is None:
         return None
-    audit = audit_dir(dst, key)
-    used = {record.get("workflow") for n in range(1, latest_attempt(audit) + 1)
-            if (record := read_record(audit, n)) is not None}
+    used = {record.get("workflow")
+            for record, rejected in judged_attempts(dst, key, reviews).values() if rejected}
     return None if workflow.fallback in used else comfy_client.WORKFLOWS[workflow.fallback]
 
 
@@ -529,7 +549,7 @@ def cmd_batch(args):
                 continue
             sheet_workflow = workflow
             if status == "stuck" and not args.force:
-                sheet_workflow = fallback_for(args.dst, sj.key, workflow)
+                sheet_workflow = fallback_for(args.dst, sj.key, workflow, reviews)
                 if sheet_workflow is None:
                     stuck.append(sj)
                     continue
@@ -565,7 +585,7 @@ def cmd_batch(args):
                   + (f" (+{len(result.issues) - 3} more)" if len(result.issues) > 3 else ""),
                   flush=True)
             if sheet_status(args.dst, sj.key, reviews)[0] == "stuck":
-                fallback = fallback_for(args.dst, sj.key, sheet_workflow)
+                fallback = fallback_for(args.dst, sj.key, sheet_workflow, reviews)
                 if fallback is None:
                     stuck.append(sj)
                 else:
