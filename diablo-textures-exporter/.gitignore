@@ -1,0 +1,14 @@
+# Exported game graphics (copyrighted source data)
+out/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# OS
+.DS_Store

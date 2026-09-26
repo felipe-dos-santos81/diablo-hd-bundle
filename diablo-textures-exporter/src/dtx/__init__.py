@@ -1,0 +1,1 @@
+"""Diablo + Hellfire graphics exporter."""
