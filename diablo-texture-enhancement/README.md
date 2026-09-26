@@ -219,7 +219,15 @@ only; batch, dry-run, review, preview and verify) and `variant=` by TRN path
 (of the variants, only those); all accept several space-separated values,
 and an unknown one is refused. Every pipeline target also takes `packing=`,
 `gutter=`, `background=` and `anchor=0` (the layout switches the spike may
-change) and `src=`/`dst=` overrides. Environment overrides: `DIA_SRC`,
+change) and `src=`/`dst=` overrides.
+
+**One `dst=` per layout.** An output tree holds sheets of one layout only:
+`make batch` refuses to render into a tree whose sheets were rendered with
+another `packing=`, `gutter=` or `background=` (their records' packing,
+gutter, background, canvas or directions differ from the sheets as now
+planned), naming the first few; `make dry-run` lists them as `layout` and
+`make verify` counts them as problems. Give each layout its own `dst=`, or
+restore the settings the tree was rendered with. Environment overrides: `DIA_SRC`,
 `DIA_DST`, `DIA_PREVIEW`, `DIA_CHARACTERS`, `DIA_REVIEWS`, `DIA_WORKFLOW`,
 `DIA_MATCH_STRENGTH`, `COMFY_URL`, `COMFY_DIR`, `VLM_BASE_URL`, `VLM_MODEL`,
 `VLM_API_KEY`.

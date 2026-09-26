@@ -158,6 +158,24 @@ class BatchTests(DriverTest):
         self.assertEqual([c.kwargs["name"] for c in mocks.render.call_args_list],
                          [comfy_client.comfy_name(f"{ZN}/{GREY}/s02") + "_a2-sheet"])
 
+    def test_a_layout_switch_against_a_rendered_tree_is_refused(self):
+        # Regression: a switched packing, gutter or background was applied silently
+        # over sheets rendered with another layout.
+        zombie = ("--character", "monsters/zombie")
+        self.batch(*zombie)
+        for switch in (("--packing", "packed"), ("--gutter", "32"), ("--background", "dark")):
+            with self.subTest(switch=switch):
+                code, _, err, mocks = self.batch(*zombie, *switch)
+                self.assertEqual((code, mocks.render.call_count), (2, 0))
+                self.assertIn("this output tree was rendered with a different layout", err)
+                self.assertIn(f"{ZN}/s01 ({switch[0][2:]}", err)
+                code, out, _, _ = self.batch("--dry-run", *zombie, *switch)
+                self.assertEqual(code, 0)
+                self.assertIn(f"layout   {ZN}/s01  rendered with another {switch[0][2:]}", out)
+                code, out, _ = testkit.run_cli(self.argv("verify", *zombie, *switch))
+                self.assertEqual(code, 1)
+                self.assertIn(f"LAYOUT     {ZN}/s01", out)
+
     def test_a_failed_render_leaves_an_error_and_no_record(self):
         def boom(workflow, **kw):
             raise RuntimeError("ComfyUI execution failed: out of memory")

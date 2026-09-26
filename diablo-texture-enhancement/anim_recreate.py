@@ -325,6 +325,31 @@ def status_of(args, sj, reviews, characters):
     return status, attempt, anchor
 
 
+def layout_changes(args, sj):
+    """The layout fields (packing, gutter, background, canvas, groups) in which
+    the sheet's latest attempt record differs from the sheet as now planned;
+    empty when they agree or the sheet has no record. One output tree holds
+    one layout: a switch would mix sheets of both under the same keys."""
+    audit = audit_dir(args.dst, sj.key)
+    record = next((r for n in range(latest_attempt(audit), 0, -1)
+                   if (r := read_record(audit, n)) is not None), None)
+    if record is None:
+        return []
+    planned = {"packing": args.packing, "gutter": args.gutter, "background": args.background,
+               "canvas": list(sj.sheet.size), "groups": list(sj.sheet.groups)}
+    return [field for field, value in planned.items() if record.get(field) != value]
+
+
+def layout_refusal(args, mismatched):
+    """The message for sheets ({key: changed fields}) rendered with another layout."""
+    lines = [f"{key} ({', '.join(fields)})" for key, fields in list(mismatched.items())[:5]]
+    if len(mismatched) > 5:
+        lines.append(f"... and {len(mismatched) - 5} more")
+    return (f"{args.dst}: this output tree was rendered with a different layout "
+            f"({len(mismatched)} sheet(s)); use another dst= or restore the settings "
+            "(packing=, gutter=, background=):\n  " + "\n  ".join(lines))
+
+
 def corrections_for(dst, key, reviews):
     """What the sheet's next attempt must correct: the issues of its current
     review when that review rejected an attempt and no later attempt was
@@ -542,13 +567,16 @@ def cmd_batch(args):
     items = sheet_jobs(args, jobs)
     uncaptioned = sorted({sj.job.character for sj in items
                           if not characters[sj.job.character].caption.strip()})
+    mismatched = {sj.key: changes for sj in items if (changes := layout_changes(args, sj))}
     print(f"workflow: {workflow.name}  match strength: {args.match_strength}  packing: "
           f"{args.packing}  gutter: {args.gutter}  background: {args.background}"
           + ("  no anchor" if args.no_anchor else ""))
     print(f"{len(jobs)} animation(s) and variant(s): {len(items)} sheet(s), "
           f"copy {len(copies)} (skip)")
     if args.dry_run:
-        return dry_run(args, items, copies, characters, reviews, uncaptioned)
+        return dry_run(args, items, copies, characters, reviews, uncaptioned, mismatched)
+    if mismatched:
+        return fail(layout_refusal(args, mismatched))
     if uncaptioned:
         return fail(f"{len(uncaptioned)} selected character(s) have no caption in "
                     f"{args.characters_file} - run: make caption\n  " + "\n  ".join(uncaptioned))
@@ -640,13 +668,19 @@ def cmd_batch(args):
         free_comfy_models()
 
 
-def dry_run(args, items, copies, characters, reviews, uncaptioned):
+def dry_run(args, items, copies, characters, reviews, uncaptioned, mismatched):
     """Print what batch would do: every sheet not done, with its size, anchor
-    and corrections, then the counts by status."""
+    and corrections, then the counts by status. A sheet rendered with another
+    layout (`mismatched`, {key: changed fields}) reads `layout`, and batch
+    would refuse the run."""
     counts = {}
     for job in copies:
         print(f"  copy    {job.key} ({len(job.anim.frames)} frames, nearest {SCALE}x)")
     for sj in items:
+        if sj.key in mismatched:
+            counts["layout"] = counts.get("layout", 0) + 1
+            print(f"  layout   {sj.key}  rendered with another {', '.join(mismatched[sj.key])}")
+            continue
         status, _, _ = status_of(args, sj, reviews, characters)
         counts[status] = counts.get(status, 0) + 1
         if status == "done":
@@ -666,6 +700,8 @@ def dry_run(args, items, copies, characters, reviews, uncaptioned):
     if largest is not None:
         print(f"largest canvas: {largest.size[0]}x{largest.size[1]}")
     print("sheets: " + " ".join(f"{k}={v}" for k, v in sorted(counts.items())))
+    if mismatched:
+        print("batch would refuse: " + layout_refusal(args, mismatched))
     return 0
 
 
@@ -853,6 +889,12 @@ def cmd_verify(args):
             continue
         for sheet in sheets:
             sj = SheetJob(job, sheet)
+            changes = layout_changes(args, sj)
+            if changes:
+                bad += 1
+                print(f"{'LAYOUT':10} {sj.key}  rendered with another {', '.join(changes)} - use "
+                      "another dst= or restore the settings")
+                continue
             status, attempt, _ = status_of(args, sj, reviews, characters)
             if status == "done":
                 record = read_record(audit_dir(args.dst, sj.key), attempt)

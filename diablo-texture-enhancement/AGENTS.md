@@ -52,6 +52,13 @@ Rules that must survive any change:
   batch, review, preview and verify to single sheets (`job_sheets`); the
   STUCK line and verify's UNRECORDED line name `make batch sheet=<key>
   force=1`, so a remedy re-renders only the sheet that needs it.
+- **One output tree, one layout.** A sheet key names a different canvas
+  under another `--packing`, `--gutter` or `--background`, so `batch`
+  refuses, before rendering anything, a selection with any sheet whose
+  latest attempt record's packing, gutter, background, canvas or groups
+  differ from the sheet as now planned (`layout_changes`); `--dry-run`
+  lists those as `layout`, and `verify` reports them as `LAYOUT` problems.
+  A layout switch takes its own `--dst`.
 - **Never loosen the gate to get a sheet through.** Fix its character's
   caption in `characters.yaml`, or the run's settings (`packing=`, `gutter=`,
   `background=`, `--workflow`) — never `geometry_check`'s thresholds.
