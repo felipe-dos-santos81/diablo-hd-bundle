@@ -66,3 +66,43 @@ def cel_frame(rows: list[list[int | None]], header: bool = False) -> bytes:
     if header:
         return struct.pack("<5H", 10, 0, 0, 0, 0) + bytes(out)
     return bytes(out)
+
+
+def cl2_frame(rows: list[list[int | None]]) -> bytes:
+    """Encode rows (top row first; None = transparent) as a CL2 frame with a skip table.
+
+    Runs may cross rows but never cross a 32-row boundary, so skip offsets are exact."""
+    width = len(rows[0]) if rows else 0
+    flat = [p for row in reversed(rows) for p in row]
+    boundaries = sorted(32 * k * width for k in (1, 2, 3, 4) if width and 32 * k * width < len(flat))
+    body = bytearray()
+    boundary_offsets: dict[int, int] = {}
+
+    def cap(i: int, limit: int) -> int:
+        nxt = next((b for b in boundaries if b > i), len(flat))
+        return min(limit, nxt - i)
+
+    i = 0
+    while i < len(flat):
+        if i in boundaries:
+            boundary_offsets[i] = len(body)
+        n = 1
+        if flat[i] is None:
+            while n < cap(i, 127) and flat[i + n] is None:
+                n += 1
+            body.append(n)
+        else:
+            while n < cap(i, 63) and flat[i + n] == flat[i]:
+                n += 1
+            if n >= 3:
+                body += bytes([0xBF - n, flat[i]])
+            else:
+                n = 1
+                while n < cap(i, 65) and flat[i + n] is not None:
+                    n += 1
+                body.append(256 - n)
+                body += bytes(flat[i : i + n])
+        i += n
+    skip = [10 + boundary_offsets[b] if b in boundary_offsets else 0 for b in
+            (32 * k * width for k in (1, 2, 3, 4))]
+    return struct.pack("<5H", 10, *skip) + bytes(body)
