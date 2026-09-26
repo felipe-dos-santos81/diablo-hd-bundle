@@ -124,6 +124,29 @@ class BatchTests(DriverTest):
             f"{ZW}/s01", f"{ZW}/s02", f"{ZN}/{GREY}/s01", f"{ZN}/{GREY}/s02")])
         self.assertIn("(its anchor changed)", out)
 
+    def test_force_never_renders_a_dependant_whose_anchor_is_not_done(self):
+        # Regression: --force rendered done dependants with anchor=None while
+        # the character anchor's new attempt had just been rejected. The four
+        # sheets anchored directly to it (the other zombien sheet, both
+        # zombiew sheets, and zombien's own grey variant s01) must wait;
+        # sheets anchored to an untouched sibling sheet may still render, but
+        # never anchorless.
+        self.batch("--character", "monsters/zombie")
+        anchor_name = comfy_client.comfy_name(f"{ZN}/s01")
+
+        def shift_the_anchor(workflow, **kw):
+            return testkit.fake_render(testkit.shift_right if kw["name"].startswith(anchor_name + "_")
+                                       else None)(workflow, **kw)
+        code, out, _, mocks = self.batch("--character", "monsters/zombie", "--force",
+                                         render=shift_the_anchor)
+        self.assertEqual(code, 0)
+        self.assertIn("rejected=1", out)
+        self.assertIn("blocked=4", out)
+        for call in mocks.render.call_args_list:
+            if call.kwargs["name"] != f"{anchor_name}_a2-sheet":
+                self.assertIsNotNone(call.kwargs["anchor"],
+                                     msg=f"{call.kwargs['name']} rendered anchorless")
+
     def test_a_failed_render_leaves_an_error_and_no_record(self):
         def boom(workflow, **kw):
             raise RuntimeError("ComfyUI execution failed: out of memory")

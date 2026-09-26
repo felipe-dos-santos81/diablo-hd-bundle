@@ -520,7 +520,8 @@ def cmd_batch(args):
             if status == "done" and not args.force:
                 counts["done"] += 1
                 continue
-            if status == "blocked":
+            if status == "blocked" or (anchor is None and not args.no_anchor
+                                       and anchor_key(sj, characters) is not None):
                 counts["blocked"] += 1
                 continue
             sheet_workflow = workflow
