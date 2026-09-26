@@ -37,7 +37,9 @@
 ```
 pyproject.toml
 .python-version
-.gitignore                         (exists: out/, .venv/, __pycache__/, *.pyc)
+.gitignore                         (exists; extended in Task 1)
+Makefile                           install / refdata / extract / test targets with `make help`
+README.md                          overview, setup, usage, output layout
 src/dtx/
   __init__.py
   cli.py                           argparse entry point: `dtx refdata build`, `dtx extract`
@@ -76,10 +78,11 @@ tests/
 
 ---
 
-### Task 1: Project scaffold, core types and path helpers
+### Task 1: Project scaffold, core types, path helpers, Makefile and README
 
 **Files:**
-- Create: `pyproject.toml`, `.python-version`, `src/dtx/__init__.py`, `src/dtx/cli.py`, `src/dtx/paths.py`, `src/dtx/binary.py`, `src/dtx/formats/__init__.py`, `src/dtx/formats/frame.py`, `tests/conftest.py`
+- Create: `pyproject.toml`, `.python-version`, `Makefile`, `README.md`, `src/dtx/__init__.py`, `src/dtx/cli.py`, `src/dtx/paths.py`, `src/dtx/binary.py`, `src/dtx/formats/__init__.py`, `src/dtx/formats/frame.py`, `tests/conftest.py`
+- Modify: `.gitignore`
 - Test: `tests/test_frame.py`, `tests/test_paths.py`
 
 **Interfaces:**
@@ -369,11 +372,148 @@ def main(argv: list[str] | None = None) -> int:
 Run: `uv run pytest -v && uv run dtx --help`
 Expected: all tests PASS; `dtx --help` prints usage.
 
-- [ ] **Step 6: Commit**
+- [ ] **Step 6: Add Makefile, README and .gitignore**
+
+The Makefile follows the style of the user's reference Makefile: a header comment naming the pipeline order, a `SERVICE` name, a `# Variables` block, a `.PHONY` list, `# ── Section ──` dividers, `## description` on every public target (parsed by `help`), `[STEP n]` tags on pipeline targets, and optional `arg=val` switches via `$(if ...)`. Recipe lines must be indented with a **tab**. The `refdata` and `extract` targets call CLI commands that Tasks 13 and 17 add; until then they fail with an argparse error, which is expected.
+
+`Makefile`:
+```make
+# Makefile for dtx — Diablo + Hellfire graphics exporter
+# Targets follow the pipeline:
+#   install → 1 refdata → 2 extract → test
+SERVICE = dtx
+
+# Variables
+UV = uv
+DVX_REPO = https://github.com/diasurgical/devilutionx
+DVX_COMMIT = 8bef7bce51641b8faa1f56f4119e5b6ee6ec6f3f
+game ?= $(HOME)/diablo1-hellfire-gog
+out ?= out
+dvx ?= $(HOME)/.cache/dtx/devilutionx
+
+.PHONY: help install clean devilutionx refdata extract test test-game
+
+# ── Environment ──────────────────────────────────────────────────────────────
+
+help: ## Print this help message
+	@printf '\033[01;32m${SERVICE} — Diablo + Hellfire graphics exporter\033[00;37m\n\n'
+	@printf "\033[33mUsage:\033[0m\n  make [target] [arg=\"val\"...]\n\n\033[33mTargets:\033[0m\n"
+	@grep -E '^[-a-zA-Z0-9_\.\/]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*?## "}; \
+		{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
+
+install: ## Install StormLib (Homebrew) and the Python environment (uv)
+	@brew list stormlib >/dev/null 2>&1 || brew install stormlib
+	@$(UV) sync
+	@echo "Environment setup complete."
+
+clean: ## Remove the venv, caches and exported output
+	rm -rf .venv .pytest_cache "$(out)"
+	find . -type d -name "__pycache__" -exec rm -rf {} +
+	@echo "Cleanup complete."
+
+# ── Stage 1 · Reference data ─────────────────────────────────────────────────
+
+devilutionx: ## Clone DevilutionX at the pinned commit (usage: make devilutionx [dvx=path])
+	@if [ ! -d "$(dvx)" ]; then git clone --filter=blob:none $(DVX_REPO) "$(dvx)"; fi
+	@git -C "$(dvx)" checkout -q $(DVX_COMMIT)
+
+refdata: install devilutionx ## [STEP 1] Regenerate listfile and width tables (usage: make refdata [community=listfile.txt])
+	$(UV) run dtx refdata build --devilutionx "$(dvx)" --game "$(game)" $(if $(community),--community "$(community)")
+
+# ── Stage 2 · Export ─────────────────────────────────────────────────────────
+
+extract: install ## [STEP 2] Export and verify all graphics (usage: make extract [game=dir] [out=dir] [only=tileset,layout] [force=1] [jobs=8])
+	$(UV) run dtx extract --game "$(game)" --out "$(out)" --verify $(if $(only),--only "$(only)") $(if $(force),--force) $(if $(jobs),--jobs "$(jobs)")
+
+# ── Development ──────────────────────────────────────────────────────────────
+
+test: install ## Run the unit tests (no game data needed)
+	$(UV) run pytest -q
+
+test-game: install ## Run all tests, including those that read the game archives (usage: make test-game [game=dir])
+	DTX_GAME_DIR="$(game)" $(UV) run pytest -q
+```
+
+`README.md`:
+````markdown
+# dtx — Diablo + Hellfire graphics exporter
+
+Exports every graphic in the GOG Diablo + Hellfire game data — UI screens, town and dungeon tilesets, level layouts, monsters, player characters, items, spell effects and objects — as lossless PNGs with the metadata needed to put AI-regenerated HD versions back into a future DevilutionX fork.
+
+## Requirements
+
+- macOS with [Homebrew](https://brew.sh) (for StormLib) and [uv](https://docs.astral.sh/uv/)
+- The GOG game files `DIABDAT.MPQ`, `hellfire.mpq` and `hfmonk.mpq`, by default in `~/diablo1-hellfire-gog`
+
+## Usage
+
+```sh
+make install                      # StormLib + Python environment
+make extract                      # export everything to ./out
+make extract only=tileset,layout  # just backgrounds
+make help                         # all targets and options
+```
+
+## Output
+
+```
+out/
+  manifest.json    every exported asset + the HD replacement contract
+  report.json      exported / skipped (with reason) / failed / unnamed files
+  palettes/        each .pal as a swatch PNG + JSON (colours, colour cycling)
+  assets/<archive path>/
+    *.png          RGBA image, ready for AI regeneration
+    *.idx.png      exact original palette indices (grey) + transparency (alpha)
+    meta.json      sprites and images: frames, widths, palette, colour variants
+    tileset.json   tilesets: columns (the editable unit), cells, tiles
+    layout.json    level layouts: where each column is placed in layout.png
+```
+
+A regenerated image must be the original size multiplied by one whole number per asset (see `hd_contract` in `manifest.json`). The `*.idx.png` files let any image be re-rendered with a different palette.
+
+Exported images come from copyrighted game data: keep `out/` out of version control.
+
+## Reference data
+
+`src/dtx/data/` holds the archive file names and sprite frame widths, generated from [DevilutionX](https://github.com/diasurgical/devilutionx) at a pinned commit. Regenerate with `make refdata`.
+
+## Development
+
+```sh
+make test        # unit tests, synthetic data only
+make test-game   # also runs tests against the game archives
+```
+
+Design: [`docs/superpowers/specs/2026-09-26-diablo-texture-export-design.md`](docs/superpowers/specs/2026-09-26-diablo-texture-export-design.md)
+````
+
+Replace `.gitignore` with:
+```
+# Exported game graphics (copyrighted source data)
+out/
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# OS
+.DS_Store
+```
+
+Run: `make help && make test`
+Expected: `help` lists `help, install, clean, devilutionx, refdata, extract, test, test-game` with descriptions; `make test` passes.
+
+- [ ] **Step 7: Commit**
 
 ```bash
-git add pyproject.toml .python-version uv.lock src tests
-git commit -m "feat: scaffold dtx package with Frame and path helpers"
+git add pyproject.toml .python-version uv.lock Makefile README.md .gitignore src tests
+git commit -m "feat: scaffold dtx package with Frame, path helpers, Makefile and README"
 ```
 
 ---
