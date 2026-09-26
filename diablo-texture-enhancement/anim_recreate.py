@@ -143,7 +143,8 @@ def load_characters_checked(args):
 def select_jobs(args, characters):
     """The selected jobs in render order: every anchor animation, then the other
     base animations, then (unless --no-variants) the variants in the same order,
-    only the --variant TRNs when given."""
+    only the --variant TRNs when given, and only the jobs of the --sheet keys
+    when given."""
     names = args.character or sorted(characters)
     unknown = sorted(set(names) - set(characters))
     if unknown:
@@ -169,7 +170,16 @@ def select_jobs(args, characters):
     variants = [] if args.no_variants else [
         replace(job, trn=trn) for job in bases for trn in job.anim.variants
         if not args.variant or trn in args.variant]
-    return bases + variants
+    jobs = bases + variants
+    if args.sheet:
+        # A sheet key is <job key>/sNN: keep the jobs that own one, then check
+        # that each key is one of their sheets.
+        owners = {key.rpartition("/")[0] for key in args.sheet}
+        jobs = [job for job in jobs if job.key in owners]
+        unknown = set(args.sheet) - {sj.key for sj in sheet_jobs(args, jobs)}
+        if unknown:
+            raise UsageError("no selected animation has sheet " + ", ".join(sorted(unknown)))
+    return jobs
 
 
 def layout(args, anim):
@@ -183,8 +193,14 @@ def layout(args, anim):
     return cached
 
 
+def job_sheets(args, job):
+    """The job's sheets, only the --sheet ones when given."""
+    return [sheet for sheet in layout(args, job.anim)[0]
+            if not args.sheet or SheetJob(job, sheet).key in args.sheet]
+
+
 def sheet_jobs(args, jobs):
-    return [SheetJob(job, sheet) for job in jobs if not job.skip for sheet in layout(args, job.anim)[0]]
+    return [SheetJob(job, sheet) for job in jobs if not job.skip for sheet in job_sheets(args, job)]
 
 
 def anchor_key(sj, characters):
@@ -502,7 +518,7 @@ def write_nearest(args, job):
 
 def stuck_line(sj):
     return (f"  STUCK   {sj.key}: rejected {MAX_ATTEMPTS} times - fix {sj.job.character}'s "
-            f"caption in characters.yaml, then: make batch anim={sj.job.anim.key} force=1")
+            f"caption in characters.yaml, then: make batch sheet={sj.key} force=1")
 
 
 def cmd_batch(args):
@@ -790,8 +806,12 @@ def cmd_verify(args):
     jobs = select_jobs(args, characters)
     bad = frames = 0
     for job in jobs:
-        sheets, masks = layout(args, job.anim)
-        for frame, mask in zip(job.anim.frames, masks):
+        masks = layout(args, job.anim)[1]
+        sheets = job_sheets(args, job)
+        cells = {cell.frame for sheet in sheets for cell in sheet.cells}
+        for index, (frame, mask) in enumerate(zip(job.anim.frames, masks)):
+            if args.sheet and index not in cells:
+                continue
             frames += 1
             problem = frame_problem(args.dst / job.key / frame.png, mask, job.skip)
             if problem:
@@ -809,7 +829,7 @@ def cmd_verify(args):
                     if source_tree.file_sha256(args.dst / rel) != sha:
                         bad += 1
                         print(f"{'UNRECORDED':10} {rel}  no attempt record promoted this file - "
-                              f"run: make batch anim={job.anim.key} force=1")
+                              f"run: make batch sheet={sj.key} force=1")
             elif status not in ("new", "blocked"):
                 bad += 1
                 print(f"{status.upper():10} {sj.key}")
@@ -826,9 +846,11 @@ def cmd_preview(args):
     characters = load_characters_checked(args)
     written = 0
     for job in select_jobs(args, characters):
+        wanted = {group for sheet in job_sheets(args, job) for group in sheet.groups}
         groups = {}
         for frame in job.anim.frames:
-            groups.setdefault(frame.group, []).append(frame)
+            if not args.sheet or frame.group in wanted:
+                groups.setdefault(frame.group, []).append(frame)
         for group, frames in sorted(groups.items()):
             pictures = []
             for frame in frames:
@@ -899,7 +921,7 @@ def build_parser():
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="command", required=True)
 
-    def common(p):
+    def common(p, sheets=True):
         p.add_argument("--src", type=Path, default=SRC_ROOT,
                        help="diablo-textures-exporter output (default: %(default)s, or DIA_SRC)")
         p.add_argument("--dst", type=Path, default=DST_ROOT,
@@ -912,6 +934,11 @@ def build_parser():
                        help="process character KEY only (repeatable)")
         p.add_argument("--anim", action="append", metavar="KEY",
                        help="process animation KEY (its record directory) only (repeatable)")
+        if sheets:
+            p.add_argument("--sheet", action="append", metavar="KEY",
+                           help="process sheet KEY only, e.g. monsters/zombie/zombien.cl2/s02 or "
+                                "a variant's .../zombien.cl2/@trn/monsters/zombie/grey.trn/s02 "
+                                "(repeatable)")
         p.add_argument("--no-variants", action="store_true",
                        help="leave out the recolour variants")
         p.add_argument("--variant", action="append", metavar="TRN",
@@ -929,7 +956,7 @@ def build_parser():
                        help="paint every sheet against its guide only (a spike variant)")
 
     caption = sub.add_parser("caption", help="seed characters.yaml and caption its characters")
-    common(caption)
+    common(caption, sheets=False)
     caption.add_argument("--force", action="store_true",
                          help="re-caption characters that already have a caption")
     caption.set_defaults(func=cmd_caption)

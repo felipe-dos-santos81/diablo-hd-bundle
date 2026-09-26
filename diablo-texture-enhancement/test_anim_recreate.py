@@ -114,6 +114,7 @@ class BatchTests(DriverTest):
         code, out, err, mocks = self.batch(*args, render=shifted)
         self.assertEqual((code, mocks.render.call_count), (1, 0))
         self.assertIn("STUCK   missiles/fireba1.cl2/s01", err)
+        self.assertIn("make batch sheet=missiles/fireba1.cl2/s01 force=1", err)
 
     def test_a_new_anchor_makes_its_dependants_stale(self):
         self.batch()
@@ -148,6 +149,13 @@ class BatchTests(DriverTest):
             if call.kwargs["name"] != f"{anchor_name}_a2-sheet":
                 self.assertIsNotNone(call.kwargs["anchor"],
                                      msg=f"{call.kwargs['name']} rendered anchorless")
+
+    def test_force_with_a_sheet_renders_that_sheet_only(self):
+        self.batch()
+        code, _, _, mocks = self.batch("--sheet", f"{ZN}/{GREY}/s02", "--force")
+        self.assertEqual(code, 0)
+        self.assertEqual([c.kwargs["name"] for c in mocks.render.call_args_list],
+                         [comfy_client.comfy_name(f"{ZN}/{GREY}/s02") + "_a2-sheet"])
 
     def test_a_failed_render_leaves_an_error_and_no_record(self):
         def boom(workflow, **kw):
@@ -271,6 +279,31 @@ class SelectionTests(DriverTest):
                 code, _, err, _ = self.batch("--dry-run", *extra)
                 self.assertEqual(code, 2)
                 self.assertIn(message, err)
+
+
+    def test_sheet_selects_single_sheets_in_every_stage(self):
+        cases = {("--sheet", f"{ZN}/s02"): "1 animation(s) and variant(s): 1 sheet(s)",
+                 ("--sheet", f"{ZN}/{GREY}/s01"): "1 animation(s) and variant(s): 1 sheet(s)",
+                 ("--sheet", f"{ZN}/s02", "--sheet", f"{ZN}/{GREY}/s02"):
+                     "2 animation(s) and variant(s): 2 sheet(s)"}
+        for extra, expected in cases.items():
+            with self.subTest(extra=extra):
+                code, out, _, _ = self.batch("--dry-run", *extra)
+                self.assertEqual(code, 0)
+                self.assertIn(expected, out)
+        for extra in (("--sheet", f"{ZN}/s09"), ("--sheet", f"{ZN}/{GREY}/s01", "--no-variants"),
+                      ("--sheet", f"{ZN}/s01", "--character", "missiles/fireba")):
+            with self.subTest(extra=extra):
+                code, _, err, _ = self.batch("--dry-run", *extra)
+                self.assertEqual(code, 2)
+                self.assertIn(f"no selected animation has sheet {extra[1]}", err)
+        code, out, _ = testkit.run_cli(self.argv("verify", "--sheet", f"{ZN}/s02"))
+        self.assertIn("verify: 1 animation(s) and variant(s), 3 frame(s), 3 problem(s)", out)
+        self.assertEqual({line.split()[1] for line in out.splitlines()[:-1]},
+                         {f"{ZN}/d1/f00{i}.png" for i in range(3)})
+        preview = self.root / "preview"
+        testkit.run_cli(self.argv("preview", "--sheet", f"{ZN}/s02", "--preview-dir", str(preview)))
+        self.assertEqual([p.name for p in preview.rglob("*.gif")], ["d1.gif"])
 
 
 class CaptionReviewTests(DriverTest):

@@ -4454,7 +4454,7 @@ Co-Authored-By: Claude Opus 5.5 (1M context) <noreply@anthropic.com>"
 
 - [ ] **Step 2: Settle the base animations**
 
-vLLM down, ComfyUI up: `make dry-run variants=0`, then `make batch variants=0`; repeat until nothing is new, rejected, stale or failed. ComfyUI down, vLLM up: `make review variants=0`. Repeat batch and review until the bases settle. Handle STUCK sheets by fixing captions (and clearing their `reviews.yaml` entries when the old issues quote the wrong words).
+vLLM down, ComfyUI up: `make dry-run variants=0`, then `make batch variants=0`; repeat until nothing is new, rejected, stale or failed. ComfyUI down, vLLM up: `make review variants=0`. Repeat batch and review until the bases settle. Handle STUCK sheets by fixing captions (and clearing their `reviews.yaml` entries when the old issues quote the wrong words), then re-render each one alone as its STUCK line says: `make batch sheet=<sheet key> force=1`.
 
 - [ ] **Step 3: Settle the variants**
 

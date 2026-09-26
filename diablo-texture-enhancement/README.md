@@ -169,12 +169,14 @@ batch renders it once more through `qwen-image-2.1-i2i-faithful` (unless a
 rejected attempt already used it); if that is rejected too, the run reports
 it and leaves it alone:
 
-- Fix the sheet's character's caption in `characters.yaml`, then:
-  `make batch anim=<record dir> force=1`
+- Fix the sheet's character's caption in `characters.yaml`, then re-render
+  that sheet alone, as the STUCK line says: `make batch sheet=<sheet key>
+  force=1`
 
 To restart a sheet from scratch, delete its `data/anims-ai/.quality/<sheet
 key>/` folder **and** its entry in `reviews.yaml` (a leftover entry becomes
-current again once new attempts reach its number), then run with `force=1`.
+current again once new attempts reach its number), then run
+`make batch sheet=<sheet key> force=1`.
 
 ## Outputs and the audit folder
 
@@ -201,16 +203,18 @@ data/anims-ai/.quality/<sheet key>/
 | Target | What it does |
 |---|---|
 | `make caption [character=] [force=1]` | Seed and caption `characters.yaml` |
-| `make dry-run [character=] [anim=] [variants=0]` | Sheets, cells, canvas sizes, dependency order, stale and blocked sheets |
-| `make batch [character=] [anim=] [variant=] [variants=0] [workflow=] [strength=] [memcheck=0] [force=1]` | Render and promote into `data/anims-ai/` |
-| `make review [character=] [concurrency=] [force=1]` | Write `reviews.yaml` |
-| `make preview [character=] [anim=]` | An animated GIF per direction into `data/preview/`: source (nearest-neighbour 2x) and render side by side |
-| `make verify [character=]` | Audit `data/anims-ai/` against the manifest, the 2x contract, the outline and the attempts |
+| `make dry-run [character=] [anim=] [sheet=] [variants=0]` | Sheets, cells, canvas sizes, dependency order, stale and blocked sheets |
+| `make batch [character=] [anim=] [sheet=] [variant=] [variants=0] [workflow=] [strength=] [memcheck=0] [force=1]` | Render and promote into `data/anims-ai/` |
+| `make review [character=] [sheet=] [concurrency=] [force=1]` | Write `reviews.yaml` |
+| `make preview [character=] [anim=] [sheet=]` | An animated GIF per direction into `data/preview/`: source (nearest-neighbour 2x) and render side by side |
+| `make verify [character=] [sheet=]` | Audit `data/anims-ai/` against the manifest, the 2x contract, the outline and the attempts |
 | `make server` / `install` / `check` / `test` / `clean` | Start ComfyUI from `~/ComfyUI` / create the venv / byte-compile / run the unit tests / remove `__pycache__` |
 
-`character=` selects by character key, `anim=` by record directory and
-`variant=` by TRN path (of the variants, only those); all accept several
-space-separated values. Every pipeline target also takes `packing=`,
+`character=` selects by character key, `anim=` by record directory,
+`sheet=` by sheet key (a variant's sheet key selects that variant sheet
+only; batch, dry-run, review, preview and verify) and `variant=` by TRN path
+(of the variants, only those); all accept several space-separated values,
+and an unknown one is refused. Every pipeline target also takes `packing=`,
 `gutter=`, `background=` and `anchor=0` (the layout switches the spike may
 change) and `src=`/`dst=` overrides. Environment overrides: `DIA_SRC`,
 `DIA_DST`, `DIA_PREVIEW`, `DIA_CHARACTERS`, `DIA_REVIEWS`, `DIA_WORKFLOW`,

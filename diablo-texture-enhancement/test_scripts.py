@@ -28,6 +28,10 @@ class MakeTests(unittest.TestCase):
                 "--gutter 32 --background dark --no-anchor --no-memory-check --force",
             ("batch", "workflow=qwen-image-2.1-i2i-faithful", "strength=0.5"):
                 "./run_batch.sh batch --match-strength 0.5 --workflow qwen-image-2.1-i2i-faithful",
+            ("batch", "sheet=monsters/zombie/zombiew.cl2/s01 missiles/fireba1.cl2/s01",
+             "force=1"):
+                "./run_batch.sh batch --sheet monsters/zombie/zombiew.cl2/s01 "
+                "--sheet missiles/fireba1.cl2/s01 --force",
             ("review", "concurrency=4"): "./run_batch.sh review --concurrency 4",
             ("verify", "src=/x"): './run_batch.sh verify --src "/x"',
             ("preview", "character=missiles/fireba"):

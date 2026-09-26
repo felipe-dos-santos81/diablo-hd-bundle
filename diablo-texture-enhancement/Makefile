@@ -8,6 +8,7 @@ PY = $(VENV_DIR)/bin/python
 # Arguments, e.g. make batch character="monsters/zombie" variants=0 force=1
 character ?=
 anim ?=
+sheet ?=
 src ?=
 dst ?=
 force ?=
@@ -23,6 +24,7 @@ anchor ?= 1
 concurrency ?=
 FORCE_ARG = $(if $(force),--force)
 ARGS = $(foreach c,$(character),--character $(c)) $(foreach a,$(anim),--anim $(a)) \
+       $(foreach s,$(sheet),--sheet $(s)) \
        $(if $(src),--src "$(src)") $(if $(dst),--dst "$(dst)") \
        $(if $(filter 0,$(variants)),--no-variants) $(foreach v,$(variant),--variant $(v)) $(if $(packing),--packing $(packing)) \
        $(if $(gutter),--gutter $(gutter)) $(if $(background),--background $(background)) \
@@ -56,19 +58,19 @@ clean: ## Remove __pycache__ (never touches data/)
 caption: install ## [STEP 1] Seed characters.yaml, caption its characters with vLLM (character=, force=1)
 	./run_batch.sh caption $(ARGS) $(FORCE_ARG)
 
-dry-run: install ## [STEP 2a] Show batch's sheets and statuses, without ComfyUI (character=, anim=, variants=0)
+dry-run: install ## [STEP 2a] Show batch's sheets and statuses, without ComfyUI (character=, anim=, sheet=, variants=0)
 	./run_batch.sh batch --dry-run $(ARGS) $(BATCH_ARGS)
 
-batch: install ## [STEP 2] Render sheets via ComfyUI into data/anims-ai; stop vLLM first (character=, anim=, variant=, variants=0, workflow=, strength=, memcheck=0, force=1)
+batch: install ## [STEP 2] Render sheets via ComfyUI into data/anims-ai; stop vLLM first (character=, anim=, sheet=, variant=, variants=0, workflow=, strength=, memcheck=0, force=1)
 	./run_batch.sh batch $(ARGS) $(BATCH_ARGS)
 
-review: install ## [STEP 3] Review done sheets with vLLM into reviews.yaml (character=, concurrency=, force=1)
+review: install ## [STEP 3] Review done sheets with vLLM into reviews.yaml (character=, sheet=, concurrency=, force=1)
 	./run_batch.sh review $(ARGS) $(if $(concurrency),--concurrency $(concurrency)) $(FORCE_ARG)
 
-verify: install ## [STEP 4] Audit data/anims-ai against the manifest, the 2x rule, the outline and the attempts
+verify: install ## [STEP 4] Audit data/anims-ai against the manifest, the 2x rule, the outline and the attempts (character=, sheet=)
 	./run_batch.sh verify $(ARGS)
 
-preview: install ## Write an animated GIF per direction into data/preview (character=, anim=)
+preview: install ## Write an animated GIF per direction into data/preview (character=, anim=, sheet=)
 	./run_batch.sh preview $(ARGS)
 
 # ── Development ──────────────────────────────────────────────────────────────

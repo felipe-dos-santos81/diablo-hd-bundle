@@ -48,7 +48,10 @@ Rules that must survive any change:
   `<record dir>[@trn/<trn path>]/sNN`, is what every attempt, retry,
   promotion, audit folder and review verdict is keyed by — never an
   animation or a frame. An animation (a base or one variant) is done only
-  once every one of its sheets is done.
+  once every one of its sheets is done. `--sheet KEY` (`sheet=`) narrows
+  batch, review, preview and verify to single sheets (`job_sheets`); the
+  STUCK line and verify's UNRECORDED line name `make batch sheet=<key>
+  force=1`, so a remedy re-renders only the sheet that needs it.
 - **Never loosen the gate to get a sheet through.** Fix its character's
   caption in `characters.yaml`, or the run's settings (`packing=`, `gutter=`,
   `background=`, `--workflow`) — never `geometry_check`'s thresholds.
