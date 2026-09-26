@@ -39,6 +39,8 @@ Exported images come from copyrighted game data: keep `out/` out of version cont
 
 `src/dtx/data/` holds the archive file names and sprite frame widths, generated from [DevilutionX](https://github.com/diasurgical/devilutionx) at a pinned commit. Regenerate with `make refdata`.
 
+The name list also merges a community listfile built from the names in [roman-murashov/mpq](https://github.com/roman-murashov/mpq)'s `precalc.go` and the file paths in [pvpgn/diablo-hellfire](https://github.com/pvpgn/diablo-hellfire), expected at `~/.cache/dtx/diablo-listfile.txt`; without it the regenerated list names far fewer files.
+
 ## Development
 
 ```sh

@@ -10,6 +10,7 @@ DVX_COMMIT = 8bef7bce51641b8faa1f56f4119e5b6ee6ec6f3f
 game ?= $(HOME)/diablo1-hellfire-gog
 out ?= out
 dvx ?= $(HOME)/.cache/dtx/devilutionx
+community ?= $(HOME)/.cache/dtx/diablo-listfile.txt
 
 .PHONY: help install clean devilutionx refdata extract test test-game
 
@@ -39,7 +40,7 @@ devilutionx: ## Clone DevilutionX at the pinned commit (usage: make devilutionx 
 	@git -C "$(dvx)" checkout -q $(DVX_COMMIT)
 
 refdata: install devilutionx ## [STEP 1] Regenerate listfile and width tables (usage: make refdata [community=listfile.txt])
-	$(UV) run dtx refdata build --devilutionx "$(dvx)" --game "$(game)" $(if $(community),--community "$(community)")
+	$(UV) run dtx refdata build --devilutionx "$(dvx)" --game "$(game)" $(if $(wildcard $(community)),--community "$(community)")
 
 # ── Stage 2 · Export ─────────────────────────────────────────────────────────
 
