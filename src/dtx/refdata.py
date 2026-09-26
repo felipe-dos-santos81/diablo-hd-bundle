@@ -150,22 +150,34 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
 
     monster_rows = [row for t in table_dirs if (t / "monsters" / "monstdat.tsv").exists()
                     for row in read_tsv(t / "monsters" / "monstdat.tsv")]
+    def add_variant(base: str, trn_path: str) -> None:
+        for anim in MONSTER_ANIMS:
+            lst = variants.setdefault(f"{base}{anim}.cl2", [])
+            if trn_path not in lst:
+                lst.append(trn_path)
+        names.add(trn_path)
+
+    monster_bases: dict[str, str] = {}
     for row in monster_rows:
         base = "monsters\\" + canonical(row["assetsSuffix"])
+        monster_bases.setdefault(row["_monster_id"].strip(), base)
         trn = canonical(row["trnFile"].strip())
         for anim in MONSTER_ANIMS:
-            path = f"{base}{anim}.cl2"
-            _set_width(widths, path, int(row["width"]))
-            if trn:
-                lst = variants.setdefault(path, [])
-                if f"monsters\\{trn}.trn" not in lst:
-                    lst.append(f"monsters\\{trn}.trn")
+            _set_width(widths, f"{base}{anim}.cl2", int(row["width"]))
         if trn:
-            names.add(f"monsters\\{trn}.trn")
-    for row in read_tsv(txt / "monsters" / "unique_monstdat.tsv"):
+            add_variant(base, f"monsters\\{trn}.trn")
+    # A unique monster recolours its base type's sprites with monsters\\monsters\\<trn>.trn
+    # (Source/monster.cpp InitTRNForUniqueMonster).
+    unique_rows = [row for t in table_dirs if (t / "monsters" / "unique_monstdat.tsv").exists()
+                   for row in read_tsv(t / "monsters" / "unique_monstdat.tsv")]
+    for row in unique_rows:
         for key, value in row.items():
             if key and "trn" in key.lower() and value.strip():
                 names.add(f"monsters\\monsters\\{canonical(value.strip())}.trn")
+        trn = canonical((row.get("trn") or "").strip())
+        base = monster_bases.get((row.get("type") or "").strip())
+        if trn and base:
+            add_variant(base, f"monsters\\monsters\\{trn}.trn")
 
     missile_rows = [row for t in table_dirs if (t / "missiles" / "missile_sprites.tsv").exists()
                     for row in read_tsv(t / "missiles" / "missile_sprites.tsv")]

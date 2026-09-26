@@ -21,7 +21,8 @@ def fake_devilutionx(root):
     tsv(txt / "monsters" / "monstdat.tsv",
         ["_monster_id", "name", "assetsSuffix", "soundSuffix", "trnFile", "availability", "width"],
         [["MT_BZOMBIE", "Ghoul", "zombie\\zombie", "", "zombie\\bluered", "Always", "128"]])
-    tsv(txt / "monsters" / "unique_monstdat.tsv", ["name", "mTrnName"], [["Gharbad", "general"]])
+    tsv(txt / "monsters" / "unique_monstdat.tsv", ["type", "name", "trn", "level"],
+        [["MT_BZOMBIE", "Gharbad", "general", "4"]])
     tsv(txt / "missiles" / "missile_sprites.tsv", ["id", "width", "width2", "name", "numFrames"],
         [["Arrow", "96", "16", "arrows", "1"], ["Fireball", "96", "16", "fireba", "2"]])
     tsv(txt / "objects" / "objdat.tsv", ["id", "file", "minLevel", "maxLevel", "levelType", "animWidth"],
@@ -69,7 +70,8 @@ def test_build(tmp_path):
     assert widths["data\\pentspin.cel"] == 48
     assert "monsters\\zombie\\zombiew.cl2" not in widths  # absent from archives
     variants = json.loads((out / "variants.json").read_text())
-    assert variants == {"monsters\\zombie\\zombien.cl2": ["monsters\\zombie\\bluered.trn"]}
+    assert variants == {"monsters\\zombie\\zombien.cl2": ["monsters\\zombie\\bluered.trn",
+                                                         "monsters\\monsters\\general.trn"]}
 
 
 def test_object_width_ignores_non_positive_duplicate(tmp_path):
@@ -111,7 +113,7 @@ def test_reads_hellfire_mod_tables(tmp_path):
 
     assert widths["monsters\\hellbat\\helbata.cl2"] == 96
     assert widths["monsters\\zombie\\zombiea.cl2"] == 128
-    assert variants["monsters\\zombie\\zombiea.cl2"] == ["monsters\\zombie\\bluered.trn"]  # not duplicated
+    assert variants["monsters\\zombie\\zombiea.cl2"].count("monsters\\zombie\\bluered.trn") == 1  # not duplicated
     assert widths["missiles\\ms_ora1.cl2"] == 96
     assert widths["data\\inv\\objcurs2.cel"] == [28, 56]
     assert widths["data\\inv\\objcurs.cel"] == [33, 32]
@@ -191,3 +193,39 @@ def test_rebuild_keeps_names_from_the_existing_listfile(tmp_path):
     assert "extra\\community.cel" in listed
     assert "gone\\from\\archives.cel" not in listed
     assert listed == sorted(PRESENT) and summary["present"] == len(PRESENT)
+
+
+def test_unique_monster_trns_are_variants_of_their_type(tmp_path):
+    # Source/monster.cpp InitTRNForUniqueMonster: monsters\monsters\<trn>.trn recolours the
+    # unique's base type, found through unique_monstdat type -> monstdat _monster_id -> assetsSuffix.
+    dvx = tmp_path / "dvx"
+    fake_devilutionx(dvx)
+    txt = dvx / "assets" / "txtdata" / "monsters"
+    tsv(txt / "monstdat.tsv",
+        ["_monster_id", "name", "assetsSuffix", "soundSuffix", "trnFile", "availability", "width"],
+        [["MT_BZOMBIE", "Ghoul", "zombie\\zombie", "", "zombie\\bluered", "Always", "128"],
+         ["MT_NGOATMC", "Flesh Clan", "goatmace\\goat", "", "", "Always", "128"]])
+    tsv(txt / "unique_monstdat.tsv", ["type", "name", "trn", "level"], [
+        ["MT_NGOATMC", "Gharbad the Weak", "bsdb", "4"],
+        ["MT_NGOATMC", "Gharbad again", "bsdb", "4"],  # deduplicated
+        ["MT_BZOMBIE", "Zhar", "general", "8"],
+        ["MT_NOSUCH", "Nobody", "nobody", "1"],  # unknown type: ignored
+        ["MT_BZOMBIE", "No trn", "", "1"],
+    ])
+    tsv(dvx / "mods" / "hf" / "txtdata" / "monsters" / "unique_monstdat.tsv", ["type", "name", "trn", "level"],
+        [["MT_NGOATMC", "Hellfire unique", "hfgoat", "4"]])
+
+    _widths, variants, names = table_widths(dvx)
+
+    for anim in "nwahds":
+        assert variants[f"monsters\\goatmace\\goat{anim}.cl2"] == [
+            "monsters\\monsters\\bsdb.trn", "monsters\\monsters\\hfgoat.trn"]
+        assert variants[f"monsters\\zombie\\zombie{anim}.cl2"] == [
+            "monsters\\zombie\\bluered.trn", "monsters\\monsters\\general.trn"]
+    assert "monsters\\monsters\\hfgoat.trn" in names
+
+    files = {"monsters\\goatmace\\goath.cl2": b"", "monsters\\monsters\\bsdb.trn": b""}
+    out = tmp_path / "data"
+    build(dvx, ArchiveStack([FakeArchive("DIABDAT.MPQ", files)]), out)
+    kept = json.loads((out / "variants.json").read_text())
+    assert kept == {"monsters\\goatmace\\goath.cl2": ["monsters\\monsters\\bsdb.trn"]}
