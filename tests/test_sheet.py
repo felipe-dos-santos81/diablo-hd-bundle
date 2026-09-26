@@ -1,3 +1,5 @@
+import struct
+
 import pytest
 
 from builders import grouped, grouped_headers_first, sheet
@@ -23,6 +25,30 @@ def test_grouped_sheet_with_headers_before_frame_data():
     """Real CL2 files store all group headers first; frame offsets are relative to each group header."""
     groups = [[bytes([g]) * (g + 1), b"z" * (g + 2)] for g in range(8)]
     assert split_sheet(grouped_headers_first(groups)) == groups
+
+
+def test_grouped_sheet_with_stale_group_table_falls_back_to_chained_headers():
+    """DIABDAT.MPQ monsters\\unrav\\unravw.cel has a wrong group table; its groups are contiguous."""
+    groups = [[bytes([g]) * (g + 1), b"z"] for g in range(8)]
+    data = bytearray(grouped([sheet(frames) for frames in groups]))
+    for g in range(1, 8):  # shift every group offset but the first, as in the real file
+        struct.pack_into("<I", data, 4 * g, struct.unpack_from("<I", data, 4 * g)[0] + g)
+    assert split_sheet(bytes(data)) == groups
+
+
+def test_grouped_sheet_of_empty_groups_with_stale_group_table():
+    """DIABDAT.MPQ monsters\\darkmage\\dmagew.cl2: eight empty groups, group table off by one byte each."""
+    empty = struct.pack("<2I", 0, 8)
+    data = struct.pack("<8I", *(32 + 7 * g for g in range(8))) + empty * 8
+    assert split_sheet(data) == [[]] * 8
+
+
+def test_rejects_group_table_that_matches_no_layout():
+    data = bytearray(grouped([sheet([b"ab"]), sheet([b"cd"])]))
+    data += b"\x00"  # chained headers no longer end exactly at the end of the file
+    struct.pack_into("<I", data, 4, 999)
+    with pytest.raises(ValueError):
+        split_sheet(bytes(data))
 
 
 def test_rejects_garbage():

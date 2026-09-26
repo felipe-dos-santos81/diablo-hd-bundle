@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dtx.binary import u32
 
 
@@ -13,12 +15,38 @@ def split_sheet(data: bytes) -> list[list[bytes]]:
     if first == 0 or first % 4 or first > len(data):
         raise ValueError("not a CEL/CL2 sheet")
     count = first // 4
+    try:
+        return _table_groups(data, count)
+    except ValueError:
+        chained = _chained_groups(data, count)
+        if chained is None:
+            raise
+        return chained
+
+
+def _table_groups(data: bytes, count: int) -> list[list[bytes]]:
     offsets = [u32(data, 4 * g) for g in range(count)] + [len(data)]
     if any(b < a for a, b in zip(offsets, offsets[1:])):
         raise ValueError("CEL/CL2 group offsets are not increasing")
     # Frame offsets are relative to each group header. Real CL2 files store every group header
     # first and all frame data after them, so a group's frames may lie past the next header.
     return [_split_frames(data[offsets[g] :]) for g in range(count)]
+
+
+def _chained_groups(data: bytes, count: int) -> list[list[bytes]] | None:
+    """Recover a sheet whose group table is stale (two unused DIABDAT.MPQ monster files):
+    walk contiguous groups, each starting where the previous one's frames end, and accept
+    the result only if the last group ends exactly at the end of the file."""
+    groups, start = [], 4 * count
+    for _ in range(count):
+        try:
+            frames = _split_frames(data[start:])
+        except ValueError:
+            return None
+        n = u32(data, start)
+        groups.append(frames)
+        start += u32(data, start + 4 + 4 * n)
+    return groups if start == len(data) else None
 
 
 def _split_frames(sheet: bytes) -> list[bytes]:
