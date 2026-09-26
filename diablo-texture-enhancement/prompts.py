@@ -35,6 +35,10 @@ No photograph, no 3D render, no pixel art, no border or frame, no text.'''
 
 ANCHOR_NOTE = '''{anchor} shows the same figure already painted in high definition. Match its painting exactly: the same materials, colours, brushwork, detail and light.'''
 
+# A variant's anchor is its base's sheet, in the base's colours: match its
+# painting, never its colours.
+VARIANT_ANCHOR_NOTE = '''{anchor} shows the same figure already painted in high definition. Match its painting exactly: the same materials, brushwork, detail and light. Its colours differ: take every colour from {reference}, none from {anchor}.'''
+
 VARIANT_NOTE = '''This figure is a colour variant: take its colours from {reference}, not from the observations below.'''
 
 # The one correction after a geometry rejection: the gate's issue strings mean
@@ -55,6 +59,9 @@ Reject when:
 4. cells: a figure bleeds into a neighbouring cell or paints into the background;
 5. style: the repaint looks like a photograph or a 3D render, or keeps the original's blocky pixels.
 Return ONLY JSON: {"accepted": true or false, "issues": ["one specific problem: its cell number (1 is the top left), what is wrong and a concrete correction"]}. Accept only if there are no significant problems; use an empty issues list when accepted. At most six issues.'''
+
+# Added for a recolour variant, whose image 3 is its base's sheet in the base's colours.
+REVIEW_VARIANT_NOTE = '''This sheet is a colour variant of the figure in image 3: its colours follow image 1, not image 3. Compare it with image 3 for materials, painting and detail only, and never reject a colour that matches image 1.'''
 
 
 def _label_matches(caption):
@@ -92,11 +99,13 @@ def without_colours(caption):
 def render_prompt(caption, count, *, reference, anchor_reference=None, variant=False,
                   corrections=()):
     """Positive prompt: the sprite rules naming the guide as `reference`, the
-    anchor note when there is an anchor, the variant note for a recolour
-    variant, the caption (without COLOURS for a variant), then corrections."""
+    anchor note when there is an anchor (for a recolour variant, one that takes
+    no colour from it), the variant note for a variant, the caption (without
+    COLOURS for a variant), then corrections."""
     parts = [SPRITE_RULES.format(reference=reference, count=count)]
     if anchor_reference:
-        parts.append(ANCHOR_NOTE.format(anchor=anchor_reference))
+        note = VARIANT_ANCHOR_NOTE if variant else ANCHOR_NOTE
+        parts.append(note.format(anchor=anchor_reference, reference=reference))
     if variant:
         parts.append(VARIANT_NOTE.format(reference=reference))
     parts.append("REFERENCE OBSERVATIONS:\n" + (without_colours(caption) if variant else caption))
@@ -196,10 +205,14 @@ def parse_review(text):
     return _verdict(json.loads(_json_text(text, "accepted")))
 
 
-def review_sheet(guide, render, anchor, count, http, base_url, model, key):
+def review_sheet(guide, render, anchor, count, http, base_url, model, key, *, variant=False):
     """The VLM's verdict on a sheet: its guide canvas, its render canvas, and
-    the anchor canvas (or None) the render was painted against."""
-    question = REVIEW_QUESTION + f"\nThis sheet has {count} cell(s)."
+    the anchor canvas (or None) the render was painted against. A recolour
+    `variant`'s colours are judged against the guide, not the anchor."""
+    question = REVIEW_QUESTION
+    if variant and anchor is not None:
+        question += "\n" + REVIEW_VARIANT_NOTE
+    question += f"\nThis sheet has {count} cell(s)."
     images = [guide, render] + ([anchor] if anchor is not None else [])
     return parse_review(_ask(question, images, http, base_url, model, key, json_mode=True,
                              max_tokens=1200, timeout=REVIEW_TIMEOUT))

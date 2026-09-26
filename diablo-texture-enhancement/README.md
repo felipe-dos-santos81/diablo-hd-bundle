@@ -124,7 +124,8 @@ layout always equals its base's: sheet `sNN` of a variant pairs with sheet
 A character's anchor animation renders first, against its own guide only;
 every other base sheet gets the anchor's first promoted sheet as a second
 reference. A variant sheet gets its own base's promoted sheet of the same
-number instead. A sheet that still needs rendering while its anchor is not
+number instead, and is told (and reviewed) to match its painting but to take
+every colour from its own guide. A sheet that still needs rendering while its anchor is not
 yet promoted reports `blocked` and waits — `batch --force` never renders it
 either, since forcing a sheet that has no anchor to paint against would
 throw the render away. A promoted sheet whose anchor has since been

@@ -267,7 +267,7 @@ class CaptionReviewTests(DriverTest):
     def test_review_judges_done_sheets_and_a_rejection_comes_back_as_corrections(self):
         self.batch("--character", "missiles/fireba")
 
-        def review(guide, render, anchor, count, *rest):
+        def review(guide, render, anchor, count, *rest, **kw):
             return ({"accepted": False, "issues": ["cell 2 grew a tail"]} if anchor is not None
                     else {"accepted": True, "issues": []})
         with testkit.vlm_stub(review=review, free=None):
@@ -277,6 +277,19 @@ class CaptionReviewTests(DriverTest):
         code, out, _, mocks = self.batch("--character", "missiles/fireba")
         self.assertEqual(mocks.render.call_count, 1)
         self.assertIn("cell 2 grew a tail", mocks.render.call_args.kwargs["positive"])
+
+
+    def test_a_variant_is_reviewed_as_a_variant(self):
+        # Regression: a variant's anchor (image 3) is its base's sheet in the base's
+        # colours; the review must judge its colours by its guide.
+        self.batch("--anim", ZN)
+        with testkit.vlm_stub(review=lambda *args, **kw: {"accepted": True, "issues": []},
+                              free=None) as mocks:
+            code, _, _ = testkit.run_cli(self.argv("review"))
+        self.assertEqual(code, 0)
+        variant = [c.kwargs.get("variant") for c in mocks.review.call_args_list]
+        self.assertEqual((variant.count(False), variant.count(True)), (2, 2),
+                         msg="zombien's two sheets, then its grey variant's two")
 
 
 class VerifyPreviewTests(DriverTest):

@@ -689,7 +689,7 @@ def judge(args, sj, attempt):
         with Image.open(tiles / "sheet.anchor.png") as a:
             anchor = a.convert("RGB")
     return review_sheet(guide, render, anchor, len(sj.sheet.cells), comfy_client.http_json,
-                        VLM_BASE_URL, VLM_MODEL, VLM_API_KEY)
+                        VLM_BASE_URL, VLM_MODEL, VLM_API_KEY, variant=sj.job.trn is not None)
 
 
 def cmd_review(args):

@@ -222,10 +222,13 @@ Render one sheet through any new or edited graph before trusting it.
 - `render_prompt` builds the positive prompt in order: `SPRITE_RULES`
   (naming the guide as the workflow's `reference`, `<image1>`, with the
   sheet's cell count); `ANCHOR_NOTE` naming the anchor (`<image2>`) when the
-  sheet has one; `VARIANT_NOTE` for a recolour variant, which also strips
-  the caption's COLOURS section (`without_colours`) since a variant's
-  colours come from the guide, not the caption; `"REFERENCE OBSERVATIONS:"`
-  plus the caption; then, when the sheet carries corrections, either the
+  sheet has one — for a recolour variant `VARIANT_ANCHOR_NOTE` instead,
+  which matches the anchor's materials, brushwork, detail and light but
+  takes every colour from the guide, since a variant's anchor is its base's
+  sheet in the base's colours; `VARIANT_NOTE` for a recolour variant, which
+  also strips the caption's COLOURS section (`without_colours`) since a
+  variant's colours come from the guide, not the caption;
+  `"REFERENCE OBSERVATIONS:"` plus the caption; then, when the sheet carries corrections, either the
   current review's issues or, after a geometry rejection, the single
   `GEOMETRY_CORRECTION` sentence (the gate's own issue strings mean nothing
   to the diffusion model); a closing note that the reference image outranks
@@ -236,7 +239,9 @@ Render one sheet through any new or edited graph before trusting it.
   (image 2) and the anchor canvas when there is one (image 3), and rejects
   on identity (a different figure than the guide or the anchor), cross-cell
   consistency, invention, a figure bleeding into another cell or the
-  background, or a photographic/3D-render/pixel-art style. Returns
+  background, or a photographic/3D-render/pixel-art style. For a variant
+  sheet with an anchor, `REVIEW_VARIANT_NOTE` is added: its colours follow
+  image 1 (the guide), not image 3 (its base's sheet). Returns
   `{"accepted", "issues"}`; `parse_review` (the Atlantis parser) tolerates
   fences and chatter and refuses a verdict that contradicts its issues.
   `make review` sends up to `--concurrency` (`DEFAULT_CONCURRENCY` 8)

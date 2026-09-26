@@ -1,4 +1,5 @@
 import json
+import re
 import unittest
 
 from PIL import Image
@@ -29,6 +30,23 @@ class RenderPromptTests(unittest.TestCase):
         self.assertIn("SHADOW: a dark blot", text)
         self.assertNotIn("already painted", text, msg="no anchor, no anchor note")
 
+    def test_a_variant_takes_no_colour_from_its_anchor(self):
+        # Regression: a variant's anchor is its base's sheet, painted in the base's
+        # colours; the anchor note told it to match those colours.
+        def colour_sentences(text):
+            note = next(p for p in text.split("\n\n") if p.startswith("<image2>"))
+            return [s for s in re.split(r"(?<=\.)\s+", note) if "colour" in s]
+        base = prompts.render_prompt(CAPTION, 4, reference="<image1>",
+                                     anchor_reference="<image2>")
+        variant = prompts.render_prompt(CAPTION, 4, reference="<image1>",
+                                        anchor_reference="<image2>", variant=True)
+        self.assertTrue(any("<image1>" not in s for s in colour_sentences(base)),
+                        msg="a base sheet matches its anchor's colours")
+        self.assertTrue(colour_sentences(variant))
+        for sentence in colour_sentences(variant):
+            self.assertIn("<image1>", sentence, msg="a variant's colours come from its guide")
+        self.assertIn("brushwork", variant)
+
     def test_sections(self):
         self.assertEqual(prompts.section(CAPTION, "SUBJECT"), "a rotting zombie")
         self.assertEqual(prompts.section(CAPTION, "EQUIPMENT"), None)
@@ -58,6 +76,10 @@ class ReviewTests(unittest.TestCase):
         content = sent["messages"][1]["content"]
         self.assertTrue(content[0]["text"].endswith("This sheet has 12 cell(s)."))
         self.assertEqual(len(content), 4, msg="question, guide, render, anchor")
+        self.assertNotIn("colour variant", content[0]["text"])
+        prompts.review_sheet(image, image, image, 12, http, "http://v/v1", "m", "", variant=True)
+        self.assertIn("its colours follow image 1, not image 3",
+                      sent["messages"][1]["content"][0]["text"])
 
 
 if __name__ == "__main__":
