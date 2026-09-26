@@ -188,10 +188,14 @@ Per sheet (`anim_recreate.render_sheet_job`, `sheet_inputs`, `finish_sheet`):
 A render that raises (a ComfyUI error, a timeout, the wrong canvas size,
 Ctrl-C) writes `attempt-N.error.txt` (workflow, seed, stage, seconds, error)
 and no `attempt-N.json`, so the attempt reads as failed. `batch` then sweeps
-the sheet's stray outputs; on Ctrl-C `comfy_client` has already sent
-`/interrupt`, and `batch` re-raises after the sweep and `/free`. Failed
-attempts never count toward STUCK, and the next attempt still carries the
-current review's corrections (see §1).
+the sheet's stray outputs (`sweep_sheet`: a sweep that raises is reported on
+the sheet's error line, never aborts the batch) and goes on with the next
+sheet — unless ComfyUI no longer answers `GET /queue`, or
+`MAX_CONSECUTIVE_FAILURES` (3) sheets have failed in a row (a full disk, a
+broken graph), when it stops, frees the models and exits 1. On Ctrl-C
+`comfy_client` has already sent `/interrupt`, and `batch` re-raises after
+the sweep and `/free`. Failed attempts never count toward STUCK, and the
+next attempt still carries the current review's corrections (see §1).
 
 Node ids in `anim_qwen21_i2i.json`: 1 LoadImage (the guide canvas — also the
 VAEEncode source and the encoder's `images.image_1`), 2 LoadImage (the

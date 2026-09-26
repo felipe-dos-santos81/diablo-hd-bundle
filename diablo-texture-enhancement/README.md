@@ -76,7 +76,9 @@ GB10's 121 GB of unified memory.
 | ComfyUI | `make server` (foreground) or `sudo systemctl start comfyui` | Ctrl-C, or `sudo systemctl stop comfyui` |
 
 `make batch` refuses to start with less than 45 GB free (`memcheck=0` skips
-the guard). If vLLM cannot start after a batch, free ComfyUI's models by
+the guard). A sheet whose render fails is left for the next batch while the
+batch goes on (it exits 1 at the end); the batch stops early, freeing
+ComfyUI's models, when ComfyUI stops answering or 3 sheets fail in a row. If vLLM cannot start after a batch, free ComfyUI's models by
 hand:
 
 ```

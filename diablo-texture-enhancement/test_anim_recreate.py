@@ -175,6 +175,38 @@ class BatchTests(DriverTest):
                 self.assertEqual(a.sheet_status(self.dst, "missiles/fireba1.cl2/s01", {}),
                                  ("failed", attempt))
 
+    def test_a_failed_sheet_does_not_stop_the_batch(self):
+        # Task 9 gap: the batch goes on after a failed sheet, even when sweeping
+        # that sheet's outputs raises too.
+        name = comfy_client.comfy_name("missiles/fireba1.cl2/s01")
+
+        def fail_one(workflow, **kw):
+            if kw["name"].startswith(name + "_"):
+                raise RuntimeError("ComfyUI execution failed: out of memory")
+            return testkit.fake_render()(workflow, **kw)
+        with testkit.comfy_stub(comfy_dir=self.comfy, render=fail_one) as mocks:
+            mocks.sweep.side_effect = OSError("the disk is gone")
+            code, out, err = testkit.run_cli(self.argv("batch"))
+        self.assertEqual(code, 1)
+        self.assertEqual(mocks.render.call_count, 9, msg="all but fireba2, whose anchor failed")
+        self.assertIn("promoted=8 rejected=0 failed=1 done=0 blocked=1", out)
+        self.assertIn("the disk is gone", err)
+
+    def test_the_batch_stops_when_comfyui_goes_or_sheets_keep_failing(self):
+        def boom(workflow, **kw):
+            raise RuntimeError("ComfyUI execution failed: out of memory")
+        cases = {"ComfyUI stopped answering": ([True, False], 1, "ComfyUI stopped answering"),
+                 "three failures in a row": (None, 3, "3 sheets failed in a row")}
+        for label, (up, renders, message) in cases.items():
+            with self.subTest(label):
+                with testkit.comfy_stub(comfy_dir=self.comfy, render=boom) as mocks:
+                    mocks.is_up.side_effect = up
+                    code, out, err = testkit.run_cli(self.argv("batch", "--no-anchor"))
+                self.assertEqual((code, mocks.render.call_count), (1, renders))
+                self.assertIn(message, err)
+                self.assertIn(f"failed={renders}", out)
+                mocks.freed.assert_called_once()
+
     def test_ctrl_c_sweeps_frees_and_stops(self):
         def ctrl_c(workflow, **kw):
             raise KeyboardInterrupt

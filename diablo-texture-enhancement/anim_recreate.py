@@ -67,6 +67,7 @@ VLM_API_KEY = os.environ.get("VLM_API_KEY", "")
 MEMORY_FLOOR_GB = 45
 SEED = 42                   # attempt N of a sheet uses SEED + N - 1
 MAX_ATTEMPTS = 4            # a sheet with this many rejected attempts, the latest among them, waits
+MAX_CONSECUTIVE_FAILURES = 3  # batch stops after this many failed sheets in a row
 DEFAULT_MATCH_STRENGTH = 0.5
 DEFAULT_CONCURRENCY = 8     # review requests in flight at once
 CAPTION_SCALE = 4           # the caption contact sheets enlarge frames this much
@@ -516,6 +517,16 @@ def write_nearest(args, job):
             args.dst / job.key / frame.png)
 
 
+def sweep_sheet(sj):
+    """Delete the sheet's leftover ComfyUI outputs. Returns a note for its error
+    line; a sweep that raises is reported there, never raised."""
+    try:
+        swept = comfy_client.sweep_outputs(comfy_client.comfy_name(sj.key), COMFY_DIR)
+    except Exception as error:
+        return f" (sweeping its outputs failed: {error})"
+    return f" (removed {swept} stray output file(s))" if swept else ""
+
+
 def stuck_line(sj):
     return (f"  STUCK   {sj.key}: rejected {MAX_ATTEMPTS} times - fix {sj.job.character}'s "
             f"caption in characters.yaml, then: make batch sheet={sj.key} force=1")
@@ -554,6 +565,7 @@ def cmd_batch(args):
     try:
         counts = dict.fromkeys(("promoted", "rejected", "failed", "done", "blocked"), 0)
         stuck = []
+        failures = 0        # failed sheets in a row
         for i, sj in enumerate(items, 1):
             status, _, anchor = status_of(args, sj, reviews, characters)
             if status == "done" and not args.force:
@@ -582,14 +594,26 @@ def cmd_batch(args):
                                                    characters[sj.job.character], corrections,
                                                    anchor)
             except KeyboardInterrupt:
-                comfy_client.sweep_outputs(comfy_client.comfy_name(sj.key), COMFY_DIR)
+                sweep_sheet(sj)
                 raise
             except Exception as error:
                 counts["failed"] += 1
-                swept = comfy_client.sweep_outputs(comfy_client.comfy_name(sj.key), COMFY_DIR)
-                extra = f" (removed {swept} stray output file(s))" if swept else ""
-                print(f"  ERROR rendering {sj.key}: {error}{extra}", file=sys.stderr, flush=True)
+                failures += 1
+                print(f"  ERROR rendering {sj.key}: {error}{sweep_sheet(sj)}", file=sys.stderr,
+                      flush=True)
+                # Every later sheet would fail the same way: stop, and let the
+                # finally free ComfyUI's models.
+                if not comfy_client.is_up(COMFY_URL):
+                    print(f"ComfyUI stopped answering at {COMFY_URL} - stopping the batch",
+                          file=sys.stderr, flush=True)
+                    break
+                if failures >= MAX_CONSECUTIVE_FAILURES:
+                    print(f"{failures} sheets failed in a row - stopping the batch; fix the "
+                          "cause (see the errors above) and run it again", file=sys.stderr,
+                          flush=True)
+                    break
                 continue
+            failures = 0
             if result.passed:
                 counts["promoted"] += 1
                 print(f"  promoted attempt {attempt}", flush=True)
