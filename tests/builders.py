@@ -44,3 +44,25 @@ def grouped(sheets: list[bytes]) -> bytes:
         offsets.append(pos)
         pos += len(s)
     return struct.pack(f"<{len(sheets)}I", *offsets) + b"".join(sheets)
+
+
+def cel_frame(rows: list[list[int | None]], header: bool = False) -> bytes:
+    """Encode rows (top row first; None = transparent) as a CEL frame."""
+    out = bytearray()
+    for row in reversed(rows):
+        i = 0
+        while i < len(row):
+            n = 1
+            if row[i] is None:
+                while i + n < len(row) and row[i + n] is None and n < 128:
+                    n += 1
+                out.append(256 - n)
+            else:
+                while i + n < len(row) and row[i + n] is not None and n < 127:
+                    n += 1
+                out.append(n)
+                out += bytes(row[i : i + n])
+            i += n
+    if header:
+        return struct.pack("<5H", 10, 0, 0, 0, 0) + bytes(out)
+    return bytes(out)
