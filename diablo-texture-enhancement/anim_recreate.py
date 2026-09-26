@@ -93,11 +93,12 @@ def write_atomic(path, text):
     os.replace(tmp, path)
 
 
-def save_image_atomic(image, path):
-    """Save `image` as a PNG at `path` through <path>.pending and a rename."""
+def save_image_atomic(image, path, format="PNG", **options):
+    """Save `image` at `path` through <path>.pending and a rename; `options`
+    go to Image.save (e.g. save_all for an animated GIF)."""
     path.parent.mkdir(parents=True, exist_ok=True)
     pending = path.with_name(path.name + ".pending")
-    image.save(pending, format="PNG")
+    image.save(pending, format=format, **options)
     os.replace(pending, path)
 
 
@@ -823,9 +824,8 @@ def cmd_preview(args):
                     picture.paste(render, (w + 8, 0), render)
                 pictures.append(picture)
             path = args.preview_dir / comfy_client.comfy_name(job.key) / f"d{group}.gif"
-            path.parent.mkdir(parents=True, exist_ok=True)
-            pictures[0].save(path, save_all=True, append_images=pictures[1:],
-                             duration=PREVIEW_MS, loop=0)
+            save_image_atomic(pictures[0], path, "GIF", save_all=True, append_images=pictures[1:],
+                              duration=PREVIEW_MS, loop=0)
             written += 1
     print(f"preview: {written} GIF(s) -> {args.preview_dir}")
     return 0
@@ -948,7 +948,6 @@ def build_parser():
     preview.add_argument("--preview-dir", type=Path, default=PREVIEW_ROOT,
                          help="where the GIFs go (default: %(default)s, or DIA_PREVIEW)")
     preview.set_defaults(func=cmd_preview)
-
     return ap
 
 
