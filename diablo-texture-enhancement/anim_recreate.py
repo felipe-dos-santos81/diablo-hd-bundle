@@ -740,6 +740,97 @@ def cmd_review(args):
     return 1 if failed else 0
 
 
+# ---- verify -----------------------------------------------------------------
+
+def frame_problem(path, mask, skip):
+    """(code, detail) for an output frame that breaks the contract, or None."""
+    if not path.is_file():
+        return "MISSING", ""
+    try:
+        with Image.open(path) as im:
+            size, mode = im.size, im.mode
+            alpha = np.asarray(im.getchannel("A")) if mode == "RGBA" else None
+    except OSError:
+        return "UNREADABLE", ""
+    want = (mask.shape[1] * SCALE, mask.shape[0] * SCALE)
+    if size != want:
+        return "WRONGSIZE", f"is {size[0]}x{size[1]}, expected {want[0]}x{want[1]}"
+    if mode != "RGBA":
+        return "WRONGMODE", f"is {mode}, expected RGBA"
+    expected = sheet_layout.hard_alpha(mask) if skip else sheet_layout.soft_alpha(mask)
+    if not np.array_equal(alpha, expected):
+        return "WRONGALPHA", "the alpha is not the source outline at 2x"
+    return None
+
+
+def cmd_verify(args):
+    characters = load_characters_checked(args)
+    reviews = load_reviews(args.reviews, optional=True)
+    jobs = select_jobs(args, characters)
+    bad = frames = 0
+    for job in jobs:
+        sheets, masks = layout(args, job.anim)
+        for frame, mask in zip(job.anim.frames, masks):
+            frames += 1
+            problem = frame_problem(args.dst / job.key / frame.png, mask, job.skip)
+            if problem:
+                bad += 1
+                print(f"{problem[0]:10} {job.key}/{frame.png}"
+                      + (f"  {problem[1]}" if problem[1] else ""))
+        if job.skip:
+            continue
+        for sheet in sheets:
+            sj = SheetJob(job, sheet)
+            status, attempt, _ = status_of(args, sj, reviews, characters)
+            if status == "done":
+                record = read_record(audit_dir(args.dst, sj.key), attempt)
+                for rel, sha in record.get("frames", {}).items():
+                    if source_tree.file_sha256(args.dst / rel) != sha:
+                        bad += 1
+                        print(f"{'UNRECORDED':10} {rel}  no attempt record promoted this file - "
+                              f"run: make batch anim={job.anim.key} force=1")
+            elif status not in ("new", "blocked"):
+                bad += 1
+                print(f"{status.upper():10} {sj.key}")
+    print(f"verify: {len(jobs)} animation(s) and variant(s), {frames} frame(s), "
+          f"{bad} problem(s)")
+    return 1 if bad else 0
+
+
+# ---- preview ----------------------------------------------------------------
+
+def cmd_preview(args):
+    """An animated GIF per direction of each selected job: the source at
+    SCALE (nearest) and the output side by side, over a dark background."""
+    characters = load_characters_checked(args)
+    written = 0
+    for job in select_jobs(args, characters):
+        groups = {}
+        for frame in job.anim.frames:
+            groups.setdefault(frame.group, []).append(frame)
+        for group, frames in sorted(groups.items()):
+            pictures = []
+            for frame in frames:
+                w, h = frame.w * SCALE, frame.h * SCALE
+                picture = Image.new("RGB", (2 * w + 8, h), PREVIEW_BACKGROUND)
+                source = sheet_layout.nearest_frame(
+                    source_tree.frame_rgba(args.src, job.anim, frame, job.trn))
+                picture.paste(source, (0, 0), source)
+                out = args.dst / job.key / frame.png
+                if out.is_file():
+                    with Image.open(out) as im:
+                        render = im.convert("RGBA")
+                    picture.paste(render, (w + 8, 0), render)
+                pictures.append(picture)
+            path = args.preview_dir / comfy_client.comfy_name(job.key) / f"d{group}.gif"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            pictures[0].save(path, save_all=True, append_images=pictures[1:],
+                             duration=PREVIEW_MS, loop=0)
+            written += 1
+    print(f"preview: {written} GIF(s) -> {args.preview_dir}")
+    return 0
+
+
 # ---- command line -----------------------------------------------------------
 
 def default_workflow(environ=os.environ):
@@ -847,6 +938,16 @@ def build_parser():
     review.add_argument("--concurrency", type=positive_int, default=DEFAULT_CONCURRENCY,
                         metavar="N", help="requests in flight at once (default: %(default)s)")
     review.set_defaults(func=cmd_review)
+
+    verify = sub.add_parser("verify", help="audit the output tree")
+    common(verify)
+    verify.set_defaults(func=cmd_verify)
+
+    preview = sub.add_parser("preview", help="write an animated GIF per direction")
+    common(preview)
+    preview.add_argument("--preview-dir", type=Path, default=PREVIEW_ROOT,
+                         help="where the GIFs go (default: %(default)s, or DIA_PREVIEW)")
+    preview.set_defaults(func=cmd_preview)
 
     return ap
 

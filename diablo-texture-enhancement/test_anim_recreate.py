@@ -12,7 +12,8 @@ import comfy_client
 import sheet_layout
 import source_tree
 import testkit
-from characters_file import Character, load_characters, load_reviews, save_characters
+from characters_file import (Character, Review, load_characters, load_reviews,
+                             save_characters, save_reviews)
 
 ZN, ZW = "monsters/zombie/zombien.cl2", "monsters/zombie/zombiew.cl2"
 GREY = f"@trn/{testkit.GREY_TRN}"
@@ -276,6 +277,35 @@ class CaptionReviewTests(DriverTest):
         code, out, _, mocks = self.batch("--character", "missiles/fireba")
         self.assertEqual(mocks.render.call_count, 1)
         self.assertIn("cell 2 grew a tail", mocks.render.call_args.kwargs["positive"])
+
+
+class VerifyPreviewTests(DriverTest):
+    def test_verify_is_clean_after_a_batch_and_names_each_problem(self):
+        self.batch()
+        code, out, _ = testkit.run_cli(self.argv("verify"))
+        self.assertEqual(code, 0, out)
+        self.assertIn("verify: 7 animation(s) and variant(s), 34 frame(s), 0 problem(s)", out)
+        frame = self.dst / ZW / "d0/f001.png"
+        with Image.open(frame) as im:
+            im.convert("RGBA").resize((64, 48)).convert("RGB").convert("RGBA").save(frame)
+        (self.dst / ZN / "d1/f002.png").unlink()
+        review = {f"{ZW}/{GREY}/s02": Review(1, False, ("bad",), "review")}
+        save_reviews(self.reviews, review)
+        code, out, _ = testkit.run_cli(self.argv("verify"))
+        self.assertEqual(code, 1)
+        for line in (f"WRONGALPHA {ZW}/d0/f001.png", f"MISSING    {ZN}/d1/f002.png",
+                     f"UNRECORDED {ZW}/d0/f001.png", f"REJECTED   {ZW}/{GREY}/s02"):
+            self.assertIn(line, out)
+
+    def test_preview_writes_a_gif_per_direction(self):
+        self.batch("--character", "missiles/fireba")
+        preview = self.root / "preview"
+        code, out, _ = testkit.run_cli(self.argv("preview", "--character", "missiles/fireba",
+                                                 "--preview-dir", str(preview)))
+        self.assertEqual(code, 0)
+        gif = preview / "missiles+fireba1.cl2" / "d0.gif"
+        with Image.open(gif) as im:
+            self.assertEqual((im.n_frames, im.size), (3, (104, 48)))
 
 
 @testkit.needs_real_corpus
