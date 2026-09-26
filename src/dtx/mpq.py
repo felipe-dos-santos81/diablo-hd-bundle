@@ -14,6 +14,7 @@ from dtx.paths import canonical
 MPQ_OPEN_READ_ONLY = 0x00000100
 SFILE_OPEN_FROM_MPQ = 0
 FIND_DATA_BYTES = 8192  # larger than SFILE_FIND_DATA; only cFileName (offset 0) is read
+SFILE_INVALID_SIZE = 0xFFFFFFFF
 PSEUDO_NAME = re.compile(r"^File\d{8}\.\w+$")
 GRAPHICS_ARCHIVES = ("hfmonk.mpq", "hellfire.mpq", "DIABDAT.MPQ")
 _LIB_NAMES = ("libstorm.dylib", "libstorm.so")
@@ -99,6 +100,8 @@ class MpqArchive:
         try:
             high = ctypes.c_uint32(0)
             size = lib.SFileGetFileSize(file_handle, ctypes.byref(high))
+            if size == SFILE_INVALID_SIZE:
+                raise StormLibError(f"cannot get size of {name} in {self.name}: StormLib error {lib.SErrGetLastError()}")
             buffer = ctypes.create_string_buffer(size)
             got = ctypes.c_uint32(0)
             lib.SFileReadFile(file_handle, buffer, size, ctypes.byref(got), None)
@@ -151,10 +154,17 @@ class ArchiveStack:
         missing = [n for n in GRAPHICS_ARCHIVES if n.lower() not in files]
         if missing:
             raise FileNotFoundError(f"missing archives in {game_dir}: {', '.join(missing)}")
-        archives = [MpqArchive(files[n.lower()]) for n in GRAPHICS_ARCHIVES]
-        if listfile is not None:
+        archives: list[Archive] = []
+        try:
+            for name in GRAPHICS_ARCHIVES:
+                archives.append(MpqArchive(files[name.lower()]))
+            if listfile is not None:
+                for archive in archives:
+                    archive.add_listfile(listfile)
+        except BaseException:
             for archive in archives:
-                archive.add_listfile(listfile)
+                archive.close()
+            raise
         return cls(archives)
 
     def __enter__(self) -> ArchiveStack:
