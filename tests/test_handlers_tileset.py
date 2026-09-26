@@ -71,3 +71,15 @@ def test_min_referencing_missing_cel_frame_fails(tmp_path):
     entry = Entry(f"{KEY}.cel", "tileset", "levels\\l1data\\l1_1.pal", tileset=KEY)
     with pytest.raises(ValueError, match="references cell 7"):
         export_tileset(ctx, entry, "DIABDAT.MPQ", FILES[f"{KEY}.cel"], tmp_path / "t")
+
+
+def test_tileset_source_records_every_part_sha1(tmp_path):
+    from dtx.handlers import sha1
+
+    ctx = ctx_for(tmp_path)
+    entry = Entry(f"{KEY}.cel", "tileset", "levels\\l1data\\l1_1.pal", tileset=KEY)
+    export_tileset(ctx, entry, "DIABDAT.MPQ", FILES[f"{KEY}.cel"], tmp_path / "t")
+    source = json.loads((tmp_path / "t/tileset.json").read_text())["source"]
+    assert source["parts_sha1"] == {ext: sha1(FILES[f"{KEY}.{ext}"]) for ext in ("cel", "min", "til", "sol")}
+    assert source["sha1"] == sha1(FILES[f"{KEY}.cel"])
+    assert source["min"] == f"{KEY}.min"

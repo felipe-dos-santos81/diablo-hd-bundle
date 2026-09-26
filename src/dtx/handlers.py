@@ -187,6 +187,7 @@ class TilesetData:
     unreferenced: list[int]
     sources: dict[str, str]
     archive: str
+    digests: dict[str, str]
 
     @property
     def column_height(self) -> int:
@@ -219,6 +220,7 @@ def load_tileset(ctx: Context, key: str) -> TilesetData:
         unreferenced=[f for f in range(1, len(raw_cells) + 1) if f not in cells],
         sources={ext: f"{key}.{ext}" for ext in parts},
         archive=parts["cel"][0],
+        digests={ext: sha1(found[1]) for ext, found in parts.items()},
     )
 
 
@@ -250,7 +252,8 @@ def export_tileset(ctx: Context, entry: Entry, archive: str, data: bytes, dest: 
     write_sheet([tile_frames[r : r + 16] for r in range(0, len(tile_frames), 16)], palette, dest / "sheet.png")
 
     write_json(dest / "tileset.json", {
-        "source": {**ts.sources, "archive": ts.archive, "path": entry.path, "sha1": sha1(data)},
+        "source": {**ts.sources, "archive": ts.archive, "path": entry.path, "sha1": sha1(data),
+                   "parts_sha1": dict(ts.digests)},
         "palette": rel_path(entry.palette),
         "palette_alternatives": [rel_path(p) for p in entry.palette_alternatives],
         "cells_per_column": ts.spec.cells_per_column,
