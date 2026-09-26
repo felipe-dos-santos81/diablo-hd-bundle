@@ -2,6 +2,7 @@ import json
 import random
 import shutil
 import tempfile
+import time
 import unittest
 from pathlib import Path
 
@@ -347,6 +348,21 @@ class CaptionReviewTests(DriverTest):
         variant = [c.kwargs.get("variant") for c in mocks.review.call_args_list]
         self.assertEqual((variant.count(False), variant.count(True)), (2, 2),
                          msg="zombien's two sheets, then its grey variant's two")
+
+
+    def test_ctrl_c_stops_the_review(self):
+        # Regression: an interrupt left the pool to run every queued request first.
+        self.batch()
+
+        def review(*args, **kw):
+            if mocks.review.call_count == 1:
+                raise KeyboardInterrupt
+            time.sleep(0.2)
+            return {"accepted": True, "issues": []}
+        with testkit.vlm_stub(review=review, free=None) as mocks:
+            with self.assertRaises(KeyboardInterrupt):
+                testkit.run_cli(self.argv("review", "--concurrency", "1"))
+        self.assertLessEqual(mocks.review.call_count, 2, msg="of 10 sheets to review")
 
 
 class VerifyPreviewTests(DriverTest):

@@ -47,7 +47,8 @@ data/anims-ai/ ◀──[batch]──── characters.yaml + reviews.yaml (reje
    animations — into `data/anims-ai/`, leaving the recolour variants alone,
    and writes each `skip` animation as a nearest-neighbour 2x.
 4. **`make review`** (vLLM up) judges every promoted sheet whose latest
-   attempt is unreviewed and writes `reviews.yaml`.
+   attempt is unreviewed and writes `reviews.yaml`, saving each verdict as
+   it arrives (Ctrl-C stops it and keeps them).
 5. **Repeat `make batch variants=0` and `make review`** until the base
    animations settle (no more rejections).
 6. **`make batch`** (no `variants=0`) renders the recolour variants too,

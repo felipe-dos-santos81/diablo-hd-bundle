@@ -750,28 +750,35 @@ def cmd_review(args):
     accepted = rejected = failed = 0
     with ThreadPoolExecutor(max_workers=args.concurrency) as pool:
         futures = {pool.submit(judge, args, sj, attempt): (sj, attempt) for sj, attempt in todo}
-        for n, future in enumerate(as_completed(futures), 1):
-            sj, attempt = futures[future]
-            audit = audit_dir(args.dst, sj.key)
-            try:
-                verdict = future.result()
-            except Exception as error:
-                failed += 1
-                write_atomic(audit / f"attempt-{attempt}.review-error.txt", str(error))
-                print(f"[{n}/{len(todo)}] ERROR reviewing {sj.key}: {error}", file=sys.stderr,
-                      flush=True)
-                continue
-            write_atomic(audit / f"attempt-{attempt}.review.json", json.dumps(verdict, indent=2))
-            reviews[sj.key] = Review(attempt, verdict["accepted"], tuple(verdict["issues"]),
-                                     "review")
-            save_reviews(args.reviews, reviews)
-            if verdict["accepted"]:
-                accepted += 1
-                print(f"[{n}/{len(todo)}] {sj.key}: accepted", flush=True)
-            else:
-                rejected += 1
-                print(f"[{n}/{len(todo)}] {sj.key}: rejected: " + "; ".join(verdict["issues"]),
-                      flush=True)
+        try:
+            for n, future in enumerate(as_completed(futures), 1):
+                sj, attempt = futures[future]
+                audit = audit_dir(args.dst, sj.key)
+                try:
+                    verdict = future.result()
+                except Exception as error:
+                    failed += 1
+                    write_atomic(audit / f"attempt-{attempt}.review-error.txt", str(error))
+                    print(f"[{n}/{len(todo)}] ERROR reviewing {sj.key}: {error}",
+                          file=sys.stderr, flush=True)
+                    continue
+                write_atomic(audit / f"attempt-{attempt}.review.json",
+                             json.dumps(verdict, indent=2))
+                reviews[sj.key] = Review(attempt, verdict["accepted"], tuple(verdict["issues"]),
+                                         "review")
+                save_reviews(args.reviews, reviews)
+                if verdict["accepted"]:
+                    accepted += 1
+                    print(f"[{n}/{len(todo)}] {sj.key}: accepted", flush=True)
+                else:
+                    rejected += 1
+                    print(f"[{n}/{len(todo)}] {sj.key}: rejected: "
+                          + "; ".join(verdict["issues"]), flush=True)
+        except KeyboardInterrupt:
+            # Drop the queued requests; leaving the `with` waits only for the ones
+            # in flight. The verdicts already saved stay.
+            pool.shutdown(wait=False, cancel_futures=True)
+            raise
     print(f"done: accepted={accepted} rejected={rejected} skipped={skipped} failed={failed} "
           f"-> {args.reviews}")
     return 1 if failed else 0

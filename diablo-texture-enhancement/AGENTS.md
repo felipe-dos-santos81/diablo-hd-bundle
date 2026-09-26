@@ -251,7 +251,9 @@ Render one sheet through any new or edited graph before trusting it.
   `{"accepted", "issues"}`; `parse_review` (the Atlantis parser) tolerates
   fences and chatter and refuses a verdict that contradicts its issues.
   `make review` sends up to `--concurrency` (`DEFAULT_CONCURRENCY` 8)
-  requests at once, so vLLM batches them.
+  requests at once, so vLLM batches them, and saves each verdict as it
+  arrives; Ctrl-C cancels the queued requests, waits only for those in
+  flight, and keeps the verdicts already saved.
 
 ## 5. Testing
 
