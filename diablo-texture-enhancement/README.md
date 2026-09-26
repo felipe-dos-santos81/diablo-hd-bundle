@@ -81,8 +81,8 @@ GB10's 121 GB of unified memory.
 `make batch` refuses to start with less than 45 GB free (`memcheck=0` skips
 the guard). A sheet whose render fails is left for the next batch while the
 batch goes on (it exits 1 at the end); the batch stops early, freeing
-ComfyUI's models, when ComfyUI stops answering or 3 sheets fail in a row. If vLLM cannot start after a batch, free ComfyUI's models by
-hand:
+ComfyUI's models, when ComfyUI stops answering or 3 sheets fail in a row.
+If vLLM cannot start after a batch, free ComfyUI's models by hand:
 
 ```
 curl -X POST http://127.0.0.1:8188/free -H 'Content-Type: application/json' -d '{"unload_models":true,"free_memory":true}'
@@ -131,12 +131,12 @@ A character's anchor animation renders first, against its own guide only;
 every other base sheet gets the anchor's first promoted sheet as a second
 reference. A variant sheet gets its own base's promoted sheet of the same
 number instead, and is told (and reviewed) to match its painting but to take
-every colour from its own guide. A sheet that still needs rendering while its anchor is not
-yet promoted reports `blocked` and waits — `batch --force` never renders it
-either, since forcing a sheet that has no anchor to paint against would
-throw the render away. A promoted sheet whose anchor has since been
-re-rendered (a different SHA-256) reports `stale` and renders again, like a
-new sheet.
+every colour from its own guide. A sheet that still needs rendering while
+its anchor is not yet promoted reports `blocked` and waits — `batch --force`
+never renders it either, since forcing a sheet that has no anchor to paint
+against would throw the render away. A promoted sheet whose anchor has since
+been re-rendered (a different SHA-256) reports `stale` and renders again,
+like a new sheet.
 
 ## Checks
 
@@ -224,7 +224,10 @@ only; batch, dry-run, review, preview and verify) and `variant=` by TRN path
 (of the variants, only those); all accept several space-separated values,
 and an unknown one is refused. Every pipeline target also takes `packing=`,
 `gutter=`, `background=` and `anchor=0` (the layout switches the spike may
-change) and `src=`/`dst=` overrides.
+change) and `src=`/`dst=` overrides. Environment overrides: `DIA_SRC`,
+`DIA_DST`, `DIA_PREVIEW`, `DIA_CHARACTERS`, `DIA_REVIEWS`, `DIA_WORKFLOW`,
+`DIA_MATCH_STRENGTH`, `COMFY_URL`, `COMFY_DIR`, `VLM_BASE_URL`, `VLM_MODEL`,
+`VLM_API_KEY`.
 
 **One `dst=` per layout.** An output tree holds sheets of one layout only:
 `make batch` refuses to render into a tree whose sheets were rendered with
@@ -232,10 +235,7 @@ another `packing=`, `gutter=` or `background=` (their records' packing,
 gutter, background, canvas or directions differ from the sheets as now
 planned), naming the first few; `make dry-run` lists them as `layout` and
 `make verify` counts them as problems. Give each layout its own `dst=`, or
-restore the settings the tree was rendered with. Environment overrides: `DIA_SRC`,
-`DIA_DST`, `DIA_PREVIEW`, `DIA_CHARACTERS`, `DIA_REVIEWS`, `DIA_WORKFLOW`,
-`DIA_MATCH_STRENGTH`, `COMFY_URL`, `COMFY_DIR`, `VLM_BASE_URL`, `VLM_MODEL`,
-`VLM_API_KEY`.
+restore the settings the tree was rendered with.
 
 ## Setup
 

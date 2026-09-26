@@ -922,10 +922,12 @@ def cmd_preview(args):
     root = args.preview_dir / args.dst.resolve().name
     written = 0
     for job in select_jobs(args, characters):
-        wanted = {group for sheet in job_sheets(args, job) for group in sheet.groups}
+        # Only --sheet needs the layout (it reads every frame): its sheets' directions.
+        wanted = args.sheet and {group for sheet in job_sheets(args, job)
+                                 for group in sheet.groups}
         groups = {}
         for frame in job.anim.frames:
-            if not args.sheet or frame.group in wanted:
+            if not wanted or frame.group in wanted:
                 groups.setdefault(frame.group, []).append(frame)
         for group, frames in sorted(groups.items()):
             pictures = []

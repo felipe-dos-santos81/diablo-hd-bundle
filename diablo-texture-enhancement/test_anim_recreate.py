@@ -331,7 +331,6 @@ class SelectionTests(DriverTest):
                 self.assertEqual(code, 2)
                 self.assertIn(message, err)
 
-
     def test_sheet_selects_single_sheets_in_every_stage(self):
         cases = {("--sheet", f"{ZN}/s02"): "1 animation(s) and variant(s): 1 sheet(s)",
                  ("--sheet", f"{ZN}/{GREY}/s01"): "1 animation(s) and variant(s): 1 sheet(s)",

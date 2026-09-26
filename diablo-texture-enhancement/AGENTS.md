@@ -106,9 +106,9 @@ Rules that must survive any change:
   canvas reports `stale` and renders again, exactly like `new`. A stuck
   sheet whose workflow names a `fallback` is rendered once more through it
   on the next batch (`fallback_for`, while no rejected attempt has used
-  it), and reported STUCK only once that attempt is rejected too. The next attempt's corrections
-  (`corrections_for`) are the current review's issues while no later attempt
-  was promoted; a geometry rejection gives the one
+  it), and reported STUCK only once that attempt is rejected too. The next
+  attempt's corrections (`corrections_for`) are the current review's issues
+  while no later attempt was promoted; a geometry rejection gives the one
   `prompts.GEOMETRY_CORRECTION` sentence instead of the gate's own strings.
 - **Renders never depend on other animations**, except that every sheet but
   a character's anchor animation's own first sheet depends on a promoted
@@ -251,8 +251,9 @@ Render one sheet through any new or edited graph before trusting it.
   sheet in the base's colours; `VARIANT_NOTE` for a recolour variant, which
   also strips the caption's COLOURS section (`without_colours`) since a
   variant's colours come from the guide, not the caption;
-  `"REFERENCE OBSERVATIONS:"` plus the caption; then, when the sheet carries corrections, either the
-  current review's issues or, after a geometry rejection, the single
+  `"REFERENCE OBSERVATIONS:"` plus the caption; then, when the sheet
+  carries corrections, either the current review's issues or, after a
+  geometry rejection, the single
   `GEOMETRY_CORRECTION` sentence (the gate's own issue strings mean nothing
   to the diffusion model); a closing note that the reference image outranks
   the caption and that a correction asking for pixel art, dithering or a
