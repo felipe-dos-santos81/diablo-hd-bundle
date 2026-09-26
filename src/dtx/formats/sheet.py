@@ -1,27 +1,40 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from dtx.binary import u32
+
+
+@dataclass(frozen=True)
+class SheetSplit:
+    groups: list[list[bytes]]
+    recovery: str | None = None  # "chained" when a stale group offset table was bypassed
 
 
 def split_sheet(data: bytes) -> list[list[bytes]]:
     """Split a CEL or CL2 file into raw frame bytes, grouped as [group][frame]."""
+    return read_sheet(data).groups
+
+
+def read_sheet(data: bytes) -> SheetSplit:
+    """Like split_sheet, and also says whether the groups were recovered from a stale table."""
     if len(data) < 8:
         raise ValueError("file too small to be a CEL/CL2 sheet")
     first = u32(data, 0)
     last_offset_at = 4 * first + 4
     if last_offset_at + 4 <= len(data) and u32(data, last_offset_at) == len(data):
-        return [_split_frames(data)]
+        return SheetSplit([_split_frames(data)])
 
     if first == 0 or first % 4 or first > len(data):
         raise ValueError("not a CEL/CL2 sheet")
     count = first // 4
     try:
-        return _table_groups(data, count)
+        return SheetSplit(_table_groups(data, count))
     except ValueError:
         chained = _chained_groups(data, count)
         if chained is None:
             raise
-        return chained
+        return SheetSplit(chained, "chained")
 
 
 def _table_groups(data: bytes, count: int) -> list[list[bytes]]:

@@ -129,3 +129,33 @@ def test_no_palette_warning_for_level_palette(tmp_path):
     meta = _meta_for_sprite(tmp_path, [[5, 6, 7, 8]], palette="levels\\l1data\\l1_1.pal",
                             extra={"levels\\l1data\\l1_1.pal": PAL_BYTES})
     assert "palette_warning" not in meta
+
+
+def test_sprite_meta_flags_skip_table_mismatch(tmp_path):
+    from test_width import rows
+
+    ctx = ctx_for(tmp_path, {})
+    data = sheet([cl2_frame(rows(128, 96))])  # skip table for 128, table width 96
+    export_sprite(ctx, Entry("plrgfx\\w\\wlbat.cl2", "player_anim", "levels\\towndata\\town.pal", width_hint=96),
+                  "DIABDAT.MPQ", data, tmp_path / "a")
+    assert json.loads((tmp_path / "a/meta.json").read_text())["skip_table_mismatch"] is True
+    export_sprite(ctx, Entry("plrgfx\\w\\wlnat.cl2", "player_anim", "levels\\towndata\\town.pal", width_hint=128),
+                  "DIABDAT.MPQ", data, tmp_path / "b")
+    assert "skip_table_mismatch" not in json.loads((tmp_path / "b/meta.json").read_text())
+
+
+def test_sprite_meta_records_chained_sheet_recovery(tmp_path):
+    import struct
+
+    ctx = ctx_for(tmp_path, {})
+    frame = cel_frame([[1, 2]])
+    data = bytearray(grouped([sheet([frame]) for _ in range(8)]))
+    for g in range(1, 8):
+        struct.pack_into("<I", data, 4 * g, struct.unpack_from("<I", data, 4 * g)[0] + g)
+    export_sprite(ctx, Entry("monsters\\u\\uw.cel", "monster_anim", "levels\\towndata\\town.pal", width_hint=2),
+                  "DIABDAT.MPQ", bytes(data), tmp_path / "s")
+    meta = json.loads((tmp_path / "s/meta.json").read_text())
+    assert meta["sheet_recovery"] == "chained" and meta["groups"] == 8
+    export_sprite(ctx, Entry("data\\x.cel", "ui_sprite", "levels\\towndata\\town.pal", width_hint=2),
+                  "DIABDAT.MPQ", sheet([frame]), tmp_path / "n")
+    assert "sheet_recovery" not in json.loads((tmp_path / "n/meta.json").read_text())

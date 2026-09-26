@@ -13,7 +13,7 @@ from dtx.formats.levelcel import TileType, decode_level_cell
 from dtx.formats.pal import cycling_for, decode_pal
 from dtx.formats.pcx import decode_pcx
 from dtx.formats.render import compose, place_pieces, tile_pieces
-from dtx.formats.sheet import split_sheet
+from dtx.formats.sheet import read_sheet, split_sheet
 from dtx.formats.tileset import (
     CellRef, cell_types, cell_users, compose_column, parse_dun, parse_min, parse_sol, parse_til,
 )
@@ -132,7 +132,8 @@ def level_index_share(frames: list[Frame]) -> float:
 def export_sprite(ctx: Context, entry: Entry, archive: str, data: bytes, dest: Path) -> dict:
     fmt = extension(entry.path)
     palette = ctx.palette(entry.palette)
-    groups = split_sheet(data)
+    split = read_sheet(data)
+    groups = split.groups
     flat = [(g, i, raw) for g, frames in enumerate(groups) for i, raw in enumerate(frames)]
     scans = [scan_frame(fmt, raw) for _, _, raw in flat]
     widths = resolve_widths(scans, entry.width_hint)
@@ -165,6 +166,10 @@ def export_sprite(ctx: Context, entry: Entry, archive: str, data: bytes, dest: P
     }
     if widths.candidates:
         meta["width_candidates"] = list(widths.candidates)
+    if widths.skip_table_mismatch:
+        meta["skip_table_mismatch"] = True
+    if split.recovery:
+        meta["sheet_recovery"] = split.recovery
     if entry.palette == DEFAULT_PALETTE and level_index_share([f for g in decoded for f in g]) > 0.5:
         meta["palette_warning"] = PALETTE_WARNING
     write_json(dest / "meta.json", meta)

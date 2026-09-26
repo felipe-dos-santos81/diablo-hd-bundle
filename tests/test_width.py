@@ -56,3 +56,10 @@ def test_per_frame_inference_when_no_common_width():
 def test_unknown_format_rejected():
     with pytest.raises(ValueError):
         scan_frame("bmp", b"")
+
+
+def test_table_width_flags_skip_table_mismatch():
+    scans = [scan_frame("cl2", cl2_frame(rows(128, 96)))]  # skip table for width 128
+    assert resolve_widths(scans, 96).skip_table_mismatch is True
+    assert resolve_widths(scans, 128).skip_table_mismatch is False
+    assert resolve_widths(scans, None).skip_table_mismatch is False

@@ -59,3 +59,18 @@ def test_rejects_garbage():
 def test_rejects_too_small():
     with pytest.raises(ValueError):
         split_sheet(b"\x00\x00")
+
+
+def test_read_sheet_reports_chained_recovery():
+    from dtx.formats.sheet import read_sheet
+
+    groups = [[bytes([g]) * (g + 1), b"z"] for g in range(8)]
+    good = grouped([sheet(frames) for frames in groups])
+    data = bytearray(good)
+    for g in range(1, 8):
+        struct.pack_into("<I", data, 4 * g, struct.unpack_from("<I", data, 4 * g)[0] + g)
+    stale = read_sheet(bytes(data))
+    assert stale.groups == groups and stale.recovery == "chained"
+    normal = read_sheet(good)
+    assert normal.groups == groups and normal.recovery is None
+    assert read_sheet(sheet([b"ab"])).recovery is None

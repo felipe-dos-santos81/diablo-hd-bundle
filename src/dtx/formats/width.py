@@ -21,6 +21,8 @@ class WidthResult:
     widths: tuple[int, ...]
     source: str
     candidates: tuple[int, ...] = ()
+    # True when a table width was accepted although a CL2 skip table points at another width.
+    skip_table_mismatch: bool = False
 
 
 def candidate_order() -> list[int]:
@@ -43,7 +45,8 @@ def resolve_widths(scans: Sequence[Scan], hint: int | Sequence[int] | None) -> W
         # DevilutionX decodes with the table width and ignores CL2 skip tables, some of which
         # disagree with it (warrior bow attacks), so a table width only has to decode.
         if len(widths) == count and all(s.fits(w, strict=False) for s, w in zip(scans, widths)):
-            return WidthResult(widths, "table")
+            mismatch = not all(s.fits(w) for s, w in zip(scans, widths))
+            return WidthResult(widths, "table", skip_table_mismatch=mismatch)
 
     order = candidate_order()
     common = tuple(w for w in order if all(s.fits(w) for s in scans))
