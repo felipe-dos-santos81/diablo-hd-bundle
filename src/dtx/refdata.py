@@ -204,8 +204,12 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
 def build(dvx: Path, stack, out_dir: Path = DATA_DIR, community: Path | None = None) -> dict:
     widths, variants, names = table_widths(dvx)
     names |= set(widths) | source_names(dvx / "Source") | level_names()
-    if community is not None:
-        names |= {canonical(line.strip()) for line in community.read_text(errors="ignore").splitlines()
+    # The current listfile is always a candidate source, so a rebuild never loses names
+    # (e.g. community names when the community listfile is not available).
+    current = out_dir / "listfile.txt"
+    sources = ([current] if current.exists() else []) + ([community] if community is not None else [])
+    for listfile in sources:
+        names |= {canonical(line.strip()) for line in listfile.read_text(errors="ignore").splitlines()
                   if line.strip()}
     present = sorted(n for n in names if stack.has(n))
     present_set = set(present)

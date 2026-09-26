@@ -174,3 +174,20 @@ def test_build_writes_object_palettes(tmp_path):
 
     palettes = json.loads((out / "palettes.json").read_text())
     assert palettes == {"objects\\l1braz.cel": "levels\\l1data\\l1_1.pal"}
+
+
+def test_rebuild_keeps_names_from_the_existing_listfile(tmp_path):
+    # Without the community listfile a rebuild must not drop names the committed listfile has.
+    dvx = tmp_path / "dvx"
+    fake_devilutionx(dvx)
+    stack = ArchiveStack([FakeArchive("DIABDAT.MPQ", PRESENT)])
+    out = tmp_path / "data"
+    out.mkdir()
+    (out / "listfile.txt").write_text("extra\\community.cel\ngone\\from\\archives.cel\n")
+
+    summary = build(dvx, stack, out)
+
+    listed = (out / "listfile.txt").read_text().split()
+    assert "extra\\community.cel" in listed
+    assert "gone\\from\\archives.cel" not in listed
+    assert listed == sorted(PRESENT) and summary["present"] == len(PRESENT)
