@@ -5,6 +5,7 @@ import numpy as np
 from builders import cel_frame, dun_bytes, min_bytes, pcx, sheet, til_bytes
 from fakes import FakeArchive
 from dtx.extract import extract_with
+from dtx.handlers import sha1
 from dtx.mpq import ArchiveStack
 
 PAL = bytes(range(256)) * 3
@@ -86,3 +87,28 @@ def test_only_filter(tmp_path):
     report = run(tmp_path, BASE, only={"palette"})
     kinds = {r["kind"] for r in report["exported"]}
     assert kinds == {"palette"}
+
+
+def test_only_run_keeps_full_report_and_merges_manifest(tmp_path):
+    out = tmp_path / "out"
+    run(tmp_path, BASE)
+    full_report = (out / "report.json").read_text()
+    before = json.loads((out / "manifest.json").read_text())["assets"]
+
+    newer_pal = bytes(reversed(PAL))
+    report = run(tmp_path, {**BASE, "levels\\towndata\\town.pal": newer_pal}, only={"palette"})
+
+    assert (out / "report.json").read_text() == full_report
+    only_report = json.loads((out / "report-only.json").read_text())
+    assert only_report == report and {r["kind"] for r in only_report["exported"]} == {"palette"}
+    after = json.loads((out / "manifest.json").read_text())["assets"]
+    assert [a for a in after if a["kind"] != "palette"] == [a for a in before if a["kind"] != "palette"]
+    town = [a for a in after if a["path"] == "levels\\towndata\\town.pal"]
+    assert len(town) == 1 and town[0]["sha1"] == sha1(newer_pal)
+    assert {a["path"] for a in after} == {a["path"] for a in before}
+
+
+def test_full_run_writes_report_json_not_report_only(tmp_path):
+    run(tmp_path, BASE)
+    assert (tmp_path / "out/report.json").exists()
+    assert not (tmp_path / "out/report-only.json").exists()

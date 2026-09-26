@@ -22,6 +22,7 @@ make help                         # all targets and options
 out/
   manifest.json    every exported asset + the HD replacement contract
   report.json      exported / skipped (with reason) / failed / unnamed files
+  report-only.json the same for the last `only=` run (report.json keeps the full run)
   palettes/        each .pal as a swatch PNG + JSON (colours, colour cycling)
   assets/<archive path>/
     *.png          RGBA image, ready for AI regeneration

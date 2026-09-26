@@ -83,7 +83,21 @@ def process_entry(ctx: Context, entry: Entry, force: bool) -> list[dict]:
     return results
 
 
-def _finish(out: Path, results: list[dict], skips: list, unnamed: dict) -> dict:
+def _previous_assets(out: Path) -> list[dict]:
+    try:
+        assets = json.loads((out / "manifest.json").read_text())["assets"]
+    except (OSError, ValueError, KeyError, TypeError):
+        return []
+    return assets if isinstance(assets, list) else []
+
+
+def report_name(only) -> str:
+    return "report-only.json" if only else "report.json"
+
+
+def _finish(out: Path, results: list[dict], skips: list, unnamed: dict, only=None) -> dict:
+    """Write the run report and the manifest. An --only run writes report-only.json (keeping the
+    full run's report.json) and replaces only its own kinds in the existing manifest."""
     by_status: dict[str, list[dict]] = {"exported": [], "unchanged": [], "skipped": [], "failed": []}
     for r in results:
         by_status[r["status"]].append(r)
@@ -105,16 +119,17 @@ def _finish(out: Path, results: list[dict], skips: list, unnamed: dict) -> dict:
         "failed": by_status["failed"],
         "unnamed": unnamed,
     }
+    assets = [{k: r[k] for k in ("path", "kind", "archive", "sha1", "record")}
+              for r in by_status["exported"] + by_status["unchanged"]]
+    if only:
+        assets += [a for a in _previous_assets(out) if a.get("kind") not in only]
     manifest = {
         "version": 1,
         "hd_contract": HD_CONTRACT,
         "devilutionx_reference": refdata.PINNED_DEVILUTIONX,
-        "assets": [
-            {k: r[k] for k in ("path", "kind", "archive", "sha1", "record")}
-            for r in sorted(by_status["exported"] + by_status["unchanged"], key=lambda r: (r["path"], r["archive"]))
-        ],
+        "assets": sorted(assets, key=lambda a: (a["path"], a["archive"])),
     }
-    write_json(out / "report.json", report)
+    write_json(out / report_name(only), report)
     write_json(out / "manifest.json", manifest)
     return report
 
@@ -136,7 +151,7 @@ def extract_with(stack, out: Path, *, only=None, verify=False, force=False, widt
     entries, skips, unnamed = _catalog(stack, only, widths, variants, palettes)
     ctx = Context(stack, out, verify)
     results = [r for e in entries for r in process_entry(ctx, e, force)]
-    return _finish(out, results, skips, unnamed)
+    return _finish(out, results, skips, unnamed, only)
 
 
 _WORKER: Context | None = None
@@ -167,7 +182,7 @@ def run_extract(game_dir: Path, out: Path, *, only=None, verify=False, force=Fal
             results.extend(future.result())
             if done % 250 == 0 or done == len(futures):
                 print(f"{done}/{len(futures)} files processed", flush=True)
-    return _finish(out, results, skips, unnamed)
+    return _finish(out, results, skips, unnamed, only)
 
 
 def default_jobs() -> int:

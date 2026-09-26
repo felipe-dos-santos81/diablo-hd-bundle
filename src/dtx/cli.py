@@ -48,7 +48,7 @@ def _refdata_build(args) -> int:
 
 def _extract(args) -> int:
     from dtx.catalog import KINDS
-    from dtx.extract import default_jobs, run_extract
+    from dtx.extract import default_jobs, report_name, run_extract
 
     only = None
     if args.only:
@@ -61,7 +61,7 @@ def _extract(args) -> int:
                          jobs=args.jobs or default_jobs())
     s = report["summary"]
     print(f"exported {s['exported']}, unchanged {s['unchanged']}, skipped {s['skipped']}, "
-          f"failed {s['failed']}, unnamed {s['unnamed']} -> {args.out / 'report.json'}")
+          f"failed {s['failed']}, unnamed {s['unnamed']} -> {args.out / report_name(only)}")
     return 1 if s["failed"] else 0
 
 
