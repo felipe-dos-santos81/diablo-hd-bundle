@@ -1,0 +1,660 @@
+{
+ "monsters\\acid\\acida.cl2": [
+  "monsters\\acid\\acidblk.trn",
+  "monsters\\acid\\acidb.trn",
+  "monsters\\acid\\acidr.trn"
+ ],
+ "monsters\\acid\\acidd.cl2": [
+  "monsters\\acid\\acidblk.trn",
+  "monsters\\acid\\acidb.trn",
+  "monsters\\acid\\acidr.trn"
+ ],
+ "monsters\\acid\\acidh.cl2": [
+  "monsters\\acid\\acidblk.trn",
+  "monsters\\acid\\acidb.trn",
+  "monsters\\acid\\acidr.trn"
+ ],
+ "monsters\\acid\\acidn.cl2": [
+  "monsters\\acid\\acidblk.trn",
+  "monsters\\acid\\acidb.trn",
+  "monsters\\acid\\acidr.trn"
+ ],
+ "monsters\\acid\\acids.cl2": [
+  "monsters\\acid\\acidblk.trn",
+  "monsters\\acid\\acidb.trn",
+  "monsters\\acid\\acidr.trn"
+ ],
+ "monsters\\acid\\acidw.cl2": [
+  "monsters\\acid\\acidblk.trn",
+  "monsters\\acid\\acidb.trn",
+  "monsters\\acid\\acidr.trn"
+ ],
+ "monsters\\bat\\bata.cl2": [
+  "monsters\\bat\\red.trn",
+  "monsters\\bat\\grey.trn",
+  "monsters\\bat\\orange.trn"
+ ],
+ "monsters\\bat\\batd.cl2": [
+  "monsters\\bat\\red.trn",
+  "monsters\\bat\\grey.trn",
+  "monsters\\bat\\orange.trn"
+ ],
+ "monsters\\bat\\bath.cl2": [
+  "monsters\\bat\\red.trn",
+  "monsters\\bat\\grey.trn",
+  "monsters\\bat\\orange.trn"
+ ],
+ "monsters\\bat\\batn.cl2": [
+  "monsters\\bat\\red.trn",
+  "monsters\\bat\\grey.trn",
+  "monsters\\bat\\orange.trn"
+ ],
+ "monsters\\bat\\batw.cl2": [
+  "monsters\\bat\\red.trn",
+  "monsters\\bat\\grey.trn",
+  "monsters\\bat\\orange.trn"
+ ],
+ "monsters\\black\\blacka.cl2": [
+  "monsters\\black\\blkkntrt.trn",
+  "monsters\\black\\blkkntbt.trn",
+  "monsters\\black\\blkkntbe.trn"
+ ],
+ "monsters\\black\\blackd.cl2": [
+  "monsters\\black\\blkkntrt.trn",
+  "monsters\\black\\blkkntbt.trn",
+  "monsters\\black\\blkkntbe.trn"
+ ],
+ "monsters\\black\\blackh.cl2": [
+  "monsters\\black\\blkkntrt.trn",
+  "monsters\\black\\blkkntbt.trn",
+  "monsters\\black\\blkkntbe.trn"
+ ],
+ "monsters\\black\\blackn.cl2": [
+  "monsters\\black\\blkkntrt.trn",
+  "monsters\\black\\blkkntbt.trn",
+  "monsters\\black\\blkkntbe.trn"
+ ],
+ "monsters\\black\\blackw.cl2": [
+  "monsters\\black\\blkkntrt.trn",
+  "monsters\\black\\blkkntbt.trn",
+  "monsters\\black\\blkkntbe.trn"
+ ],
+ "monsters\\falspear\\phalla.cl2": [
+  "monsters\\falspear\\fallent.trn",
+  "monsters\\falspear\\dark.trn",
+  "monsters\\falspear\\blue.trn"
+ ],
+ "monsters\\falspear\\phalld.cl2": [
+  "monsters\\falspear\\fallent.trn",
+  "monsters\\falspear\\dark.trn",
+  "monsters\\falspear\\blue.trn"
+ ],
+ "monsters\\falspear\\phallh.cl2": [
+  "monsters\\falspear\\fallent.trn",
+  "monsters\\falspear\\dark.trn",
+  "monsters\\falspear\\blue.trn"
+ ],
+ "monsters\\falspear\\phalln.cl2": [
+  "monsters\\falspear\\fallent.trn",
+  "monsters\\falspear\\dark.trn",
+  "monsters\\falspear\\blue.trn"
+ ],
+ "monsters\\falspear\\phalls.cl2": [
+  "monsters\\falspear\\fallent.trn",
+  "monsters\\falspear\\dark.trn",
+  "monsters\\falspear\\blue.trn"
+ ],
+ "monsters\\falspear\\phallw.cl2": [
+  "monsters\\falspear\\fallent.trn",
+  "monsters\\falspear\\dark.trn",
+  "monsters\\falspear\\blue.trn"
+ ],
+ "monsters\\falsword\\falla.cl2": [
+  "monsters\\falsword\\fallent.trn",
+  "monsters\\falsword\\dark.trn",
+  "monsters\\falsword\\blue.trn"
+ ],
+ "monsters\\falsword\\falld.cl2": [
+  "monsters\\falsword\\fallent.trn",
+  "monsters\\falsword\\dark.trn",
+  "monsters\\falsword\\blue.trn"
+ ],
+ "monsters\\falsword\\fallh.cl2": [
+  "monsters\\falsword\\fallent.trn",
+  "monsters\\falsword\\dark.trn",
+  "monsters\\falsword\\blue.trn"
+ ],
+ "monsters\\falsword\\falln.cl2": [
+  "monsters\\falsword\\fallent.trn",
+  "monsters\\falsword\\dark.trn",
+  "monsters\\falsword\\blue.trn"
+ ],
+ "monsters\\falsword\\falls.cl2": [
+  "monsters\\falsword\\fallent.trn",
+  "monsters\\falsword\\dark.trn",
+  "monsters\\falsword\\blue.trn"
+ ],
+ "monsters\\falsword\\fallw.cl2": [
+  "monsters\\falsword\\fallent.trn",
+  "monsters\\falsword\\dark.trn",
+  "monsters\\falsword\\blue.trn"
+ ],
+ "monsters\\fat\\fata.cl2": [
+  "monsters\\fat\\blue.trn",
+  "monsters\\fat\\fatb.trn",
+  "monsters\\fat\\fatf.trn"
+ ],
+ "monsters\\fat\\fatd.cl2": [
+  "monsters\\fat\\blue.trn",
+  "monsters\\fat\\fatb.trn",
+  "monsters\\fat\\fatf.trn"
+ ],
+ "monsters\\fat\\fath.cl2": [
+  "monsters\\fat\\blue.trn",
+  "monsters\\fat\\fatb.trn",
+  "monsters\\fat\\fatf.trn"
+ ],
+ "monsters\\fat\\fatn.cl2": [
+  "monsters\\fat\\blue.trn",
+  "monsters\\fat\\fatb.trn",
+  "monsters\\fat\\fatf.trn"
+ ],
+ "monsters\\fat\\fats.cl2": [
+  "monsters\\fat\\blue.trn",
+  "monsters\\fat\\fatb.trn",
+  "monsters\\fat\\fatf.trn"
+ ],
+ "monsters\\fat\\fatw.cl2": [
+  "monsters\\fat\\blue.trn",
+  "monsters\\fat\\fatb.trn",
+  "monsters\\fat\\fatf.trn"
+ ],
+ "monsters\\gargoyle\\gargoa.cl2": [
+  "monsters\\gargoyle\\gare.trn",
+  "monsters\\gargoyle\\gargbr.trn",
+  "monsters\\gargoyle\\gargb.trn"
+ ],
+ "monsters\\gargoyle\\gargod.cl2": [
+  "monsters\\gargoyle\\gare.trn",
+  "monsters\\gargoyle\\gargbr.trn",
+  "monsters\\gargoyle\\gargb.trn"
+ ],
+ "monsters\\gargoyle\\gargoh.cl2": [
+  "monsters\\gargoyle\\gare.trn",
+  "monsters\\gargoyle\\gargbr.trn",
+  "monsters\\gargoyle\\gargb.trn"
+ ],
+ "monsters\\gargoyle\\gargon.cl2": [
+  "monsters\\gargoyle\\gare.trn",
+  "monsters\\gargoyle\\gargbr.trn",
+  "monsters\\gargoyle\\gargb.trn"
+ ],
+ "monsters\\gargoyle\\gargos.cl2": [
+  "monsters\\gargoyle\\gare.trn",
+  "monsters\\gargoyle\\gargbr.trn",
+  "monsters\\gargoyle\\gargb.trn"
+ ],
+ "monsters\\gargoyle\\gargow.cl2": [
+  "monsters\\gargoyle\\gare.trn",
+  "monsters\\gargoyle\\gargbr.trn",
+  "monsters\\gargoyle\\gargb.trn"
+ ],
+ "monsters\\goatbow\\goatba.cl2": [
+  "monsters\\goatbow\\beige.trn",
+  "monsters\\goatbow\\red.trn",
+  "monsters\\goatbow\\gray.trn"
+ ],
+ "monsters\\goatbow\\goatbd.cl2": [
+  "monsters\\goatbow\\beige.trn",
+  "monsters\\goatbow\\red.trn",
+  "monsters\\goatbow\\gray.trn"
+ ],
+ "monsters\\goatbow\\goatbh.cl2": [
+  "monsters\\goatbow\\beige.trn",
+  "monsters\\goatbow\\red.trn",
+  "monsters\\goatbow\\gray.trn"
+ ],
+ "monsters\\goatbow\\goatbn.cl2": [
+  "monsters\\goatbow\\beige.trn",
+  "monsters\\goatbow\\red.trn",
+  "monsters\\goatbow\\gray.trn"
+ ],
+ "monsters\\goatbow\\goatbw.cl2": [
+  "monsters\\goatbow\\beige.trn",
+  "monsters\\goatbow\\red.trn",
+  "monsters\\goatbow\\gray.trn"
+ ],
+ "monsters\\goatmace\\goata.cl2": [
+  "monsters\\goatmace\\beige.trn",
+  "monsters\\goatmace\\red.trn",
+  "monsters\\goatmace\\gray.trn"
+ ],
+ "monsters\\goatmace\\goatd.cl2": [
+  "monsters\\goatmace\\beige.trn",
+  "monsters\\goatmace\\red.trn",
+  "monsters\\goatmace\\gray.trn"
+ ],
+ "monsters\\goatmace\\goath.cl2": [
+  "monsters\\goatmace\\beige.trn",
+  "monsters\\goatmace\\red.trn",
+  "monsters\\goatmace\\gray.trn"
+ ],
+ "monsters\\goatmace\\goatn.cl2": [
+  "monsters\\goatmace\\beige.trn",
+  "monsters\\goatmace\\red.trn",
+  "monsters\\goatmace\\gray.trn"
+ ],
+ "monsters\\goatmace\\goats.cl2": [
+  "monsters\\goatmace\\beige.trn",
+  "monsters\\goatmace\\red.trn",
+  "monsters\\goatmace\\gray.trn"
+ ],
+ "monsters\\goatmace\\goatw.cl2": [
+  "monsters\\goatmace\\beige.trn",
+  "monsters\\goatmace\\red.trn",
+  "monsters\\goatmace\\gray.trn"
+ ],
+ "monsters\\mage\\magea.cl2": [
+  "monsters\\mage\\cnselg.trn",
+  "monsters\\mage\\cnselgd.trn",
+  "monsters\\mage\\cnselbk.trn"
+ ],
+ "monsters\\mage\\maged.cl2": [
+  "monsters\\mage\\cnselg.trn",
+  "monsters\\mage\\cnselgd.trn",
+  "monsters\\mage\\cnselbk.trn"
+ ],
+ "monsters\\mage\\mageh.cl2": [
+  "monsters\\mage\\cnselg.trn",
+  "monsters\\mage\\cnselgd.trn",
+  "monsters\\mage\\cnselbk.trn"
+ ],
+ "monsters\\mage\\magen.cl2": [
+  "monsters\\mage\\cnselg.trn",
+  "monsters\\mage\\cnselgd.trn",
+  "monsters\\mage\\cnselbk.trn"
+ ],
+ "monsters\\mage\\mages.cl2": [
+  "monsters\\mage\\cnselg.trn",
+  "monsters\\mage\\cnselgd.trn",
+  "monsters\\mage\\cnselbk.trn"
+ ],
+ "monsters\\mage\\magew.cl2": [
+  "monsters\\mage\\cnselg.trn",
+  "monsters\\mage\\cnselgd.trn",
+  "monsters\\mage\\cnselbk.trn"
+ ],
+ "monsters\\magma\\magmaa.cl2": [
+  "monsters\\magma\\yellow.trn",
+  "monsters\\magma\\blue.trn",
+  "monsters\\magma\\wierd.trn"
+ ],
+ "monsters\\magma\\magmad.cl2": [
+  "monsters\\magma\\yellow.trn",
+  "monsters\\magma\\blue.trn",
+  "monsters\\magma\\wierd.trn"
+ ],
+ "monsters\\magma\\magmah.cl2": [
+  "monsters\\magma\\yellow.trn",
+  "monsters\\magma\\blue.trn",
+  "monsters\\magma\\wierd.trn"
+ ],
+ "monsters\\magma\\magman.cl2": [
+  "monsters\\magma\\yellow.trn",
+  "monsters\\magma\\blue.trn",
+  "monsters\\magma\\wierd.trn"
+ ],
+ "monsters\\magma\\magmas.cl2": [
+  "monsters\\magma\\yellow.trn",
+  "monsters\\magma\\blue.trn",
+  "monsters\\magma\\wierd.trn"
+ ],
+ "monsters\\magma\\magmaw.cl2": [
+  "monsters\\magma\\yellow.trn",
+  "monsters\\magma\\blue.trn",
+  "monsters\\magma\\wierd.trn"
+ ],
+ "monsters\\mega\\megaa.cl2": [
+  "monsters\\mega\\guard.trn",
+  "monsters\\mega\\vtexl.trn",
+  "monsters\\mega\\balr.trn"
+ ],
+ "monsters\\mega\\megad.cl2": [
+  "monsters\\mega\\guard.trn",
+  "monsters\\mega\\vtexl.trn",
+  "monsters\\mega\\balr.trn"
+ ],
+ "monsters\\mega\\megah.cl2": [
+  "monsters\\mega\\guard.trn",
+  "monsters\\mega\\vtexl.trn",
+  "monsters\\mega\\balr.trn"
+ ],
+ "monsters\\mega\\megan.cl2": [
+  "monsters\\mega\\guard.trn",
+  "monsters\\mega\\vtexl.trn",
+  "monsters\\mega\\balr.trn"
+ ],
+ "monsters\\mega\\megas.cl2": [
+  "monsters\\mega\\guard.trn",
+  "monsters\\mega\\vtexl.trn",
+  "monsters\\mega\\balr.trn"
+ ],
+ "monsters\\mega\\megaw.cl2": [
+  "monsters\\mega\\guard.trn",
+  "monsters\\mega\\vtexl.trn",
+  "monsters\\mega\\balr.trn"
+ ],
+ "monsters\\rhino\\rhinoa.cl2": [
+  "monsters\\rhino\\orange.trn",
+  "monsters\\rhino\\blue.trn",
+  "monsters\\rhino\\rhinob.trn"
+ ],
+ "monsters\\rhino\\rhinod.cl2": [
+  "monsters\\rhino\\orange.trn",
+  "monsters\\rhino\\blue.trn",
+  "monsters\\rhino\\rhinob.trn"
+ ],
+ "monsters\\rhino\\rhinoh.cl2": [
+  "monsters\\rhino\\orange.trn",
+  "monsters\\rhino\\blue.trn",
+  "monsters\\rhino\\rhinob.trn"
+ ],
+ "monsters\\rhino\\rhinon.cl2": [
+  "monsters\\rhino\\orange.trn",
+  "monsters\\rhino\\blue.trn",
+  "monsters\\rhino\\rhinob.trn"
+ ],
+ "monsters\\rhino\\rhinos.cl2": [
+  "monsters\\rhino\\orange.trn",
+  "monsters\\rhino\\blue.trn",
+  "monsters\\rhino\\rhinob.trn"
+ ],
+ "monsters\\rhino\\rhinow.cl2": [
+  "monsters\\rhino\\orange.trn",
+  "monsters\\rhino\\blue.trn",
+  "monsters\\rhino\\rhinob.trn"
+ ],
+ "monsters\\scav\\scava.cl2": [
+  "monsters\\scav\\scavbr.trn",
+  "monsters\\scav\\scavbe.trn",
+  "monsters\\scav\\scavw.trn"
+ ],
+ "monsters\\scav\\scavd.cl2": [
+  "monsters\\scav\\scavbr.trn",
+  "monsters\\scav\\scavbe.trn",
+  "monsters\\scav\\scavw.trn"
+ ],
+ "monsters\\scav\\scavh.cl2": [
+  "monsters\\scav\\scavbr.trn",
+  "monsters\\scav\\scavbe.trn",
+  "monsters\\scav\\scavw.trn"
+ ],
+ "monsters\\scav\\scavn.cl2": [
+  "monsters\\scav\\scavbr.trn",
+  "monsters\\scav\\scavbe.trn",
+  "monsters\\scav\\scavw.trn"
+ ],
+ "monsters\\scav\\scavs.cl2": [
+  "monsters\\scav\\scavbr.trn",
+  "monsters\\scav\\scavbe.trn",
+  "monsters\\scav\\scavw.trn"
+ ],
+ "monsters\\scav\\scavw.cl2": [
+  "monsters\\scav\\scavbr.trn",
+  "monsters\\scav\\scavbe.trn",
+  "monsters\\scav\\scavw.trn"
+ ],
+ "monsters\\skelaxe\\sklaxa.cl2": [
+  "monsters\\skelaxe\\white.trn",
+  "monsters\\skelaxe\\skelt.trn",
+  "monsters\\skelaxe\\black.trn"
+ ],
+ "monsters\\skelaxe\\sklaxd.cl2": [
+  "monsters\\skelaxe\\white.trn",
+  "monsters\\skelaxe\\skelt.trn",
+  "monsters\\skelaxe\\black.trn"
+ ],
+ "monsters\\skelaxe\\sklaxh.cl2": [
+  "monsters\\skelaxe\\white.trn",
+  "monsters\\skelaxe\\skelt.trn",
+  "monsters\\skelaxe\\black.trn"
+ ],
+ "monsters\\skelaxe\\sklaxn.cl2": [
+  "monsters\\skelaxe\\white.trn",
+  "monsters\\skelaxe\\skelt.trn",
+  "monsters\\skelaxe\\black.trn"
+ ],
+ "monsters\\skelaxe\\sklaxs.cl2": [
+  "monsters\\skelaxe\\white.trn",
+  "monsters\\skelaxe\\skelt.trn",
+  "monsters\\skelaxe\\black.trn"
+ ],
+ "monsters\\skelaxe\\sklaxw.cl2": [
+  "monsters\\skelaxe\\white.trn",
+  "monsters\\skelaxe\\skelt.trn",
+  "monsters\\skelaxe\\black.trn"
+ ],
+ "monsters\\skelbow\\sklbwa.cl2": [
+  "monsters\\skelbow\\white.trn",
+  "monsters\\skelbow\\skelt.trn",
+  "monsters\\skelbow\\black.trn"
+ ],
+ "monsters\\skelbow\\sklbwd.cl2": [
+  "monsters\\skelbow\\white.trn",
+  "monsters\\skelbow\\skelt.trn",
+  "monsters\\skelbow\\black.trn"
+ ],
+ "monsters\\skelbow\\sklbwh.cl2": [
+  "monsters\\skelbow\\white.trn",
+  "monsters\\skelbow\\skelt.trn",
+  "monsters\\skelbow\\black.trn"
+ ],
+ "monsters\\skelbow\\sklbwn.cl2": [
+  "monsters\\skelbow\\white.trn",
+  "monsters\\skelbow\\skelt.trn",
+  "monsters\\skelbow\\black.trn"
+ ],
+ "monsters\\skelbow\\sklbws.cl2": [
+  "monsters\\skelbow\\white.trn",
+  "monsters\\skelbow\\skelt.trn",
+  "monsters\\skelbow\\black.trn"
+ ],
+ "monsters\\skelbow\\sklbww.cl2": [
+  "monsters\\skelbow\\white.trn",
+  "monsters\\skelbow\\skelt.trn",
+  "monsters\\skelbow\\black.trn"
+ ],
+ "monsters\\skelsd\\sklsra.cl2": [
+  "monsters\\skelsd\\white.trn",
+  "monsters\\skelsd\\skelt.trn",
+  "monsters\\skelsd\\black.trn"
+ ],
+ "monsters\\skelsd\\sklsrd.cl2": [
+  "monsters\\skelsd\\white.trn",
+  "monsters\\skelsd\\skelt.trn",
+  "monsters\\skelsd\\black.trn"
+ ],
+ "monsters\\skelsd\\sklsrh.cl2": [
+  "monsters\\skelsd\\white.trn",
+  "monsters\\skelsd\\skelt.trn",
+  "monsters\\skelsd\\black.trn"
+ ],
+ "monsters\\skelsd\\sklsrn.cl2": [
+  "monsters\\skelsd\\white.trn",
+  "monsters\\skelsd\\skelt.trn",
+  "monsters\\skelsd\\black.trn"
+ ],
+ "monsters\\skelsd\\sklsrs.cl2": [
+  "monsters\\skelsd\\white.trn",
+  "monsters\\skelsd\\skelt.trn",
+  "monsters\\skelsd\\black.trn"
+ ],
+ "monsters\\skelsd\\sklsrw.cl2": [
+  "monsters\\skelsd\\white.trn",
+  "monsters\\skelsd\\skelt.trn",
+  "monsters\\skelsd\\black.trn"
+ ],
+ "monsters\\sking\\skinga.cl2": [
+  "monsters\\skelaxe\\white.trn"
+ ],
+ "monsters\\sking\\skingd.cl2": [
+  "monsters\\skelaxe\\white.trn"
+ ],
+ "monsters\\sking\\skingh.cl2": [
+  "monsters\\skelaxe\\white.trn"
+ ],
+ "monsters\\sking\\skingn.cl2": [
+  "monsters\\skelaxe\\white.trn"
+ ],
+ "monsters\\sking\\skings.cl2": [
+  "monsters\\skelaxe\\white.trn"
+ ],
+ "monsters\\sking\\skingw.cl2": [
+  "monsters\\skelaxe\\white.trn"
+ ],
+ "monsters\\snake\\snakea.cl2": [
+  "monsters\\snake\\snakr.trn",
+  "monsters\\snake\\snakg.trn",
+  "monsters\\snake\\snakb.trn"
+ ],
+ "monsters\\snake\\snaked.cl2": [
+  "monsters\\snake\\snakr.trn",
+  "monsters\\snake\\snakg.trn",
+  "monsters\\snake\\snakb.trn"
+ ],
+ "monsters\\snake\\snakeh.cl2": [
+  "monsters\\snake\\snakr.trn",
+  "monsters\\snake\\snakg.trn",
+  "monsters\\snake\\snakb.trn"
+ ],
+ "monsters\\snake\\snaken.cl2": [
+  "monsters\\snake\\snakr.trn",
+  "monsters\\snake\\snakg.trn",
+  "monsters\\snake\\snakb.trn"
+ ],
+ "monsters\\snake\\snakes.cl2": [
+  "monsters\\snake\\snakr.trn",
+  "monsters\\snake\\snakg.trn",
+  "monsters\\snake\\snakb.trn"
+ ],
+ "monsters\\snake\\snakew.cl2": [
+  "monsters\\snake\\snakr.trn",
+  "monsters\\snake\\snakg.trn",
+  "monsters\\snake\\snakb.trn"
+ ],
+ "monsters\\sneak\\sneaka.cl2": [
+  "monsters\\sneak\\sneakv2.trn",
+  "monsters\\sneak\\sneakv3.trn",
+  "monsters\\sneak\\sneakv1.trn"
+ ],
+ "monsters\\sneak\\sneakd.cl2": [
+  "monsters\\sneak\\sneakv2.trn",
+  "monsters\\sneak\\sneakv3.trn",
+  "monsters\\sneak\\sneakv1.trn"
+ ],
+ "monsters\\sneak\\sneakh.cl2": [
+  "monsters\\sneak\\sneakv2.trn",
+  "monsters\\sneak\\sneakv3.trn",
+  "monsters\\sneak\\sneakv1.trn"
+ ],
+ "monsters\\sneak\\sneakn.cl2": [
+  "monsters\\sneak\\sneakv2.trn",
+  "monsters\\sneak\\sneakv3.trn",
+  "monsters\\sneak\\sneakv1.trn"
+ ],
+ "monsters\\sneak\\sneaks.cl2": [
+  "monsters\\sneak\\sneakv2.trn",
+  "monsters\\sneak\\sneakv3.trn",
+  "monsters\\sneak\\sneakv1.trn"
+ ],
+ "monsters\\sneak\\sneakw.cl2": [
+  "monsters\\sneak\\sneakv2.trn",
+  "monsters\\sneak\\sneakv3.trn",
+  "monsters\\sneak\\sneakv1.trn"
+ ],
+ "monsters\\succ\\scbsa.cl2": [
+  "monsters\\succ\\succb.trn",
+  "monsters\\succ\\succrw.trn",
+  "monsters\\succ\\succbw.trn"
+ ],
+ "monsters\\succ\\scbsd.cl2": [
+  "monsters\\succ\\succb.trn",
+  "monsters\\succ\\succrw.trn",
+  "monsters\\succ\\succbw.trn"
+ ],
+ "monsters\\succ\\scbsh.cl2": [
+  "monsters\\succ\\succb.trn",
+  "monsters\\succ\\succrw.trn",
+  "monsters\\succ\\succbw.trn"
+ ],
+ "monsters\\succ\\scbsn.cl2": [
+  "monsters\\succ\\succb.trn",
+  "monsters\\succ\\succrw.trn",
+  "monsters\\succ\\succbw.trn"
+ ],
+ "monsters\\succ\\scbsw.cl2": [
+  "monsters\\succ\\succb.trn",
+  "monsters\\succ\\succrw.trn",
+  "monsters\\succ\\succbw.trn"
+ ],
+ "monsters\\thin\\thina.cl2": [
+  "monsters\\thin\\thinv3.trn",
+  "monsters\\thin\\thinv2.trn",
+  "monsters\\thin\\thinv1.trn"
+ ],
+ "monsters\\thin\\thind.cl2": [
+  "monsters\\thin\\thinv3.trn",
+  "monsters\\thin\\thinv2.trn",
+  "monsters\\thin\\thinv1.trn"
+ ],
+ "monsters\\thin\\thinh.cl2": [
+  "monsters\\thin\\thinv3.trn",
+  "monsters\\thin\\thinv2.trn",
+  "monsters\\thin\\thinv1.trn"
+ ],
+ "monsters\\thin\\thinn.cl2": [
+  "monsters\\thin\\thinv3.trn",
+  "monsters\\thin\\thinv2.trn",
+  "monsters\\thin\\thinv1.trn"
+ ],
+ "monsters\\thin\\thins.cl2": [
+  "monsters\\thin\\thinv3.trn",
+  "monsters\\thin\\thinv2.trn",
+  "monsters\\thin\\thinv1.trn"
+ ],
+ "monsters\\thin\\thinw.cl2": [
+  "monsters\\thin\\thinv3.trn",
+  "monsters\\thin\\thinv2.trn",
+  "monsters\\thin\\thinv1.trn"
+ ],
+ "monsters\\zombie\\zombiea.cl2": [
+  "monsters\\zombie\\bluered.trn",
+  "monsters\\zombie\\grey.trn",
+  "monsters\\zombie\\yellow.trn"
+ ],
+ "monsters\\zombie\\zombied.cl2": [
+  "monsters\\zombie\\bluered.trn",
+  "monsters\\zombie\\grey.trn",
+  "monsters\\zombie\\yellow.trn"
+ ],
+ "monsters\\zombie\\zombieh.cl2": [
+  "monsters\\zombie\\bluered.trn",
+  "monsters\\zombie\\grey.trn",
+  "monsters\\zombie\\yellow.trn"
+ ],
+ "monsters\\zombie\\zombien.cl2": [
+  "monsters\\zombie\\bluered.trn",
+  "monsters\\zombie\\grey.trn",
+  "monsters\\zombie\\yellow.trn"
+ ],
+ "monsters\\zombie\\zombies.cl2": [
+  "monsters\\zombie\\bluered.trn",
+  "monsters\\zombie\\grey.trn",
+  "monsters\\zombie\\yellow.trn"
+ ],
+ "monsters\\zombie\\zombiew.cl2": [
+  "monsters\\zombie\\bluered.trn",
+  "monsters\\zombie\\grey.trn",
+  "monsters\\zombie\\yellow.trn"
+ ]
+}
