@@ -22,10 +22,19 @@ def test_table_width_accepted():
 
 def test_wrong_table_width_falls_back_to_inference():
     scans = [scan_frame("cl2", cl2_frame(rows(96, 40)))]
-    result = resolve_widths(scans, 128)
+    result = resolve_widths(scans, 100)  # 3840 pixels do not decode at width 100
     assert result.source == "inferred"
     assert result.widths == (96,)
     assert 96 in result.candidates
+
+
+def test_table_width_beats_disagreeing_cl2_skip_table():
+    """DIABDAT.MPQ plrgfx\\warrior\\w?b\\w?bat.cl2 are 96 wide (DevilutionX table, and they only
+    look right at 96) but their skip tables sit at 32-row boundaries of a 128-px width. DevilutionX
+    ignores skip tables when decoding, so a table width that decodes wins over the skip table."""
+    scans = [scan_frame("cl2", cl2_frame(rows(128, 96)))]  # 12288 pixels, skip table for width 128
+    result = resolve_widths(scans, 96)
+    assert result.widths == (96,) and result.source == "table"
 
 
 def test_per_frame_table_widths():

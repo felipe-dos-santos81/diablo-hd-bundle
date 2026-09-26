@@ -40,7 +40,9 @@ def resolve_widths(scans: Sequence[Scan], hint: int | Sequence[int] | None) -> W
     count = len(scans)
     if hint is not None:
         widths = tuple(int(w) for w in hint) if isinstance(hint, (list, tuple)) else (int(hint),) * count
-        if len(widths) == count and all(s.fits(w) for s, w in zip(scans, widths)):
+        # DevilutionX decodes with the table width and ignores CL2 skip tables, some of which
+        # disagree with it (warrior bow attacks), so a table width only has to decode.
+        if len(widths) == count and all(s.fits(w, strict=False) for s, w in zip(scans, widths)):
             return WidthResult(widths, "table")
 
     order = candidate_order()
