@@ -106,3 +106,20 @@ def cl2_frame(rows: list[list[int | None]]) -> bytes:
     skip = [10 + boundary_offsets[b] if b in boundary_offsets else 0 for b in
             (32 * k * width for k in (1, 2, 3, 4))]
     return struct.pack("<5H", 10, *skip) + bytes(body)
+
+
+def min_bytes(columns: list[list[tuple[int, int]]]) -> bytes:
+    """columns: per column, (frame, tile_type) per cell in file order."""
+    values = [(t << 12) | f for col in columns for f, t in col]
+    return struct.pack(f"<{len(values)}H", *values)
+
+
+def til_bytes(tiles: list[tuple[int, int, int, int]]) -> bytes:
+    flat = [v for t in tiles for v in t]
+    return struct.pack(f"<{len(flat)}H", *flat)
+
+
+def dun_bytes(tiles: list[list[int]]) -> bytes:
+    h, w = len(tiles), len(tiles[0])
+    flat = [v for row in tiles for v in row]
+    return struct.pack(f"<2H{len(flat)}H", w, h, *flat)
