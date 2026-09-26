@@ -29,6 +29,7 @@ import re
 import shutil
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, replace
 from pathlib import Path
 
@@ -41,8 +42,9 @@ import geometry_check
 import sheet_layout
 import source_tree
 from characters_file import (CharactersFileError, Review, check_coverage, load_characters,
-                             load_reviews, save_reviews)
-from prompts import GEOMETRY_CORRECTION, PAINTED_NEGATIVE, render_prompt, vlm_is_serving
+                             load_reviews, save_characters, save_reviews, seed_characters)
+from prompts import (GEOMETRY_CORRECTION, PAINTED_NEGATIVE, caption_character, render_prompt,
+                     review_sheet, vlm_is_serving)
 from source_tree import SourceError
 
 REPO = Path(__file__).resolve().parent
@@ -606,6 +608,138 @@ def dry_run(args, items, copies, characters, reviews, uncaptioned):
     return 0
 
 
+# ---- caption ----------------------------------------------------------------
+
+def contact_sheet(frames, columns=CONTACT_COLUMNS, scale=CAPTION_SCALE,
+                  background=PREVIEW_BACKGROUND):
+    """Native RGBA `frames` enlarged `scale` times, nearest-neighbour, on a grid
+    of up to `columns` over `background`, 8 px apart."""
+    cw = max(f.width for f in frames) * scale
+    ch = max(f.height for f in frames) * scale
+    cols = min(columns, len(frames))
+    rows = -(-len(frames) // cols)
+    out = Image.new("RGB", (cols * (cw + 8) + 8, rows * (ch + 8) + 8), background)
+    for k, frame in enumerate(frames):
+        big = frame.convert("RGBA").resize((frame.width * scale, frame.height * scale),
+                                           Image.Resampling.NEAREST)
+        out.paste(big, (8 + (k % cols) * (cw + 8), 8 + (k // cols) * (ch + 8)), big)
+    return out
+
+
+def caption_images(args, character):
+    """What the VLM sees: the anchor animation's first frame in each direction,
+    then the first frame of every other animation with frames."""
+    anchor = args.source.animation(character.anchor)
+    firsts = [f for f in anchor.frames if f.i == 0]
+    images = [contact_sheet([source_tree.frame_rgba(args.src, anchor, f) for f in firsts])]
+    others = [args.source.animation(k) for k in character.animations if k != character.anchor]
+    others = [a for a in others if a.frames]
+    if others:
+        images.append(contact_sheet([source_tree.frame_rgba(args.src, a, a.frames[0])
+                                     for a in others]))
+    return images
+
+
+def cmd_caption(args):
+    if not args.characters_file.exists():
+        seeded = seed_characters([(a.key, a.kind, len(a.frames)) for a in args.source.animations])
+        save_characters(args.characters_file, seeded)
+        print(f"seeded {len(seeded)} character(s) -> {args.characters_file}")
+    characters = load_characters_checked(args)
+    names = args.character or sorted(characters)
+    unknown = sorted(set(names) - set(characters))
+    if unknown:
+        raise UsageError("no character " + ", ".join(unknown) + f" in {args.characters_file}")
+    code = vlm_preflight()
+    if code is not None:
+        return code
+    done = skipped = failed = 0
+    for i, name in enumerate(names, 1):
+        character = characters[name]
+        if (character.caption.strip() and not args.force) or not any(
+                args.source.animation(k).frames for k in character.animations):
+            skipped += 1
+            continue
+        print(f"[{i}/{len(names)}] caption {name}", flush=True)
+        try:
+            caption = caption_character(caption_images(args, character), comfy_client.http_json,
+                                        VLM_BASE_URL, VLM_MODEL, VLM_API_KEY)
+        except Exception as error:
+            failed += 1
+            print(f"  ERROR captioning {name}: {error}", file=sys.stderr, flush=True)
+            continue
+        characters[name] = replace(character, caption=caption)
+        save_characters(args.characters_file, characters)
+        done += 1
+    print(f"done: captioned={done} skipped={skipped} failed={failed} -> {args.characters_file}")
+    return 1 if failed else 0
+
+
+# ---- review -----------------------------------------------------------------
+
+def judge(args, sj, attempt):
+    """The VLM's verdict on one promoted attempt of a sheet."""
+    audit = audit_dir(args.dst, sj.key)
+    tiles = audit / f"attempt-{attempt}.tiles"
+    with Image.open(tiles / "sheet.guide.png") as g, Image.open(audit / f"attempt-{attempt}.png") as r:
+        guide, render = g.convert("RGB"), r.convert("RGB")
+    anchor = None
+    if (tiles / "sheet.anchor.png").is_file():
+        with Image.open(tiles / "sheet.anchor.png") as a:
+            anchor = a.convert("RGB")
+    return review_sheet(guide, render, anchor, len(sj.sheet.cells), comfy_client.http_json,
+                        VLM_BASE_URL, VLM_MODEL, VLM_API_KEY)
+
+
+def cmd_review(args):
+    characters = load_characters_checked(args)
+    items = sheet_jobs(args, select_jobs(args, characters))
+    code = vlm_preflight()
+    if code is not None:
+        return code
+    free_comfy_models()     # give the VLM room; ComfyUI may be down
+    reviews = load_reviews(args.reviews, optional=True)
+    todo, skipped = [], 0
+    for sj in items:
+        status, attempt, _ = status_of(args, sj, reviews, characters)
+        review = current_review(reviews, sj.key, attempt)
+        # Only a done sheet (promoted, not stale) is judged: a gate rejection already has
+        # its verdict, and a failed attempt has nothing to show.
+        if status != "done" or (review is not None and review.attempt >= attempt
+                                and not args.force):
+            skipped += 1
+            continue
+        todo.append((sj, attempt))
+    accepted = rejected = failed = 0
+    with ThreadPoolExecutor(max_workers=args.concurrency) as pool:
+        futures = {pool.submit(judge, args, sj, attempt): (sj, attempt) for sj, attempt in todo}
+        for n, future in enumerate(as_completed(futures), 1):
+            sj, attempt = futures[future]
+            audit = audit_dir(args.dst, sj.key)
+            try:
+                verdict = future.result()
+            except Exception as error:
+                failed += 1
+                write_atomic(audit / f"attempt-{attempt}.review-error.txt", str(error))
+                print(f"[{n}/{len(todo)}] ERROR reviewing {sj.key}: {error}", file=sys.stderr,
+                      flush=True)
+                continue
+            write_atomic(audit / f"attempt-{attempt}.review.json", json.dumps(verdict, indent=2))
+            reviews[sj.key] = Review(attempt, verdict["accepted"], tuple(verdict["issues"]),
+                                     "review")
+            save_reviews(args.reviews, reviews)
+            if verdict["accepted"]:
+                accepted += 1
+                print(f"[{n}/{len(todo)}] {sj.key}: accepted", flush=True)
+            else:
+                rejected += 1
+                print(f"[{n}/{len(todo)}] {sj.key}: rejected: " + "; ".join(verdict["issues"]),
+                      flush=True)
+    print(f"done: accepted={accepted} rejected={rejected} skipped={skipped} failed={failed} "
+          f"-> {args.reviews}")
+    return 1 if failed else 0
+
+
 # ---- command line -----------------------------------------------------------
 
 def default_workflow(environ=os.environ):
@@ -683,6 +817,12 @@ def build_parser():
         p.add_argument("--no-anchor", action="store_true",
                        help="paint every sheet against its guide only (a spike variant)")
 
+    caption = sub.add_parser("caption", help="seed characters.yaml and caption its characters")
+    common(caption)
+    caption.add_argument("--force", action="store_true",
+                         help="re-caption characters that already have a caption")
+    caption.set_defaults(func=cmd_caption)
+
     batch = sub.add_parser("batch", help="render sheets through ComfyUI")
     common(batch)
     batch.add_argument("--dry-run", action="store_true",
@@ -699,6 +839,14 @@ def build_parser():
                        help="render workflow: " + ", ".join(sorted(comfy_client.WORKFLOWS))
                             + " (default: %(default)s, or DIA_WORKFLOW)")
     batch.set_defaults(func=cmd_batch)
+
+    review = sub.add_parser("review", help="judge promoted sheets through the local vLLM")
+    common(review)
+    review.add_argument("--force", action="store_true",
+                        help="review sheets whose latest attempt was already reviewed")
+    review.add_argument("--concurrency", type=positive_int, default=DEFAULT_CONCURRENCY,
+                        metavar="N", help="requests in flight at once (default: %(default)s)")
+    review.set_defaults(func=cmd_review)
 
     return ap
 

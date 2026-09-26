@@ -248,6 +248,36 @@ class SelectionTests(DriverTest):
                 self.assertIn(message, err)
 
 
+class CaptionReviewTests(DriverTest):
+    def test_caption_seeds_the_file_and_fills_blank_captions(self):
+        self.chars.unlink()
+        with testkit.vlm_stub(caption=lambda images, *rest: "SUBJECT: seen") as mocks:
+            code, out, _ = testkit.run_cli(self.argv("caption"))
+        self.assertEqual(code, 0)
+        self.assertIn("seeded 3 character(s)", out)
+        characters = load_characters(self.chars)
+        self.assertEqual({k: c.caption for k, c in characters.items()},
+                         {"missiles/fireba": "SUBJECT: seen", "monsters/darkmage": "",
+                          "monsters/zombie": "SUBJECT: seen"},
+                         msg="a character with no frames is not captioned")
+        images = mocks.caption.call_args_list[-1].args[0]
+        self.assertEqual(len(images), 2, msg="the anchor's directions, then the other animations")
+
+    def test_review_judges_done_sheets_and_a_rejection_comes_back_as_corrections(self):
+        self.batch("--character", "missiles/fireba")
+
+        def review(guide, render, anchor, count, *rest):
+            return ({"accepted": False, "issues": ["cell 2 grew a tail"]} if anchor is not None
+                    else {"accepted": True, "issues": []})
+        with testkit.vlm_stub(review=review, free=None):
+            code, out, _ = testkit.run_cli(self.argv("review", "--concurrency", "2"))
+        self.assertEqual(code, 0)
+        self.assertIn("accepted=1 rejected=1", out)
+        code, out, _, mocks = self.batch("--character", "missiles/fireba")
+        self.assertEqual(mocks.render.call_count, 1)
+        self.assertIn("cell 2 grew a tail", mocks.render.call_args.kwargs["positive"])
+
+
 @testkit.needs_real_corpus
 class RealCorpusTests(unittest.TestCase):
     """A perfect render (the guide canvas itself) of real animations passes every
