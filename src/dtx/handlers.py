@@ -89,6 +89,8 @@ def export_image(ctx: Context, entry: Entry, archive: str, data: bytes, dest: Pa
         "kind": entry.kind,
         "palette": "embedded",
         "embedded_palette": palette.tolist(),
+        "palette_alternatives": [rel_path(p) for p in entry.palette_alternatives],
+        "variants": [{"trn": rel_path(t)} for t in entry.variants],
         "width_source": "header",
         "groups": 1,
         "group_label": None,

@@ -6,7 +6,15 @@ import pytest
 from builders import cel_frame, cl2_frame, grouped, pcx, sheet
 from fakes import FakeArchive
 from dtx.catalog import Entry
-from dtx.handlers import Context, export_image, export_palette, export_sprite, export_trn, sha1
+from dtx.handlers import (
+    Context,
+    VerificationError,
+    export_image,
+    export_palette,
+    export_sprite,
+    export_trn,
+    sha1,
+)
 from dtx.mpq import ArchiveStack
 
 PAL_BYTES = bytes(range(256)) * 3
@@ -42,6 +50,7 @@ def test_image(tmp_path):
     meta = json.loads((tmp_path / "i/meta.json").read_text())
     assert info == {"frames": 1}
     assert meta["palette"] == "embedded" and meta["width_source"] == "header"
+    assert meta["palette_alternatives"] == [] and meta["variants"] == []
     assert meta["frames"] == [{"group": 0, "i": 0, "w": 2, "h": 2, "png": "image.png", "idx": "image.idx.png"}]
 
 
@@ -86,3 +95,13 @@ def test_missing_palette_raises(tmp_path):
     with pytest.raises(ValueError):
         export_sprite(ctx, Entry("data\\x.cel", "ui_sprite", "nope.pal", width_hint=2), "DIABDAT.MPQ",
                       sheet([cel_frame([[1, 2]])]), tmp_path / "s")
+
+
+def test_verification_mismatch_raises(tmp_path, monkeypatch):
+    monkeypatch.setattr("dtx.handlers.verify_written", lambda frame, idx_path: False)
+    ctx = ctx_for(tmp_path, {})
+    dest = tmp_path / "s"
+    with pytest.raises(VerificationError):
+        export_sprite(ctx, Entry("data\\x.cel", "ui_sprite", "levels\\towndata\\town.pal", width_hint=2),
+                      "DIABDAT.MPQ", sheet([cel_frame([[1, 2]])]), dest)
+    assert not (dest / "meta.json").exists()
