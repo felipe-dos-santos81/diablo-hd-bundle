@@ -16,11 +16,17 @@ def split_sheet(data: bytes) -> list[list[bytes]]:
     offsets = [u32(data, 4 * g) for g in range(count)] + [len(data)]
     if any(b < a for a, b in zip(offsets, offsets[1:])):
         raise ValueError("CEL/CL2 group offsets are not increasing")
-    return [_split_frames(data[offsets[g] : offsets[g + 1]]) for g in range(count)]
+    # Frame offsets are relative to each group header. Real CL2 files store every group header
+    # first and all frame data after them, so a group's frames may lie past the next header.
+    return [_split_frames(data[offsets[g] :]) for g in range(count)]
 
 
 def _split_frames(sheet: bytes) -> list[bytes]:
+    if len(sheet) < 8:
+        raise ValueError("CEL/CL2 frame header past the end of the file")
     n = u32(sheet, 0)
+    if 4 * n + 8 > len(sheet):
+        raise ValueError("CEL/CL2 frame count exceeds the file size")
     offsets = [u32(sheet, 4 + 4 * i) for i in range(n + 1)]
     if offsets[-1] > len(sheet) or any(b < a for a, b in zip(offsets, offsets[1:])):
         raise ValueError("CEL/CL2 frame offsets out of range")

@@ -46,6 +46,26 @@ def grouped(sheets: list[bytes]) -> bytes:
     return struct.pack(f"<{len(sheets)}I", *offsets) + b"".join(sheets)
 
 
+def grouped_headers_first(groups: list[list[bytes]]) -> bytes:
+    """Grouped sheet laid out like real CL2 files: all group headers first, then all frame data.
+
+    Frame offsets in each group header are relative to that group header's start."""
+    header_sizes = [4 * (len(frames) + 2) for frames in groups]
+    group_starts = [4 * len(groups)]
+    for size in header_sizes[:-1]:
+        group_starts.append(group_starts[-1] + size)
+    pos = group_starts[-1] + header_sizes[-1]
+    headers = b""
+    for start, frames in zip(group_starts, groups):
+        offsets = [pos - start]
+        for f in frames:
+            offsets.append(offsets[-1] + len(f))
+        pos = start + offsets[-1]
+        headers += struct.pack(f"<{len(frames) + 2}I", len(frames), *offsets)
+    data = b"".join(f for frames in groups for f in frames)
+    return struct.pack(f"<{len(groups)}I", *group_starts) + headers + data
+
+
 def cel_frame(rows: list[list[int | None]], header: bool = False) -> bytes:
     """Encode rows (top row first; None = transparent) as a CEL frame."""
     out = bytearray()
