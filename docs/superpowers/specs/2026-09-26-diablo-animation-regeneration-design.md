@@ -170,10 +170,13 @@ monsters/zombie:
 ```
 
 Seeding groups animations by their directory for monsters, players and
-towners (about 56 + 108 + 13 characters), and missiles by file stem without
-its trailing digits (`acidbf1`..`acidbf16` form `missiles/acidbf`). The
-seeded anchor is the players' standing animation (stem ending `st`), the
-monsters' neutral one (ending `n`), and otherwise the first animation. The
+towners, and missiles by file stem without its trailing digits
+(`acidbf1`..`acidbf16` form `missiles/acidbf`): 251 characters on the current
+export (108 player, 56 monster, 13 towner, 72 missile, and the 2 overridden
+`@DIABDAT.MPQ` versions). The seeded anchor is the players' standing
+animation (stem ending `st`), the monsters' neutral one (ending `n`), and
+otherwise the first animation, never one without frames while another has
+some. The
 seed is only a proposal: the user may regroup, re-anchor or skip by hand,
 and `characters_file.seed` is the one place that reads names for meaning.
 Caption fills blank captions only; `force=1` redoes all.
@@ -194,8 +197,9 @@ base or one variant) is done when all its sheets are done.
    direction is never split across canvases. `SHEET_PACKING` chooses one
    direction per canvas (`direction`) or consecutive directions of one
    animation up to `MAX_CANVAS_PX` (1,048,576) (`packed`). A direction that
-   alone exceeds `MAX_CANVAS_PX` gets a canvas that fits it (the largest
-   measured, a 200x156 monster with 16 frames, needs about 2.2 MP). A
+   alone exceeds `MAX_CANVAS_PX` gets a canvas that fits it (1,866 sheets
+   with variants; the largest, `monsters/nkr/nkrd.cl2`, is 1952x1440, about
+   2.8 MP). A
    variant's layout equals its base's: a TRN changes colours, not masks, so
    variant sheet `sNN` pairs with base sheet `sNN`.
 3. **Anchor.** A character's anchor animation renders first, with the guide
@@ -293,7 +297,8 @@ and `GET /queue`; its only state-changing ComfyUI calls are `POST /free` and
 `POST /interrupt`); a render that raises writes `attempt-N.error.txt` and no
 record, never counts toward STUCK, and exits 1 at the end of the run; stray
 outputs are swept, anchored to SaveImage's
-`<sheet key>_a<attempt>_NNNNN_.png` naming (slashes flattened); `batch`
+`<sheet key>_a<attempt>-sheet_NNNNN_.png` naming (the key's slashes become
+`+`); `batch`
 refuses below `MEMORY_FLOOR_GB` (45) unless `--no-memory-check`; YAML and
 JSON are written through `.tmp`, images through `.pending`.
 
@@ -301,14 +306,16 @@ JSON are written through `.tmp`, images through `.pending`.
 |---|---|
 | `make caption [character=] [force=1]` | Seed and caption `characters.yaml` |
 | `make dry-run [character=] [anim=]` | Sheets, cells, canvas sizes, dependency order, stale and blocked sheets |
-| `make batch [character=] [anim=] [variants=0] [workflow=] [strength=] [memcheck=0] [force=1]` | Render and promote into `data/anims-ai/` |
+| `make batch [character=] [anim=] [variant=] [variants=0] [workflow=] [strength=] [memcheck=0] [force=1]` | Render and promote into `data/anims-ai/` |
 | `make review [character=] [concurrency=8] [force=1]` | Write `reviews.yaml` |
 | `make preview [character=] [anim=]` | An animated GIF per direction: source (nearest-neighbour 2x) and render side by side |
 | `make verify [character=]` | Audit `data/anims-ai/` against the manifest, the 2x contract, the outline and the attempts |
 | `make server` / `install` / `check` / `test` / `clean` | As in Atlantis |
 
-`character=` selects by character key, `anim=` by record directory; both
-accept several space-separated values. Environment overrides: `DIA_SRC`,
+`character=` selects by character key, `anim=` by record directory and
+`variant=` by TRN path (of the variants, only those); all accept several
+space-separated values. The spike's layout switches are `packing=`,
+`gutter=`, `background=` and `anchor=0`. Environment overrides: `DIA_SRC`,
 `DIA_DST`, `DIA_CHARACTERS`, `DIA_REVIEWS`, `DIA_WORKFLOW`,
 `DIA_MATCH_STRENGTH`, `COMFY_URL`, `COMFY_DIR`, `VLM_BASE_URL`, `VLM_MODEL`,
 `VLM_API_KEY`.
@@ -317,11 +324,11 @@ accept several space-separated values. Environment overrides: `DIA_SRC`,
 
 **Unit tests** (no GPU, no network), one module per production module, the
 Atlantis rules (`subTest` tables, a rule tested once at the layer that owns
-it). `testkit.py` builds a miniature `dtx` output: `manifest.json`, two
-`meta.json` animations (two directions and one direction), index images, a
-palette JSON, a TRN and its variant, and a two-file missile group; plus
-`fake_render` (the guide canvas, optionally shifted or with one cell
-flickered), `comfy_stub` and `vlm_stub`.
+it). `testkit.py` builds a miniature `dtx` output: `manifest.json`, a
+two-direction monster anchor and walk that both carry a grey TRN variant, a
+two-file missile group, an animation with no frames, index images, a palette
+JSON and the TRN; plus `fake_render` (the guide canvas, optionally through a
+transform such as a shift), `comfy_stub` and `vlm_stub`.
 
 **Real-corpus tests**, whenever `DIA_SRC` exists: every animation in the
 manifest lays out (and the largest canvas is reported); a perfect render (the
@@ -348,8 +355,10 @@ the settings from the `make preview` GIFs.
 
 **Full run** (the last plan task): caption all → hand-fix → `batch
 variants=0` and `review` until the bases settle → `batch` and `review` until
-the variants settle → `verify`. At an estimated 6,300 canvases and 70–80 h
-a pass, the run spans several days.
+the variants settle → `verify`. Measured on the export: 11,394 base sheets,
+17,410 with the variants (11,386 packed), about 9.8 gigapixels of canvas a
+pass; at the Atlantis rate (about 50 s per 1.2 MP) that is roughly 110–120 h
+a pass before retries, so the run spans a week or more.
 
 ## 11. Definition of done
 
