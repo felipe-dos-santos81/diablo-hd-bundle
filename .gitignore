@@ -1,0 +1,19 @@
+# Game data and generated art: never commit
+out/
+data/
+reviews.yaml
+*.pending
+*.tmp
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Agent scratch space
+.superpowers/
+
+# macOS
+.DS_Store
