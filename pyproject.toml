@@ -1,0 +1,23 @@
+[project]
+name = "dtx"
+version = "0.1.0"
+description = "Export Diablo and Hellfire graphics for HD regeneration"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2.0", "pillow>=10.0"]
+
+[project.scripts]
+dtx = "dtx.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dtx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["game: needs DTX_GAME_DIR pointing at the GOG Diablo + Hellfire install"]
