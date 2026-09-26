@@ -114,3 +114,15 @@ def test_reads_hellfire_mod_tables(tmp_path):
     assert widths["missiles\\ms_ora1.cl2"] == 96
     assert widths["data\\inv\\objcurs2.cel"] == [28, 56]
     assert widths["data\\inv\\objcurs.cel"] == [33, 32]
+
+
+def test_side_panels_are_320_wide(tmp_path):
+    # A 320x352 panel also decodes at 640 (two rows packed into one), which inference prefers.
+    dvx = tmp_path / "dvx"
+    fake_devilutionx(dvx)
+
+    widths, _variants, _names = table_widths(dvx)
+
+    for panel in ("data\\spellbk.cel", "data\\quest.cel", "data\\char.cel", "data\\inv\\inv.cel",
+                  "data\\inv\\inv_rog.cel", "data\\inv\\inv_sor.cel"):
+        assert widths[panel] == 320

@@ -20,6 +20,11 @@ MANUAL_WIDTHS: dict[str, int] = {
     "items\\duricons.cel": 32, "items\\map\\mapztown.cel": 640, "towners\\animals\\cow.cel": 128,
     "levels\\towndata\\towns.cel": 64, "levels\\l1data\\l1s.cel": 64,
     "levels\\l2data\\l2s.cel": 64, "nlevels\\l5data\\l5s.cel": 64,
+    # Side panels are SidePanelSize.width = 320 (Source/control/control.hpp:38; loaded in
+    # Source/panels/spell_book.cpp:123, Source/control/control_panel.cpp:421, Source/inv.cpp:1181).
+    # Inference would pick 640, which also fits by packing two 320-px rows into one.
+    "data\\spellbk.cel": 320, "data\\quest.cel": 320, "data\\char.cel": 320,
+    "data\\inv\\inv.cel": 320, "data\\inv\\inv_rog.cel": 320, "data\\inv\\inv_sor.cel": 320,
 }
 MONSTER_ANIMS = "nwahds"
 ARMOUR = "lmh"
