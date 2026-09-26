@@ -45,10 +45,11 @@ def source(archive: str, name: str, data: bytes) -> dict:
 
 
 class Context:
-    def __init__(self, stack, out: Path, verify: bool):
+    def __init__(self, stack, out: Path, verify: bool, exporter: str | None = None):
         self.stack = stack
         self.out = Path(out)
         self.verify = verify
+        self.exporter = exporter
         self._palettes: dict[str, np.ndarray] = {}
         self._tilesets: dict = {}
 
@@ -61,6 +62,10 @@ class Context:
                 raise ValueError(f"palette {name} not found in any archive")
             self._palettes[name] = decode_pal(found[1])
         return self._palettes[name]
+
+    def stamp(self) -> dict:
+        """Provenance stored in every record: the exporter fingerprint and whether --verify ran."""
+        return {"exporter": self.exporter, "verified": self.verify}
 
     def tileset(self, key: str) -> "TilesetData":
         if key not in self._tilesets:
@@ -83,12 +88,14 @@ def export_palette(ctx: Context, entry: Entry, archive: str, data: bytes, dest: 
         "source": source(archive, entry.path, data),
         "colors": palette.tolist(),
         "cycling": cycling_for(entry.path),
+        **ctx.stamp(),
     })
     return {}
 
 
 def export_trn(ctx: Context, entry: Entry, archive: str, data: bytes, dest: Path) -> dict:
-    write_json(dest / "trn.json", {"source": source(archive, entry.path, data), "map": decode_trn(data).tolist()})
+    write_json(dest / "trn.json", {"source": source(archive, entry.path, data), "map": decode_trn(data).tolist(),
+                                   **ctx.stamp()})
     return {}
 
 
@@ -107,6 +114,7 @@ def export_image(ctx: Context, entry: Entry, archive: str, data: bytes, dest: Pa
         "groups": 1,
         "group_label": None,
         "frames": [{"group": 0, "i": 0, **record}],
+        **ctx.stamp(),
     })
     return {"frames": 1}
 
@@ -153,6 +161,7 @@ def export_sprite(ctx: Context, entry: Entry, archive: str, data: bytes, dest: P
         "group_label": "direction" if len(groups) == 8 else ("group" if len(groups) > 1 else None),
         "sheet": "sheet.png" if has_sheet else None,
         "frames": records,
+        **ctx.stamp(),
     }
     if widths.candidates:
         meta["width_candidates"] = list(widths.candidates)
@@ -245,6 +254,7 @@ def export_tileset(ctx: Context, entry: Entry, archive: str, data: bytes, dest: 
         "tiles": tile_records,
         "cell_users": {str(k): v for k, v in sorted(cell_users(ts.columns).items())},
         "unreferenced_cells": ts.unreferenced,
+        **ctx.stamp(),
     })
     return {"columns": len(column_records), "tiles": len(tile_records)}
 
@@ -266,5 +276,6 @@ def export_layout(ctx: Context, entry: Entry, archive: str, data: bytes, dest: P
         "column_height_px": ts.column_height,
         "image": record,
         "placements": [{"column": p.column, "x": p.x, "y": p.y} for p in placements],
+        **ctx.stamp(),
     })
     return {"placements": len(placements)}

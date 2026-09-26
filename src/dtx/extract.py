@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from collections import Counter
@@ -30,6 +31,19 @@ HANDLERS = {
     **{kind: export_sprite for kind in SPRITE_KINDS},
 }
 SINGLE_VERSION_KINDS = {"tileset", "layout"}
+PACKAGE_DIR = Path(__file__).parent
+
+
+def exporter_fingerprint(package: Path = PACKAGE_DIR) -> str:
+    """SHA-1 over every .py file of the package plus every file in its data/ directory, in sorted
+    path order. Records written by a different exporter version are re-exported."""
+    package = Path(package)
+    files = {p for p in package.rglob("*.py") if p.is_file()}
+    files |= {p for p in (package / "data").rglob("*") if p.is_file()}
+    digest = hashlib.sha1()
+    for path in sorted(files, key=lambda p: p.relative_to(package).as_posix()):
+        digest.update(path.read_bytes())
+    return digest.hexdigest()
 
 
 def destination(out: Path, entry: Entry, archive_prefix: str | None = None) -> Path:
@@ -45,11 +59,15 @@ def record_path(entry: Entry, dest: Path) -> Path:
     return dest.parent / (dest.name + ".json") if name is None else dest / name
 
 
-def _recorded_sha1(path: Path) -> str | None:
+def _is_current(ctx: Context, path: Path, digest: str) -> bool:
+    """A record is current when it was written from the same source bytes by the same exporter,
+    and, for a --verify run, was itself verified."""
     try:
-        return json.loads(path.read_text())["source"]["sha1"]
+        record = json.loads(path.read_text())
+        return (record["source"]["sha1"] == digest and record.get("exporter") == ctx.exporter
+                and (record.get("verified") is True or not ctx.verify))
     except (OSError, ValueError, KeyError, TypeError):
-        return None
+        return False
 
 
 def process_entry(ctx: Context, entry: Entry, force: bool) -> list[dict]:
@@ -71,7 +89,7 @@ def process_entry(ctx: Context, entry: Entry, force: bool) -> list[dict]:
         dest = destination(ctx.out, entry, archive if n > 0 else None)
         record = record_path(entry, dest)
         rel_record = record.relative_to(ctx.out).as_posix()
-        if not force and _recorded_sha1(record) == digest:
+        if not force and _is_current(ctx, record, digest):
             results.append({**base, "status": "unchanged", "sha1": digest, "record": rel_record})
             continue
         try:
@@ -95,7 +113,7 @@ def report_name(only) -> str:
     return "report-only.json" if only else "report.json"
 
 
-def _finish(out: Path, results: list[dict], skips: list, unnamed: dict, only=None) -> dict:
+def _finish(out: Path, results: list[dict], skips: list, unnamed: dict, only=None, exporter=None) -> dict:
     """Write the run report and the manifest. An --only run writes report-only.json (keeping the
     full run's report.json) and replaces only its own kinds in the existing manifest."""
     by_status: dict[str, list[dict]] = {"exported": [], "unchanged": [], "skipped": [], "failed": []}
@@ -127,6 +145,7 @@ def _finish(out: Path, results: list[dict], skips: list, unnamed: dict, only=Non
         "version": 1,
         "hd_contract": HD_CONTRACT,
         "devilutionx_reference": refdata.PINNED_DEVILUTIONX,
+        "exporter": exporter,
         "assets": sorted(assets, key=lambda a: (a["path"], a["archive"])),
     }
     write_json(out / report_name(only), report)
@@ -149,17 +168,17 @@ def extract_with(stack, out: Path, *, only=None, verify=False, force=False, widt
     variants = refdata.load_variants() if variants is None else variants
     palettes = refdata.load_palettes() if palettes is None else palettes
     entries, skips, unnamed = _catalog(stack, only, widths, variants, palettes)
-    ctx = Context(stack, out, verify)
+    ctx = Context(stack, out, verify, exporter_fingerprint())
     results = [r for e in entries for r in process_entry(ctx, e, force)]
-    return _finish(out, results, skips, unnamed, only)
+    return _finish(out, results, skips, unnamed, only, ctx.exporter)
 
 
 _WORKER: Context | None = None
 
 
-def _init_worker(game_dir: str, out: str, verify: bool) -> None:
+def _init_worker(game_dir: str, out: str, verify: bool, exporter: str) -> None:
     global _WORKER
-    _WORKER = Context(ArchiveStack.open_game(Path(game_dir), refdata.listfile_path()), Path(out), verify)
+    _WORKER = Context(ArchiveStack.open_game(Path(game_dir), refdata.listfile_path()), Path(out), verify, exporter)
 
 
 def _work(entry: Entry, force: bool) -> list[dict]:
@@ -175,14 +194,15 @@ def run_extract(game_dir: Path, out: Path, *, only=None, verify=False, force=Fal
         entries, skips, unnamed = _catalog(stack, only, refdata.load_widths(), refdata.load_variants(),
                                            refdata.load_palettes())
     results: list[dict] = []
+    exporter = exporter_fingerprint()
     with ProcessPoolExecutor(max_workers=jobs, initializer=_init_worker,
-                             initargs=(str(game_dir), str(out), verify)) as pool:
+                             initargs=(str(game_dir), str(out), verify, exporter)) as pool:
         futures = [pool.submit(_work, e, force) for e in entries]
         for done, future in enumerate(as_completed(futures), 1):
             results.extend(future.result())
             if done % 250 == 0 or done == len(futures):
                 print(f"{done}/{len(futures)} files processed", flush=True)
-    return _finish(out, results, skips, unnamed, only)
+    return _finish(out, results, skips, unnamed, only, exporter)
 
 
 def default_jobs() -> int:

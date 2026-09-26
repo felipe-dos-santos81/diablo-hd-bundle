@@ -112,3 +112,59 @@ def test_full_run_writes_report_json_not_report_only(tmp_path):
     run(tmp_path, BASE)
     assert (tmp_path / "out/report.json").exists()
     assert not (tmp_path / "out/report-only.json").exists()
+
+
+def _records(out):
+    return [p for p in out.rglob("*.json") if p.name not in ("manifest.json", "report.json", "report-only.json")]
+
+
+def test_records_carry_exporter_fingerprint_and_verified(tmp_path):
+    from dtx.extract import exporter_fingerprint
+
+    run(tmp_path, BASE)
+    out = tmp_path / "out"
+    fingerprint = exporter_fingerprint()
+    assert json.loads((out / "manifest.json").read_text())["exporter"] == fingerprint
+    records = _records(out)
+    assert records
+    for path in records:
+        record = json.loads(path.read_text())
+        assert record["exporter"] == fingerprint and record["verified"] is True, path
+
+
+def test_changed_exporter_fingerprint_re_exports(tmp_path, monkeypatch):
+    run(tmp_path, BASE)
+    monkeypatch.setattr("dtx.extract.exporter_fingerprint", lambda: "0" * 40)
+    again = run(tmp_path, BASE)
+    assert again["summary"]["unchanged"] == 0 and again["summary"]["exported"] > 0
+    assert run(tmp_path, BASE)["summary"]["exported"] == 0
+
+
+def test_unverified_records_are_re_exported_by_a_verify_run(tmp_path):
+    run(tmp_path, BASE, verify=False)
+    assert run(tmp_path, BASE, verify=False)["summary"]["exported"] == 0
+    verified = run(tmp_path, BASE, verify=True)
+    assert verified["summary"]["unchanged"] == 0 and verified["summary"]["exported"] > 0
+    # verified records also count as unchanged for a later run without --verify
+    assert run(tmp_path, BASE, verify=False)["summary"]["exported"] == 0
+
+
+def test_exporter_fingerprint_covers_python_sources_and_data(tmp_path):
+    from dtx.extract import exporter_fingerprint
+
+    pkg = tmp_path / "dtx"
+    (pkg / "formats").mkdir(parents=True)
+    (pkg / "data").mkdir()
+    (pkg / "a.py").write_text("a")
+    (pkg / "formats" / "b.py").write_text("b")
+    (pkg / "data" / "widths.json").write_text("{}")
+    (pkg / "a.pyc").write_bytes(b"x")
+    first = exporter_fingerprint(pkg)
+    assert len(first) == 40 and first == exporter_fingerprint(pkg)
+    (pkg / "a.pyc").write_bytes(b"y")
+    assert exporter_fingerprint(pkg) == first
+    (pkg / "formats" / "b.py").write_text("b2")
+    second = exporter_fingerprint(pkg)
+    assert second != first
+    (pkg / "data" / "widths.json").write_text("{\"x\": 1}")
+    assert exporter_fingerprint(pkg) != second
