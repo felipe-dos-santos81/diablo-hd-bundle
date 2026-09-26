@@ -717,6 +717,7 @@ monsters\black\blkkntbe.trn
 monsters\black\blkkntbt.trn
 monsters\black\blkkntrk.trn
 monsters\black\blkkntrt.trn
+monsters\bspidr\bspidra.cl2
 monsters\bspidr\bspidrd.cl2
 monsters\bspidr\bspidrh.cl2
 monsters\bspidr\bspidrn.cl2

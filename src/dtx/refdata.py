@@ -88,11 +88,15 @@ def level_names() -> set[str]:
 
 def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[str]], set[str]]:
     txt = dvx / "assets" / "txtdata"
+    # Hellfire-only monsters and missiles are defined in the Hellfire mod's tables.
+    table_dirs = [txt, dvx / "mods" / "hf" / "txtdata"]
     widths: dict[str, int | list[int]] = dict(MANUAL_WIDTHS)
     variants: dict[str, list[str]] = {}
     names: set[str] = set()
 
-    for row in read_tsv(txt / "monsters" / "monstdat.tsv"):
+    monster_rows = [row for t in table_dirs if (t / "monsters" / "monstdat.tsv").exists()
+                    for row in read_tsv(t / "monsters" / "monstdat.tsv")]
+    for row in monster_rows:
         base = "monsters\\" + canonical(row["assetsSuffix"])
         trn = canonical(row["trnFile"].strip())
         for anim in MONSTER_ANIMS:
@@ -109,7 +113,9 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
             if key and "trn" in key.lower() and value.strip():
                 names.add(f"monsters\\monsters\\{canonical(value.strip())}.trn")
 
-    for row in read_tsv(txt / "missiles" / "missile_sprites.tsv"):
+    missile_rows = [row for t in table_dirs if (t / "missiles" / "missile_sprites.tsv").exists()
+                    for row in read_tsv(t / "missiles" / "missile_sprites.tsv")]
+    for row in missile_rows:
         name = canonical(row["name"].strip())
         if not name:
             continue
@@ -133,9 +139,11 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
                     width_key = "bow" if (anim == "at" and weapon == "b") else key
                     _set_width(widths, f"plrgfx\\{folder}\\{prefix}\\{prefix}{anim}.cl2", int(kv[width_key]))
 
-    objcurs = dvx / "assets" / "data" / "inv" / "objcurs-widths.txt"
-    if objcurs.exists():
-        widths["data\\inv\\objcurs.cel"] = [int(v) for v in objcurs.read_text().split()]
+    for cursor_widths, cel in ((dvx / "assets" / "data" / "inv" / "objcurs-widths.txt", "data\\inv\\objcurs.cel"),
+                               (dvx / "mods" / "hf" / "data" / "inv" / "objcurs2-widths.txt",
+                                "data\\inv\\objcurs2.cel")):
+        if cursor_widths.exists():
+            widths[cel] = [int(v) for v in cursor_widths.read_text().split()]
     return widths, variants, names
 
 

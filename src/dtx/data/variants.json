@@ -79,6 +79,24 @@
   "monsters\\black\\blkkntbt.trn",
   "monsters\\black\\blkkntbe.trn"
  ],
+ "monsters\\demskel\\demskla.cl2": [
+  "monsters\\skelaxe\\skelt.trn"
+ ],
+ "monsters\\demskel\\demskld.cl2": [
+  "monsters\\skelaxe\\skelt.trn"
+ ],
+ "monsters\\demskel\\demsklh.cl2": [
+  "monsters\\skelaxe\\skelt.trn"
+ ],
+ "monsters\\demskel\\demskln.cl2": [
+  "monsters\\skelaxe\\skelt.trn"
+ ],
+ "monsters\\demskel\\demskls.cl2": [
+  "monsters\\skelaxe\\skelt.trn"
+ ],
+ "monsters\\demskel\\demsklw.cl2": [
+  "monsters\\skelaxe\\skelt.trn"
+ ],
  "monsters\\falspear\\phalla.cl2": [
   "monsters\\falspear\\fallent.trn",
   "monsters\\falspear\\dark.trn",

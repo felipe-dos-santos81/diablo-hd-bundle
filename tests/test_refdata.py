@@ -88,3 +88,29 @@ def test_object_width_ignores_non_positive_duplicate(tmp_path):
 
     assert widths["objects\\l1braz.cel"] == 64
     assert all(isinstance(v, list) or v > 0 for v in widths.values())
+
+
+def test_reads_hellfire_mod_tables(tmp_path):
+    # At the pinned commit Hellfire-only monsters, missiles and the objcurs2 cursor widths live
+    # under mods/hf/ rather than assets/; without them hellfire.mpq sprites fall back to inference.
+    dvx = tmp_path / "dvx"
+    fake_devilutionx(dvx)
+    hf = dvx / "mods" / "hf"
+    tsv(hf / "txtdata" / "monsters" / "monstdat.tsv",
+        ["_monster_id", "name", "assetsSuffix", "soundSuffix", "trnFile", "availability", "width"],
+        [["MT_BZOMBIE", "Ghoul", "zombie\\zombie", "", "zombie\\bluered", "Always", "128"],
+         ["MT_HELLBAT", "Hell Bat", "hellbat\\helbat", "", "", "Always", "96"]])
+    tsv(hf / "txtdata" / "missiles" / "missile_sprites.tsv", ["id", "width", "width2", "name", "numFrames"],
+        [["OrangeFlare", "96", "8", "ms_ora", "2"]])
+    inv = hf / "data" / "inv"
+    inv.mkdir(parents=True)
+    (inv / "objcurs2-widths.txt").write_text("28\n56\n")
+
+    widths, variants, _names = table_widths(dvx)
+
+    assert widths["monsters\\hellbat\\helbata.cl2"] == 96
+    assert widths["monsters\\zombie\\zombiea.cl2"] == 128
+    assert variants["monsters\\zombie\\zombiea.cl2"] == ["monsters\\zombie\\bluered.trn"]  # not duplicated
+    assert widths["missiles\\ms_ora1.cl2"] == 96
+    assert widths["data\\inv\\objcurs2.cel"] == [28, 56]
+    assert widths["data\\inv\\objcurs.cel"] == [33, 32]
