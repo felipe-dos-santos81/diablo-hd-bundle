@@ -6,13 +6,22 @@ The real source tree is diablo-textures-exporter's `out/`: manifest.json with
 an hd_contract, assets/<record dir>/meta.json with frames (png RGBA, idx LA),
 palettes/<name>.json and assets/<trn>/trn.json.
 """
+import contextlib
+import io
 import json
 import os
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
 import numpy as np
 from PIL import Image
+
+import anim_recreate as a
+import comfy_client
+import source_tree
+from characters_file import Character, save_characters, seed_characters
 
 # The real corpus: diablo-textures-exporter's output.
 REAL_SRC = Path(os.environ.get("DIA_SRC")
@@ -123,3 +132,109 @@ def rewrite_meta(src, key, change):
     meta = json.loads(path.read_text())
     change(meta)
     path.write_text(json.dumps(meta, indent=1))
+
+
+# ---- the driver's side ------------------------------------------------------
+
+CAPTION = "SUBJECT: a test figure\nCOLOURS: red and blue\nSHADOW: none"
+
+
+def write_characters(path, src, caption=CAPTION, skip=None):
+    """Write the seeded characters.yaml of the miniature source at `src`, every
+    character captioned with `caption`; `skip` maps a character key to the
+    animations it writes as a nearest 2x."""
+    source = source_tree.load(src)
+    seeded = seed_characters([(an.key, an.kind, len(an.frames)) for an in source.animations])
+    skip = skip or {}
+    save_characters(path, {key: Character(c.animations, c.anchor, caption,
+                                          tuple(skip.get(key, ())))
+                           for key, c in seeded.items()})
+
+
+def run_cli(argv):
+    """Run anim_recreate.main(argv), capturing stdout and stderr: (code, out, err)."""
+    out, err = io.StringIO(), io.StringIO()
+    with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+        code = a.main(list(argv))
+    return code, out.getvalue(), err.getvalue()
+
+
+_UNSET = object()
+
+
+@contextlib.contextmanager
+def vlm_stub(*, serving=True, caption=None, review=None, free=_UNSET):
+    """Patch the vLLM side of `caption` and `review`: anim_recreate.vlm_is_serving
+    and, when given, a side_effect callable for anim_recreate.caption_character
+    or review_sheet. Pass `free` (a side_effect, or None for a plain stub) to
+    also patch comfy_client.free_models, which `review` calls.
+
+    Yields the mocks: serving, and caption, review and freed when requested.
+    """
+    with contextlib.ExitStack() as stack:
+        mocks = SimpleNamespace(
+            serving=stack.enter_context(patch.object(a, "vlm_is_serving", return_value=serving)))
+        if caption is not None:
+            mocks.caption = stack.enter_context(
+                patch.object(a, "caption_character", side_effect=caption))
+        if review is not None:
+            mocks.review = stack.enter_context(patch.object(a, "review_sheet", side_effect=review))
+        if free is not _UNSET:
+            mocks.freed = stack.enter_context(
+                patch.object(comfy_client, "free_models", side_effect=free))
+        yield mocks
+
+
+def shift_right(image, pixels=4):
+    """`image` moved `pixels` HD px to the right over grey: a render that slid
+    2 native px."""
+    out = Image.new("RGB", image.size, (128, 128, 128))
+    out.paste(image, (pixels, 0))
+    return out
+
+
+def fake_render(transform=None):
+    """A comfy_client.render_sheet stand-in that 'renders' a sheet by saving its
+    guide canvas (through `transform`, when given) where ComfyUI would."""
+    def render(workflow, **kw):
+        with Image.open(kw["guide"]) as im:
+            image = im.convert("RGB")
+        if transform is not None:
+            image = transform(image)
+        folder = Path(kw["comfy_dir"]) / "output" / comfy_client.OUTPUT_PREFIX
+        folder.mkdir(parents=True, exist_ok=True)
+        path = folder / f"{kw['name']}_00001_.png"
+        image.save(path)
+        return path
+    return render
+
+
+@contextlib.contextmanager
+def comfy_stub(*, up=True, mem=100.0, missing=(), nodes=(), comfy_dir=None, render=None,
+               free=None, swept=0):
+    """Patch the ComfyUI side of `batch`: comfy_client.is_up, free_models,
+    missing_model_files, missing_nodes, sweep_outputs, anim_recreate's
+    memory_available_gb and (when given) COMFY_DIR and comfy_client.render_sheet
+    (`render`, a side_effect callable such as fake_render()).
+
+    Yields the mocks: is_up, freed, missing_model_files, missing_nodes, sweep,
+    memory_available_gb, and render when requested.
+    """
+    with contextlib.ExitStack() as stack:
+        mocks = SimpleNamespace(
+            is_up=stack.enter_context(patch.object(comfy_client, "is_up", return_value=up)),
+            freed=stack.enter_context(patch.object(comfy_client, "free_models", side_effect=free)),
+            missing_model_files=stack.enter_context(
+                patch.object(comfy_client, "missing_model_files", return_value=list(missing))),
+            missing_nodes=stack.enter_context(
+                patch.object(comfy_client, "missing_nodes", return_value=list(nodes))),
+            sweep=stack.enter_context(
+                patch.object(comfy_client, "sweep_outputs", return_value=swept)),
+            memory_available_gb=stack.enter_context(
+                patch.object(a, "memory_available_gb", return_value=mem)))
+        if comfy_dir is not None:
+            stack.enter_context(patch.object(a, "COMFY_DIR", comfy_dir))
+        if render is not None:
+            mocks.render = stack.enter_context(
+                patch.object(comfy_client, "render_sheet", side_effect=render))
+        yield mocks
