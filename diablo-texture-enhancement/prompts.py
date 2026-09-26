@@ -57,15 +57,20 @@ Reject when:
 Return ONLY JSON: {"accepted": true or false, "issues": ["one specific problem: its cell number (1 is the top left), what is wrong and a concrete correction"]}. Accept only if there are no significant problems; use an empty issues list when accepted. At most six issues.'''
 
 
+def _label_matches(caption):
+    """The caption's section labels as regex matches, in order. Labels may be
+    bold or italic (the VLM sometimes writes **COLOURS:**)."""
+    labels = "|".join(re.escape(name) for name in SECTION_LABELS)
+    pattern = re.compile(rf"^[ \t]*[*_#]*[ \t]*({labels})[ \t]*[*_]*[ \t]*:[*_]*", re.M)
+    return list(pattern.finditer(caption))
+
+
 def section(caption, label):
     """The caption's `label` section, stripped, or None when it is absent or empty.
 
-    Labels may be bold or italic (the VLM sometimes writes **COLOURS:**); a
-    section runs to the next label or the end.
+    A section runs to the next label or the end.
     """
-    labels = "|".join(re.escape(label) for label in SECTION_LABELS)
-    pattern = re.compile(rf"^[ \t]*[*_#]*[ \t]*({labels})[ \t]*[*_]*[ \t]*:[*_]*", re.M)
-    matches = list(pattern.finditer(caption))
+    matches = _label_matches(caption)
     for i, match in enumerate(matches):
         if match.group(1) != label:
             continue
@@ -76,9 +81,7 @@ def section(caption, label):
 
 def without_colours(caption):
     """The caption with its COLOURS section left out; unchanged when it has none."""
-    labels = "|".join(re.escape(label) for label in SECTION_LABELS)
-    pattern = re.compile(rf"^[ \t]*[*_#]*[ \t]*({labels})[ \t]*[*_]*[ \t]*:[*_]*", re.M)
-    matches = list(pattern.finditer(caption))
+    matches = _label_matches(caption)
     for i, match in enumerate(matches):
         if match.group(1) == "COLOURS":
             end = matches[i + 1].start() if i + 1 < len(matches) else len(caption)
