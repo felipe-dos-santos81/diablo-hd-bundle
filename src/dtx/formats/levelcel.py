@@ -40,6 +40,7 @@ def _triangle_rows(raw: bytes, left: bool, rows: int, idx: np.ndarray, op: np.nd
 
 
 def decode_level_cell(raw: bytes, tile_type: TileType) -> Frame:
+    tile_type = TileType(tile_type)
     idx = np.zeros((CELL, CELL), np.uint8)
     op = np.zeros((CELL, CELL), bool)
     if tile_type == TileType.SQUARE:

@@ -41,12 +41,23 @@ def test_right_triangle_geometry():
 
 
 def test_left_trapezoid_geometry():
-    raw = triangle_bytes(left=True, rows=16) + bytes([100]) * 512
+    raw = triangle_bytes(left=True, rows=16) + b"".join(bytes([200 + r]) * 32 for r in range(16))
     assert len(raw) == 800
     cell = decode_level_cell(raw, TileType.LEFT_TRAPEZOID)
     assert cell.opaque[:16].all()
-    assert (cell.indices[:16] == 100).all()
+    assert (cell.indices[15] == 200).all()
+    assert (cell.indices[0] == 215).all()
     np.testing.assert_array_equal(np.nonzero(cell.opaque[31])[0], [30, 31])
+
+
+def test_right_trapezoid_geometry():
+    raw = triangle_bytes(left=False, rows=16) + b"".join(bytes([200 + r]) * 32 for r in range(16))
+    assert len(raw) == 800
+    cell = decode_level_cell(raw, TileType.RIGHT_TRAPEZOID)
+    assert cell.opaque[:16].all()
+    assert (cell.indices[15] == 200).all()
+    assert (cell.indices[0] == 215).all()
+    np.testing.assert_array_equal(np.nonzero(cell.opaque[31])[0], [0, 1])
 
 
 def test_transparent_square_never_reads_header():
@@ -63,3 +74,10 @@ def test_wrong_size_rejected():
         decode_level_cell(bytes(543), TileType.LEFT_TRIANGLE)
     with pytest.raises(ValueError):
         decode_level_cell(bytes(1000), TileType.SQUARE)
+
+
+def test_invalid_tile_type_rejected():
+    with pytest.raises(ValueError):
+        decode_level_cell(bytes(800), 6)
+    with pytest.raises(ValueError):
+        decode_level_cell(bytes(800), 99)
