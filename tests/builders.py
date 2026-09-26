@@ -27,3 +27,20 @@ def pcx(indices: np.ndarray, palette: np.ndarray, bytes_per_line: int | None = N
                 body.append(v)
             i += n
     return bytes(header) + bytes(body) + b"\x0c" + palette.astype(np.uint8).tobytes()
+
+
+def sheet(frames: list[bytes]) -> bytes:
+    n = len(frames)
+    offsets = [4 * (n + 2)]
+    for f in frames:
+        offsets.append(offsets[-1] + len(f))
+    return struct.pack(f"<{n + 2}I", n, *offsets) + b"".join(frames)
+
+
+def grouped(sheets: list[bytes]) -> bytes:
+    pos = 4 * len(sheets)
+    offsets = []
+    for s in sheets:
+        offsets.append(pos)
+        pos += len(s)
+    return struct.pack(f"<{len(sheets)}I", *offsets) + b"".join(sheets)
