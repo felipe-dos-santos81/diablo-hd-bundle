@@ -39,3 +39,9 @@ def test_crop_box_scales():
     p = Placement(5, 32, 16)
     assert crop_box(p, 160, 1) == (32, 16, 96, 176)
     assert crop_box(p, 160, 4) == (128, 64, 384, 704)
+
+
+def test_compose_rejects_unknown_column():
+    a = Frame(np.array([[2, 2], [2, 2]], np.uint8), np.array([[True, False], [False, False]]))
+    with pytest.raises(ValueError, match="column 5"):
+        compose([Placement(5, 0, 0)], (2, 2), [a])

@@ -65,6 +65,8 @@ def compose(placements: Sequence[Placement], size: tuple[int, int], columns: Seq
     idx = np.zeros((height, width), np.uint8)
     op = np.zeros((height, width), bool)
     for p in placements:
+        if not 0 <= p.column < len(columns):
+            raise ValueError(f"placement references column {p.column} but only {len(columns)} columns exist")
         col = columns[p.column]
         ys, xs = slice(p.y, p.y + col.height), slice(p.x, p.x + col.width)
         idx[ys, xs][col.opaque] = col.indices[col.opaque]
