@@ -48,7 +48,7 @@ Rules that must survive any change:
   `geometry_check.check_sheet`; `make verify`'s `frame_problem` re-checks the
   size, mode and exact alpha of every frame on disk, skip or not.
 - **A sheet is the unit of attempt.** Its key,
-  `<record dir>[@trn/<trn path>]/sNN`, is what every attempt, retry,
+  `<record dir>[/@trn/<trn path>]/sNN`, is what every attempt, retry,
   promotion, audit folder and review verdict is keyed by — never an
   animation or a frame. An animation (a base or one variant) is done only
   once every one of its sheets is done. `--sheet KEY` (`sheet=`) narrows
@@ -334,4 +334,7 @@ sprites; record what changes, and why, in `NOTES.md`:
   `MIN_SHIFT_PIXELS` = 200; `EDGE_THRESHOLD` = 80.0;
   `RENDER_EDGE_THRESHOLD` = 60.0; `MIN_EDGE_AGREEMENT` = 0.80;
   `MIN_CELL_EDGES` = 30; `FLICKER_FACTOR` = 2.0; `FLICKER_FLOOR` = 4.0;
-  `GUTTER_WARN` = 12.0 levels.
+  `GUTTER_WARN` = 12.0 levels of gutter bleed, which `check_sheet` measures
+  as `|pixel − background|` averaged over every gutter pixel of the sheet
+  and its three channels (so paint that averages back to the background
+  colour still counts).

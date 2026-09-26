@@ -116,7 +116,7 @@ re-anchor or add to `skip` by hand. `caption` fills blank captions only;
 ## Sheets and cells
 
 A **sheet** is one canvas and the unit of render, attempt, retry and
-promotion; its key is `<record dir>[@trn/<trn path>]/sNN`. Every direction
+promotion; its key is `<record dir>[/@trn/<trn path>]/sNN`. Every direction
 (group) gets one cell size — the union of its frames' opaque boxes at 2x,
 plus 8 HD px of margin — and `GUTTER` HD px (16 by default) between cells;
 canvases are packed to a multiple of 32 px on each side. `SHEET_PACKING`
@@ -158,8 +158,10 @@ frame of the sheet at native size:
 - **Consistency:** for consecutive frames of a direction, the render's mean
   colour step against its neighbour must not exceed twice the source's own
   step plus 4 levels (flicker).
-- **Gutter bleed:** a gutter whose mean colour has moved more than 12 levels
-  from the flat background is printed as a warning, never a rejection.
+- **Gutter bleed:** the mean absolute difference between the rendered
+  canvas and the flat background, `|pixel − background|` averaged over every
+  gutter pixel of the sheet and its three channels; above 12 levels it is
+  printed as a warning, never a rejection.
 
 A rejection is written to `reviews.yaml` as `source: geometry`; the next
 batch retries the sheet with `prompts.GEOMETRY_CORRECTION` as its correction
