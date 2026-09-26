@@ -19,7 +19,10 @@ and the build plan
 | Review | `anim_recreate.py review` | vLLM `:8000` | source, promoted sheets, their anchors | `reviews.yaml` |
 
 `verify` audits `data/anims-ai/`; `preview` writes GIFs and touches neither
-service.
+service. The GIFs go to `<DIA_PREVIEW or --preview-dir>/<the output tree's
+directory name>/<comfy name>/d<g>.gif` (`data/preview/anims-ai/…` by
+default, `data/preview/<name>/…` for `--dst data/spike/<name>`), so each
+tree keeps its own previews.
 
 Run order: `caption` (seeds and fills `characters.yaml`) → edit the file →
 `batch --no-variants` → `review` → repeat until the base animations settle

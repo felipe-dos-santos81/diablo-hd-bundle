@@ -70,7 +70,7 @@ review: install ## [STEP 3] Review done sheets with vLLM into reviews.yaml (char
 verify: install ## [STEP 4] Audit data/anims-ai against the manifest, the 2x rule, the outline and the attempts (character=, sheet=)
 	./run_batch.sh verify $(ARGS)
 
-preview: install ## Write an animated GIF per direction into data/preview (character=, anim=, sheet=)
+preview: install ## Write an animated GIF per direction into data/preview/<dst name> (character=, anim=, sheet=)
 	./run_batch.sh preview $(ARGS)
 
 # ── Development ──────────────────────────────────────────────────────────────

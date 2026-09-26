@@ -433,15 +433,22 @@ class VerifyPreviewTests(DriverTest):
                      f"UNRECORDED {ZW}/d0/f001.png", f"REJECTED   {ZW}/{GREY}/s02"):
             self.assertIn(line, out)
 
-    def test_preview_writes_a_gif_per_direction(self):
+    def test_preview_writes_a_gif_per_direction_under_its_trees_name(self):
+        # Regression: previews ignored dst=, so each spike tree's overwrote the last.
         self.batch("--character", "missiles/fireba")
         preview = self.root / "preview"
         code, out, _ = testkit.run_cli(self.argv("preview", "--character", "missiles/fireba",
                                                  "--preview-dir", str(preview)))
         self.assertEqual(code, 0)
-        gif = preview / "missiles+fireba1.cl2" / "d0.gif"
+        gif = preview / "dst" / "missiles+fireba1.cl2" / "d0.gif"
         with Image.open(gif) as im:
             self.assertEqual((im.n_frames, im.size), (3, (104, 48)))
+        other = self.root / "spike" / "gutter32"
+        testkit.run_cli(self.argv("preview", "--character", "missiles/fireba", "--dst", str(other),
+                                  "--preview-dir", str(preview)))
+        self.assertTrue((preview / "gutter32" / "missiles+fireba1.cl2" / "d0.gif").is_file())
+        with Image.open(gif) as im:
+            self.assertEqual(im.n_frames, 3, msg="the first tree's preview is still there")
 
 
 @testkit.needs_real_corpus

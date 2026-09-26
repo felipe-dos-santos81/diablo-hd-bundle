@@ -4423,7 +4423,7 @@ Also measure:
 - the peak memory for the largest canvas;
 - the gate itself: rerun `finish_sheet` on a few promoted renders after deliberately breaking them (shift 2 native px, replace one cell with another frame's), and list which thresholds catch them.
 
-Run `make preview dst=data/spike/<name>` for every variant and show the user the GIFs side by side. The user picks the settings.
+Run `make preview dst=data/spike/<name>` for every variant (each variant's GIFs land in `data/preview/<name>/<comfy name>/d<g>.gif`, keyed by the tree's directory name, so the variants never overwrite each other) and show the user the GIFs side by side. The user picks the settings.
 
 - [ ] **Step 5: Record and apply the decisions**
 

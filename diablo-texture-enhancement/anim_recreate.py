@@ -915,8 +915,11 @@ def cmd_verify(args):
 
 def cmd_preview(args):
     """An animated GIF per direction of each selected job: the source at
-    SCALE (nearest) and the output side by side, over a dark background."""
+    SCALE (nearest) and the output side by side, over a dark background, in
+    <preview dir>/<the output tree's directory name>/, so each dst= (a spike
+    variant's tree) keeps its own previews."""
     characters = load_characters_checked(args)
+    root = args.preview_dir / args.dst.resolve().name
     written = 0
     for job in select_jobs(args, characters):
         wanted = {group for sheet in job_sheets(args, job) for group in sheet.groups}
@@ -938,11 +941,11 @@ def cmd_preview(args):
                         render = im.convert("RGBA")
                     picture.paste(render, (w + 8, 0), render)
                 pictures.append(picture)
-            path = args.preview_dir / comfy_client.comfy_name(job.key) / f"d{group}.gif"
+            path = root / comfy_client.comfy_name(job.key) / f"d{group}.gif"
             save_image_atomic(pictures[0], path, "GIF", save_all=True, append_images=pictures[1:],
                               duration=PREVIEW_MS, loop=0)
             written += 1
-    print(f"preview: {written} GIF(s) -> {args.preview_dir}")
+    print(f"preview: {written} GIF(s) -> {root}")
     return 0
 
 
@@ -1066,7 +1069,8 @@ def build_parser():
     preview = sub.add_parser("preview", help="write an animated GIF per direction")
     common(preview)
     preview.add_argument("--preview-dir", type=Path, default=PREVIEW_ROOT,
-                         help="where the GIFs go (default: %(default)s, or DIA_PREVIEW)")
+                         help="where the GIFs go, under the output tree's directory name "
+                              "(default: %(default)s, or DIA_PREVIEW)")
     preview.set_defaults(func=cmd_preview)
     return ap
 

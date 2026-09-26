@@ -18,7 +18,10 @@ Input: `../diablo-textures-exporter/out/` (override with `DIA_SRC`).
 Output: `data/anims-ai/<record dir>/d<g>/f<i>.png` (override with `DIA_DST`),
 and each recolour variant under
 `data/anims-ai/<record dir>/@trn/<trn path>/d<g>/f<i>.png`. Previews:
-`data/preview/` (override with `DIA_PREVIEW`).
+`data/preview/<output tree's directory name>/<comfy name>/d<g>.gif` (the
+root overridable with `DIA_PREVIEW`): the default tree's land in
+`data/preview/anims-ai/`, and `dst=data/spike/<name>`'s in
+`data/preview/<name>/`, so each tree keeps its own.
 
 **Personal use only.** The extracted and regenerated art is Blizzard
 North/Activision Blizzard copyright. Do not redistribute it. `data/`,
@@ -32,7 +35,7 @@ DIA_SRC (exporter out/) ──[caption]──▶ characters.yaml ──(you edit
 data/anims-ai/ ◀──[batch]──── characters.yaml + reviews.yaml (rejects only)
    │              ComfyUI up, vLLM stopped
    ├──[review]──▶ reviews.yaml   (vLLM up)
-   └──[preview]─▶ data/preview/*.gif
+   └──[preview]─▶ data/preview/anims-ai/*/d<g>.gif
 ```
 
 1. **`make caption`** (vLLM up) seeds `characters.yaml` from the manifest on
@@ -209,7 +212,7 @@ data/anims-ai/.quality/<sheet key>/
 | `make dry-run [character=] [anim=] [sheet=] [variants=0]` | Sheets, cells, canvas sizes, dependency order, stale and blocked sheets |
 | `make batch [character=] [anim=] [sheet=] [variant=] [variants=0] [workflow=] [strength=] [memcheck=0] [force=1]` | Render and promote into `data/anims-ai/` |
 | `make review [character=] [sheet=] [concurrency=] [force=1]` | Write `reviews.yaml` |
-| `make preview [character=] [anim=] [sheet=]` | An animated GIF per direction into `data/preview/`: source (nearest-neighbour 2x) and render side by side |
+| `make preview [character=] [anim=] [sheet=]` | An animated GIF per direction into `data/preview/<dst directory name>/<comfy name>/`: source (nearest-neighbour 2x) and render side by side |
 | `make verify [character=] [sheet=]` | Audit `data/anims-ai/` against the manifest, the 2x contract, the outline and the attempts |
 | `make server` / `install` / `check` / `test` / `clean` | Start ComfyUI from `~/ComfyUI` / create the venv / byte-compile / run the unit tests / remove `__pycache__` |
 
