@@ -42,6 +42,15 @@ def read_kv_tsv(path: Path) -> dict[str, str]:
     return {row["Variable"]: row["Value"] for row in read_tsv(path)}
 
 
+def _set_width(widths: dict[str, int | list[int]], path: str, value: int) -> None:
+    """Record a width, ignoring non-positive values and never overwriting an existing entry
+    (so MANUAL_WIDTHS, and the first positive value seen for a path, always win)."""
+    if value <= 0:
+        return
+    if path not in widths:
+        widths[path] = value
+
+
 def _add_bare(names: set[str], name: str) -> None:
     if re.search(r"\.[a-z0-9]{2,4}$", name):
         names.add(name)
@@ -88,7 +97,7 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
         trn = canonical(row["trnFile"].strip())
         for anim in MONSTER_ANIMS:
             path = f"{base}{anim}.cl2"
-            widths[path] = int(row["width"])
+            _set_width(widths, path, int(row["width"]))
             if trn:
                 lst = variants.setdefault(path, [])
                 if f"monsters\\{trn}.trn" not in lst:
@@ -107,12 +116,12 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
         count = int(row["numFrames"])
         paths = [f"missiles\\{name}.cl2"] + [f"missiles\\{name}{i}.cl2" for i in range(0, count + 1)]
         for path in paths:
-            widths[path] = int(row["width"])
+            _set_width(widths, path, int(row["width"]))
 
     for row in read_tsv(txt / "objects" / "objdat.tsv"):
         file = canonical(row["file"].strip())
         if file:
-            widths[f"objects\\{file}.cel"] = int(row["animWidth"])
+            _set_width(widths, f"objects\\{file}.cel", int(row["animWidth"]))
 
     for sprites in sorted((txt / "classes").glob("*/sprites.tsv")):
         kv = read_kv_tsv(sprites)
@@ -122,7 +131,7 @@ def table_widths(dvx: Path) -> tuple[dict[str, int | list[int]], dict[str, list[
                 prefix = f"{char}{armour}{weapon}"
                 for anim, key in PLAYER_ANIMS.items():
                     width_key = "bow" if (anim == "at" and weapon == "b") else key
-                    widths[f"plrgfx\\{folder}\\{prefix}\\{prefix}{anim}.cl2"] = int(kv[width_key])
+                    _set_width(widths, f"plrgfx\\{folder}\\{prefix}\\{prefix}{anim}.cl2", int(kv[width_key]))
 
     objcurs = dvx / "assets" / "data" / "inv" / "objcurs-widths.txt"
     if objcurs.exists():

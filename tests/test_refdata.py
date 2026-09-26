@@ -2,7 +2,7 @@ import json
 
 from fakes import FakeArchive
 from dtx.mpq import ArchiveStack
-from dtx.refdata import build
+from dtx.refdata import build, table_widths
 
 
 def tsv(path, header, rows):
@@ -69,3 +69,22 @@ def test_build(tmp_path):
     assert "monsters\\zombie\\zombiew.cl2" not in widths  # absent from archives
     variants = json.loads((out / "variants.json").read_text())
     assert variants == {"monsters\\zombie\\zombien.cl2": ["monsters\\zombie\\bluered.trn"]}
+
+
+def test_object_width_ignores_non_positive_duplicate(tmp_path):
+    # Real objdat.tsv reuses one file (e.g. l1braz) across several object ids: only one row
+    # carries the real animWidth and the rest are 0 (candles, skull sticks, ...). The first
+    # positive width seen for a path must win and a later 0 must never overwrite it.
+    dvx = tmp_path / "dvx"
+    txt = dvx / "assets" / "txtdata"
+    tsv(txt / "monsters" / "monstdat.tsv",
+        ["_monster_id", "name", "assetsSuffix", "soundSuffix", "trnFile", "availability", "width"], [])
+    tsv(txt / "monsters" / "unique_monstdat.tsv", ["name", "mTrnName"], [])
+    tsv(txt / "missiles" / "missile_sprites.tsv", ["id", "width", "width2", "name", "numFrames"], [])
+    tsv(txt / "objects" / "objdat.tsv", ["id", "file", "animWidth"],
+        [["OBJ_L1LIGHT", "l1braz", "64"], ["OBJ_L1CANDLE", "l1braz", "0"]])
+
+    widths, _variants, _names = table_widths(dvx)
+
+    assert widths["objects\\l1braz.cel"] == 64
+    assert all(isinstance(v, list) or v > 0 for v in widths.values())
