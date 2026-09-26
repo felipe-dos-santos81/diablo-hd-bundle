@@ -9,14 +9,17 @@ import comfy_client
 
 
 class FakeComfy:
-    """Answers /prompt, /history and /interrupt like ComfyUI, saving one render."""
+    """Answers /prompt, /history and /interrupt like ComfyUI, saving one render.
+    `staged` is what the input folder held when the prompt was queued."""
 
     def __init__(self, comfy_dir, status="success", history=True):
         self.comfy_dir, self.status, self.history, self.calls = comfy_dir, status, history, []
+        self.staged = None
 
     def __call__(self, url, data=None, timeout=60, token=None):
         self.calls.append((url, json.loads(data) if data else None))
         if url.endswith("/prompt"):
+            self.staged = sorted(p.name for p in (self.comfy_dir / "input").iterdir())
             return {"prompt_id": "p1"}
         if url.endswith("/interrupt"):
             return {}
@@ -103,9 +106,10 @@ class RenderSheetTests(unittest.TestCase):
         self.assertEqual(path, self.comfy_dir / "output" / "dia" / f"{name}_00001_.png")
         prompt = http.calls[0][1]["prompt"]
         for node, part in (("1", "guide"), ("2", "anchor")):
-            staged = f"__dia_{name}_{part}.png"
-            self.assertEqual(prompt[node]["inputs"]["image"], staged)
-            self.assertTrue((self.comfy_dir / "input" / staged).is_file())
+            self.assertEqual(prompt[node]["inputs"]["image"], f"__dia_{name}_{part}.png")
+        self.assertEqual(http.staged, [f"__dia_{name}_anchor.png", f"__dia_{name}_guide.png"])
+        self.assertEqual(list((self.comfy_dir / "input").iterdir()), [],
+                         msg="the staged inputs are removed once the render is over")
         inputs = prompt["9"]["inputs"]
         self.assertEqual((inputs["prompt"], inputs["negative_prompt"]), ("paint it", "no photo"))
         self.assertEqual(prompt["13"]["inputs"]["seed"], 43)
@@ -135,6 +139,8 @@ class RenderSheetTests(unittest.TestCase):
             with self.assertRaises(KeyboardInterrupt):
                 self.render(http=http, sleep=ctrl_c)
             self.assertEqual(http.calls[-1], ("http://c/interrupt", {"prompt_id": "p1"}))
+        self.assertEqual(list((self.comfy_dir / "input").iterdir()), [],
+                         msg="a failed render removes its staged inputs too")
 
 
 class PreflightTests(unittest.TestCase):

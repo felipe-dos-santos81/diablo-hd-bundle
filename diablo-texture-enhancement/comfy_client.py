@@ -194,11 +194,13 @@ def render_sheet(workflow, *, guide, anchor, positive, negative, seed, name, url
     """Queue one sheet render and return the path of the image ComfyUI saved.
 
     `guide` and `anchor` (or None) are local PNG paths, staged into ComfyUI's
-    input folder as __dia_<name>_<part>.png. The render lands in output/dia/
-    as <name>_NNNNN_.png; the caller moves it away and checks its size. Raises
-    RuntimeError when ComfyUI reports a failed execution, and TimeoutError,
-    after asking ComfyUI to interrupt the prompt, when no history appears in
-    time; a KeyboardInterrupt while waiting interrupts the prompt too.
+    input folder as __dia_<name>_<part>.png and removed from it again once
+    the render is over, whether it succeeded or not. The render lands in
+    output/dia/ as <name>_NNNNN_.png; the caller moves it away and checks its
+    size. Raises RuntimeError when ComfyUI reports a failed execution, and
+    TimeoutError, after asking ComfyUI to interrupt the prompt, when no
+    history appears in time; a KeyboardInterrupt while waiting interrupts the
+    prompt too.
     """
     comfy_dir = Path(comfy_dir)
     prompt = load_template(workflow)
@@ -208,18 +210,26 @@ def render_sheet(workflow, *, guide, anchor, positive, negative, seed, name, url
         del prompt[workflow.anchor_input[0]]["inputs"][workflow.anchor_input[1]]
     else:
         parts.append((workflow.anchor, anchor, "anchor"))
-    for (node, key), path, part in parts:
-        staged = f"__dia_{name}_{part}.png"
-        stage_input(path, staged, comfy_dir)
-        prompt[node]["inputs"][key] = staged
-    for (node, key), value in ((workflow.positive, positive), (workflow.negative, negative),
-                               (workflow.seed, seed)):
-        prompt[node]["inputs"][key] = value
-    prompt[workflow.save]["inputs"]["filename_prefix"] = f"{OUTPUT_PREFIX}/{name}"
-    # A timed-out or Ctrl-C'd render is still running in ComfyUI; interrupt it so
-    # it does not hold the queue (and ~45 GB) and write a file nobody collects.
-    entry = execute(prompt, url, http, timeout, sleep, interrupt=True)
-    return output_path(comfy_dir, entry["outputs"][workflow.save]["images"][0])
+    staged_paths = []
+    try:
+        for (node, key), path, part in parts:
+            staged = f"__dia_{name}_{part}.png"
+            staged_paths.append(comfy_dir / "input" / staged)
+            stage_input(path, staged, comfy_dir)
+            prompt[node]["inputs"][key] = staged
+        for (node, key), value in ((workflow.positive, positive), (workflow.negative, negative),
+                                   (workflow.seed, seed)):
+            prompt[node]["inputs"][key] = value
+        prompt[workflow.save]["inputs"]["filename_prefix"] = f"{OUTPUT_PREFIX}/{name}"
+        # A timed-out or Ctrl-C'd render is still running in ComfyUI; interrupt it so
+        # it does not hold the queue (and ~45 GB) and write a file nobody collects.
+        entry = execute(prompt, url, http, timeout, sleep, interrupt=True)
+        return output_path(comfy_dir, entry["outputs"][workflow.save]["images"][0])
+    finally:
+        # Every sheet stages its own names: left behind, they would pile up
+        # (tens of thousands of canvases over a full run).
+        for staged_path in staged_paths:
+            staged_path.unlink(missing_ok=True)
 
 
 def sweep_outputs(name, comfy_dir):

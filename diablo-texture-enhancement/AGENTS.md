@@ -181,7 +181,10 @@ Per sheet (`anim_recreate.render_sheet_job`, `sheet_inputs`, `finish_sheet`):
    default workflow `qwen-image-2.1-i2i` (denoise 1.0, 40 steps, cfg 1.0);
    a sheet stuck after `MAX_ATTEMPTS` (4) rejections renders once more
    through the fallback `qwen-image-2.1-i2i-faithful` (the same graph at
-   denoise 0.9), both as in Atlantis until the spike says otherwise.
+   denoise 0.9), both as in Atlantis until the spike says otherwise. The
+   two canvases are staged into ComfyUI's `input/` as
+   `__dia_<comfy name>_<part>.png` and deleted from it again once the render
+   is over, whether it succeeded or not.
 6. **Slice** (`sheet_layout.frame_rgb`, `finish_frame`). Each cell is cut
    back to its frame at `(2w, 2h)`, at the same place in the frame. Alpha is
    the locked soft outline; a pixel with partial alpha takes its colour from
