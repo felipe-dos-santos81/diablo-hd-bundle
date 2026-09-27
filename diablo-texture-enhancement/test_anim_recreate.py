@@ -3,6 +3,7 @@ import random
 import shutil
 import tempfile
 import time
+import types
 import unittest
 from pathlib import Path
 
@@ -448,6 +449,28 @@ class VerifyPreviewTests(DriverTest):
         self.assertTrue((preview / "gutter32" / "missiles+fireba1.cl2" / "d0.gif").is_file())
         with Image.open(gif) as im:
             self.assertEqual(im.n_frames, 3, msg="the first tree's preview is still there")
+
+
+class ShadowTests(unittest.TestCase):
+    def test_finish_sheet_keeps_the_sources_black_shadow_black(self):
+        mask = np.zeros((24, 32), bool)
+        mask[4:20, 8:22] = True
+        pixels = np.zeros((24, 32, 4), np.uint8)
+        pixels[mask] = (160, 120, 80, 255)
+        pixels[16:20, 8:22, :3] = 0                     # the ground shadow
+        frame = Image.fromarray(pixels, "RGBA")
+        background = sheet_layout.BACKGROUNDS["grey"]
+        sheet = sheet_layout.plan_sheets([(0, mask)])[0]
+        anim = types.SimpleNamespace(frames=[types.SimpleNamespace(
+            w=32, h=24, group=0, png="d0/f000.png")])
+        guides = {0: sheet_layout.guide_frame(frame, background)}
+        canvas = np.array(sheet_layout.guide_canvas(sheet, guides, background))
+        canvas[canvas.max(-1) == 0] = 60                # the repaint greys the shadow
+        outputs, _ = a.finish_sheet(Image.fromarray(canvas), sheet, anim, {0: frame}, guides,
+                                    a.DEFAULT_MATCH_STRENGTH, background)
+        out = np.asarray(outputs[0])
+        self.assertEqual(int(out[32:39, 17:43, :3].max()), 0)
+        self.assertGreater(int(out[10:30, 17:43, :3].min()), 0)
 
 
 @testkit.needs_real_corpus

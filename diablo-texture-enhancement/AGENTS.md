@@ -178,10 +178,11 @@ Per sheet (`anim_recreate.render_sheet_job`, `sheet_inputs`, `finish_sheet`):
 5. **Render** (`comfy_client.render_sheet`). The guide canvas, the anchor
    canvas (or none), the positive prompt (`prompts.render_prompt`),
    `PAINTED_NEGATIVE` and the seed (`SEED` 42, plus `attempt - 1`) go to the
-   default workflow `qwen-image-2.1-i2i` (denoise 1.0, 40 steps, cfg 1.0);
+   default workflow `qwen-image-2.1-i2i` (denoise 0.9, 40 steps, cfg 1.0);
    a sheet stuck after `MAX_ATTEMPTS` (4) rejections renders once more
    through the fallback `qwen-image-2.1-i2i-faithful` (the same graph at
-   denoise 0.9), both as in Atlantis until the spike says otherwise. The
+   denoise 0.8); the live check found full denoise moving cells 3-11 HD px
+   (NOTES.md, "Live check"). The
    two canvases are staged into ComfyUI's `input/` as
    `__dia_<comfy name>_<part>.png` and deleted from it again once the render
    is over, whether it succeeded or not.
@@ -192,7 +193,9 @@ Per sheet (`anim_recreate.render_sheet_job`, `sheet_inputs`, `finish_sheet`):
    HD px), so the background never tints the outline.
 7. **Colour match** (`colour_match.match`). Each frame is matched in Lab
    toward its own guide, over its outline mask only, at `--match-strength`
-   (`DEFAULT_MATCH_STRENGTH` 0.5).
+   (`DEFAULT_MATCH_STRENGTH` 0.5). Then `sheet_layout.keep_shadow` sets
+   every pixel whose source pixel is opaque pure black (the ground shadow)
+   back to pure black: the repaint greys it and the game draws it black.
 8. **Checks** (`geometry_check.check_sheet`), then promotion: every frame of
    the sheet is written (`*.pending`, then renamed) and the attempt's record
    says `promoted: true`. A rejection goes to `reviews.yaml` as
@@ -218,8 +221,8 @@ from the graph together when there is no anchor), 4 CLIPLoader
 (`qwen_image_2.1_vae_bf16`), 9 TextEncodeQwenImage21 (`prompt`,
 `negative_prompt`, `resolution: 0`, `images.image_1`/`images.image_2` as the
 two references), 11 VAEEncode (the guide canvas as the starting latent),
-13 KSampler (seed, 40 steps, cfg 1.0, euler/simple, denoise 1.0 — the
-fallback workflow's `settings` overwrite `denoise` to 0.9 on this same
+13 KSampler (seed, 40 steps, cfg 1.0, euler/simple, denoise 0.9 — the
+fallback workflow's `settings` overwrite `denoise` to 0.8 on this same
 node), 14 VAEDecode, 15 SaveImage (`filename_prefix` set per sheet to
 `dia/<comfy name>_a<attempt>-sheet`).
 
@@ -328,13 +331,13 @@ sprites; record what changes, and why, in `NOTES.md`:
   `CELL_MARGIN` = 8 HD px; `ALIGN` = 32; `MAX_CANVAS_PX` = 1,048,576;
   `BACKGROUND` = `"grey"` (128, 128, 128) (the alternative, `"dark"`, is
   (24, 24, 24)); the anchor reference on by default (`--no-anchor` off).
-- Render: the default workflow `qwen-image-2.1-i2i` at denoise 1.0, 40
-  steps, cfg 1.0; its fallback `qwen-image-2.1-i2i-faithful` at denoise 0.9;
+- Render: the default workflow `qwen-image-2.1-i2i` at denoise 0.9, 40
+  steps, cfg 1.0; its fallback `qwen-image-2.1-i2i-faithful` at denoise 0.8;
   `DEFAULT_MATCH_STRENGTH` = 0.5; `MAX_ATTEMPTS` = 4; `SEED` = 42.
 - Checks (`geometry_check.py`): `MAX_SHIFT` = 0.5 native px;
   `MIN_SHIFT_PIXELS` = 200; `EDGE_THRESHOLD` = 80.0;
   `RENDER_EDGE_THRESHOLD` = 60.0; `MIN_EDGE_AGREEMENT` = 0.80;
-  `MIN_CELL_EDGES` = 30; `FLICKER_FACTOR` = 2.0; `FLICKER_FLOOR` = 4.0;
+  `MIN_CELL_EDGES` = 30; `FLICKER_FACTOR` = 2.0; `FLICKER_FLOOR` = 10.0;
   `GUTTER_WARN` = 12.0 levels of gutter bleed, which `check_sheet` measures
   as `|pixel − background|` averaged over every gutter pixel of the sheet
   and its three channels (so paint that averages back to the background

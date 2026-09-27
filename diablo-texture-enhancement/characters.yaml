@@ -1,0 +1,2891 @@
+'@DIABDAT.MPQ/monsters/goatlord':
+  animations:
+  - '@DIABDAT.MPQ/monsters/goatlord/goatld.cl2'
+  anchor: '@DIABDAT.MPQ/monsters/goatlord/goatld.cl2'
+  caption: ''
+'@DIABDAT.MPQ/monsters/unrav':
+  animations:
+  - '@DIABDAT.MPQ/monsters/unrav/unrava.cl2'
+  anchor: '@DIABDAT.MPQ/monsters/unrav/unrava.cl2'
+  caption: ''
+missiles/acidbf:
+  animations:
+  - missiles/acidbf1.cl2
+  - missiles/acidbf2.cl2
+  - missiles/acidbf3.cl2
+  - missiles/acidbf4.cl2
+  - missiles/acidbf5.cl2
+  - missiles/acidbf6.cl2
+  - missiles/acidbf7.cl2
+  - missiles/acidbf8.cl2
+  - missiles/acidbf9.cl2
+  - missiles/acidbf10.cl2
+  - missiles/acidbf11.cl2
+  - missiles/acidbf12.cl2
+  - missiles/acidbf13.cl2
+  - missiles/acidbf14.cl2
+  - missiles/acidbf15.cl2
+  - missiles/acidbf16.cl2
+  anchor: missiles/acidbf1.cl2
+  caption: ''
+missiles/acidpud:
+  animations:
+  - missiles/acidpud1.cl2
+  - missiles/acidpud2.cl2
+  anchor: missiles/acidpud1.cl2
+  caption: ''
+missiles/acidspla:
+  animations:
+  - missiles/acidspla.cl2
+  anchor: missiles/acidspla.cl2
+  caption: ''
+missiles/arrows:
+  animations:
+  - missiles/arrows.cl2
+  anchor: missiles/arrows.cl2
+  caption: ''
+missiles/bigexp:
+  animations:
+  - missiles/bigexp.cl2
+  anchor: missiles/bigexp.cl2
+  caption: ''
+missiles/blodbur:
+  animations:
+  - missiles/blodbur0.cl2
+  - missiles/blodbur1.cl2
+  - missiles/blodbur2.cl2
+  anchor: missiles/blodbur0.cl2
+  caption: ''
+missiles/blodburs:
+  animations:
+  - missiles/blodburs.cl2
+  anchor: missiles/blodburs.cl2
+  caption: ''
+missiles/blood:
+  animations:
+  - missiles/blood1.cl2
+  - missiles/blood2.cl2
+  - missiles/blood3.cl2
+  - missiles/blood4.cl2
+  anchor: missiles/blood1.cl2
+  caption: ''
+missiles/bluexbk:
+  animations:
+  - missiles/bluexbk.cl2
+  anchor: missiles/bluexbk.cl2
+  caption: ''
+missiles/bluexfr:
+  animations:
+  - missiles/bluexfr.cl2
+  anchor: missiles/bluexfr.cl2
+  caption: ''
+missiles/bone:
+  animations:
+  - missiles/bone1.cl2
+  - missiles/bone2.cl2
+  - missiles/bone3.cl2
+  anchor: missiles/bone1.cl2
+  caption: ''
+missiles/doom:
+  animations:
+  - missiles/doom1.cl2
+  - missiles/doom2.cl2
+  - missiles/doom3.cl2
+  - missiles/doom4.cl2
+  - missiles/doom5.cl2
+  - missiles/doom6.cl2
+  - missiles/doom7.cl2
+  - missiles/doom8.cl2
+  - missiles/doom9.cl2
+  anchor: missiles/doom1.cl2
+  caption: ''
+missiles/doomexp:
+  animations:
+  - missiles/doomexp.cl2
+  anchor: missiles/doomexp.cl2
+  caption: ''
+missiles/ethrshld:
+  animations:
+  - missiles/ethrshld.cl2
+  anchor: missiles/ethrshld.cl2
+  caption: ''
+missiles/ex_blu:
+  animations:
+  - missiles/ex_blu2.cl2
+  - missiles/ex_blu3.cl2
+  anchor: missiles/ex_blu2.cl2
+  caption: ''
+missiles/ex_ora:
+  animations:
+  - missiles/ex_ora1.cl2
+  anchor: missiles/ex_ora1.cl2
+  caption: ''
+missiles/ex_red:
+  animations:
+  - missiles/ex_red3.cl2
+  anchor: missiles/ex_red3.cl2
+  caption: ''
+missiles/ex_yel:
+  animations:
+  - missiles/ex_yel2.cl2
+  anchor: missiles/ex_yel2.cl2
+  caption: ''
+missiles/farrow:
+  animations:
+  - missiles/farrow1.cl2
+  - missiles/farrow2.cl2
+  - missiles/farrow3.cl2
+  - missiles/farrow4.cl2
+  - missiles/farrow5.cl2
+  - missiles/farrow6.cl2
+  - missiles/farrow7.cl2
+  - missiles/farrow8.cl2
+  - missiles/farrow9.cl2
+  - missiles/farrow10.cl2
+  - missiles/farrow11.cl2
+  - missiles/farrow12.cl2
+  - missiles/farrow13.cl2
+  - missiles/farrow14.cl2
+  - missiles/farrow15.cl2
+  - missiles/farrow16.cl2
+  anchor: missiles/farrow1.cl2
+  caption: ''
+missiles/fba_n:
+  animations:
+  - missiles/fba_n1.cl2
+  - missiles/fba_n2.cl2
+  - missiles/fba_n3.cl2
+  - missiles/fba_n4.cl2
+  - missiles/fba_n5.cl2
+  - missiles/fba_n6.cl2
+  - missiles/fba_n7.cl2
+  - missiles/fba_n8.cl2
+  - missiles/fba_n9.cl2
+  - missiles/fba_n10.cl2
+  - missiles/fba_n11.cl2
+  - missiles/fba_n12.cl2
+  - missiles/fba_n13.cl2
+  - missiles/fba_n14.cl2
+  - missiles/fba_n15.cl2
+  - missiles/fba_n16.cl2
+  anchor: missiles/fba_n1.cl2
+  caption: ''
+missiles/fbb_n:
+  animations:
+  - missiles/fbb_n1.cl2
+  - missiles/fbb_n2.cl2
+  - missiles/fbb_n3.cl2
+  - missiles/fbb_n4.cl2
+  - missiles/fbb_n5.cl2
+  - missiles/fbb_n6.cl2
+  - missiles/fbb_n7.cl2
+  - missiles/fbb_n8.cl2
+  - missiles/fbb_n9.cl2
+  - missiles/fbb_n10.cl2
+  - missiles/fbb_n11.cl2
+  - missiles/fbb_n12.cl2
+  - missiles/fbb_n13.cl2
+  - missiles/fbb_n14.cl2
+  - missiles/fbb_n15.cl2
+  - missiles/fbb_n16.cl2
+  anchor: missiles/fbb_n1.cl2
+  caption: ''
+missiles/fbc_n:
+  animations:
+  - missiles/fbc_n1.cl2
+  - missiles/fbc_n2.cl2
+  - missiles/fbc_n3.cl2
+  - missiles/fbc_n4.cl2
+  - missiles/fbc_n5.cl2
+  - missiles/fbc_n6.cl2
+  - missiles/fbc_n7.cl2
+  - missiles/fbc_n8.cl2
+  - missiles/fbc_n9.cl2
+  - missiles/fbc_n10.cl2
+  - missiles/fbc_n11.cl2
+  - missiles/fbc_n12.cl2
+  - missiles/fbc_n13.cl2
+  - missiles/fbc_n14.cl2
+  - missiles/fbc_n15.cl2
+  - missiles/fbc_n16.cl2
+  anchor: missiles/fbc_n1.cl2
+  caption: ''
+missiles/fbd_n:
+  animations:
+  - missiles/fbd_n1.cl2
+  - missiles/fbd_n2.cl2
+  - missiles/fbd_n3.cl2
+  - missiles/fbd_n4.cl2
+  - missiles/fbd_n5.cl2
+  - missiles/fbd_n6.cl2
+  - missiles/fbd_n7.cl2
+  - missiles/fbd_n8.cl2
+  - missiles/fbd_n9.cl2
+  - missiles/fbd_n10.cl2
+  - missiles/fbd_n11.cl2
+  - missiles/fbd_n12.cl2
+  - missiles/fbd_n13.cl2
+  - missiles/fbd_n14.cl2
+  - missiles/fbd_n15.cl2
+  - missiles/fbd_n16.cl2
+  anchor: missiles/fbd_n1.cl2
+  caption: ''
+missiles/firarwex:
+  animations:
+  - missiles/firarwex.cl2
+  anchor: missiles/firarwex.cl2
+  caption: ''
+missiles/fireba:
+  animations:
+  - missiles/fireba1.cl2
+  - missiles/fireba2.cl2
+  - missiles/fireba3.cl2
+  - missiles/fireba4.cl2
+  - missiles/fireba5.cl2
+  - missiles/fireba6.cl2
+  - missiles/fireba7.cl2
+  - missiles/fireba8.cl2
+  - missiles/fireba9.cl2
+  - missiles/fireba10.cl2
+  - missiles/fireba11.cl2
+  - missiles/fireba12.cl2
+  - missiles/fireba13.cl2
+  - missiles/fireba14.cl2
+  - missiles/fireba15.cl2
+  - missiles/fireba16.cl2
+  anchor: missiles/fireba1.cl2
+  caption: >-
+    SUBJECT: A small fireball or flame projectile. It has a teardrop build, with a bright spherical core at the base and a tapering tail of flame extending from it.
+
+
+    BODY AND MATERIALS: The entire subject is composed of flame. There are no solid materials like skin, cloth, or metal visible.
+
+
+    EQUIPMENT: None.
+
+
+    COLOURS: The core of the flame is bright yellow and white. This transitions outward to orange, then to a darker red-brown at the edges and along the length of the tail.
+
+
+    SHADOW: None.
+
+
+    INVARIANTS: The fundamental structure must remain consistent: a glowing central orb with an attached, trailing flame shape. In Image 2, this structure is shown oriented in various directions (up, down, left, right, diagonals), but the relationship between the bright core and the trailing flame remains constant. The internal color gradient (white/yellow center to red/brown edge) is also invariant.
+missiles/fireplar:
+  animations:
+  - missiles/fireplar.cl2
+  anchor: missiles/fireplar.cl2
+  caption: ''
+missiles/firerun:
+  animations:
+  - missiles/firerun1.cl2
+  - missiles/firerun2.cl2
+  - missiles/firerun3.cl2
+  - missiles/firerun4.cl2
+  - missiles/firerun5.cl2
+  - missiles/firerun6.cl2
+  - missiles/firerun7.cl2
+  - missiles/firerun8.cl2
+  anchor: missiles/firerun1.cl2
+  caption: ''
+missiles/firewal:
+  animations:
+  - missiles/firewal1.cl2
+  - missiles/firewal2.cl2
+  anchor: missiles/firewal1.cl2
+  caption: ''
+missiles/flamel:
+  animations:
+  - missiles/flamel1.cel
+  - missiles/flamel2.cel
+  - missiles/flamel3.cel
+  - missiles/flamel4.cel
+  - missiles/flamel5.cel
+  - missiles/flamel6.cel
+  - missiles/flamel7.cel
+  - missiles/flamel8.cel
+  - missiles/flamel9.cel
+  - missiles/flamel10.cel
+  - missiles/flamel11.cel
+  - missiles/flamel12.cel
+  - missiles/flamel13.cel
+  - missiles/flamel14.cel
+  - missiles/flamel15.cel
+  - missiles/flamel16.cel
+  anchor: missiles/flamel1.cel
+  caption: ''
+missiles/flames:
+  animations:
+  - missiles/flames1.cel
+  - missiles/flames2.cel
+  - missiles/flames3.cel
+  - missiles/flames4.cel
+  - missiles/flames5.cel
+  - missiles/flames6.cel
+  - missiles/flames7.cel
+  - missiles/flames8.cel
+  - missiles/flames9.cel
+  - missiles/flames10.cel
+  - missiles/flames11.cel
+  - missiles/flames12.cel
+  - missiles/flames13.cel
+  - missiles/flames14.cel
+  - missiles/flames15.cel
+  - missiles/flames16.cel
+  anchor: missiles/flames1.cel
+  caption: ''
+missiles/flaml:
+  animations:
+  - missiles/flaml1.cel
+  - missiles/flaml2.cel
+  - missiles/flaml3.cel
+  - missiles/flaml4.cel
+  - missiles/flaml5.cel
+  - missiles/flaml6.cel
+  - missiles/flaml7.cel
+  - missiles/flaml8.cel
+  anchor: missiles/flaml1.cel
+  caption: ''
+missiles/flams:
+  animations:
+  - missiles/flams1.cel
+  - missiles/flams2.cel
+  - missiles/flams3.cel
+  - missiles/flams4.cel
+  - missiles/flams5.cel
+  - missiles/flams6.cel
+  - missiles/flams7.cel
+  - missiles/flams8.cel
+  anchor: missiles/flams1.cel
+  caption: ''
+missiles/flare:
+  animations:
+  - missiles/flare.cl2
+  anchor: missiles/flare.cl2
+  caption: ''
+missiles/flareexp:
+  animations:
+  - missiles/flareexp.cl2
+  anchor: missiles/flareexp.cl2
+  caption: ''
+missiles/guard:
+  animations:
+  - missiles/guard1.cl2
+  - missiles/guard2.cl2
+  - missiles/guard3.cl2
+  anchor: missiles/guard1.cl2
+  caption: ''
+missiles/holy:
+  animations:
+  - missiles/holy1.cl2
+  - missiles/holy2.cl2
+  - missiles/holy3.cl2
+  - missiles/holy4.cl2
+  - missiles/holy5.cl2
+  - missiles/holy6.cl2
+  - missiles/holy7.cl2
+  - missiles/holy8.cl2
+  - missiles/holy9.cl2
+  - missiles/holy10.cl2
+  - missiles/holy11.cl2
+  - missiles/holy12.cl2
+  - missiles/holy13.cl2
+  - missiles/holy14.cl2
+  - missiles/holy15.cl2
+  - missiles/holy16.cl2
+  anchor: missiles/holy1.cl2
+  caption: ''
+missiles/holyexpl:
+  animations:
+  - missiles/holyexpl.cl2
+  anchor: missiles/holyexpl.cl2
+  caption: ''
+missiles/inferno:
+  animations:
+  - missiles/inferno.cl2
+  anchor: missiles/inferno.cl2
+  caption: ''
+missiles/krull:
+  animations:
+  - missiles/krull.cl2
+  anchor: missiles/krull.cl2
+  caption: ''
+missiles/larrow:
+  animations:
+  - missiles/larrow1.cl2
+  - missiles/larrow2.cl2
+  - missiles/larrow3.cl2
+  - missiles/larrow4.cl2
+  - missiles/larrow5.cl2
+  - missiles/larrow6.cl2
+  - missiles/larrow7.cl2
+  - missiles/larrow8.cl2
+  - missiles/larrow9.cl2
+  - missiles/larrow10.cl2
+  - missiles/larrow11.cl2
+  - missiles/larrow12.cl2
+  - missiles/larrow13.cl2
+  - missiles/larrow14.cl2
+  - missiles/larrow15.cl2
+  - missiles/larrow16.cl2
+  anchor: missiles/larrow1.cl2
+  caption: ''
+missiles/lghning:
+  animations:
+  - missiles/lghning.cl2
+  anchor: missiles/lghning.cl2
+  caption: ''
+missiles/magball:
+  animations:
+  - missiles/magball1.cl2
+  - missiles/magball2.cl2
+  - missiles/magball3.cl2
+  - missiles/magball4.cl2
+  - missiles/magball5.cl2
+  - missiles/magball6.cl2
+  - missiles/magball7.cl2
+  - missiles/magball8.cl2
+  anchor: missiles/magball1.cl2
+  caption: ''
+missiles/magblos:
+  animations:
+  - missiles/magblos.cl2
+  anchor: missiles/magblos.cl2
+  caption: ''
+missiles/manashld:
+  animations:
+  - missiles/manashld.cl2
+  anchor: missiles/manashld.cl2
+  caption: ''
+missiles/metlhit:
+  animations:
+  - missiles/metlhit1.cl2
+  - missiles/metlhit2.cl2
+  - missiles/metlhit3.cl2
+  anchor: missiles/metlhit1.cl2
+  caption: ''
+missiles/mindmace:
+  animations:
+  - missiles/mindmace.cel
+  anchor: missiles/mindmace.cel
+  caption: ''
+missiles/miniltng:
+  animations:
+  - missiles/miniltng.cl2
+  anchor: missiles/miniltng.cl2
+  caption: ''
+missiles/ms_bla:
+  animations:
+  - missiles/ms_bla1.cl2
+  - missiles/ms_bla2.cl2
+  - missiles/ms_bla3.cl2
+  - missiles/ms_bla4.cl2
+  - missiles/ms_bla5.cl2
+  - missiles/ms_bla6.cl2
+  - missiles/ms_bla7.cl2
+  - missiles/ms_bla8.cl2
+  - missiles/ms_bla9.cl2
+  - missiles/ms_bla10.cl2
+  - missiles/ms_bla11.cl2
+  - missiles/ms_bla12.cl2
+  - missiles/ms_bla13.cl2
+  - missiles/ms_bla14.cl2
+  - missiles/ms_bla15.cl2
+  - missiles/ms_bla16.cl2
+  anchor: missiles/ms_bla1.cl2
+  caption: ''
+missiles/ms_blb:
+  animations:
+  - missiles/ms_blb1.cl2
+  - missiles/ms_blb2.cl2
+  - missiles/ms_blb3.cl2
+  - missiles/ms_blb4.cl2
+  - missiles/ms_blb5.cl2
+  - missiles/ms_blb6.cl2
+  - missiles/ms_blb7.cl2
+  - missiles/ms_blb8.cl2
+  - missiles/ms_blb9.cl2
+  - missiles/ms_blb10.cl2
+  - missiles/ms_blb11.cl2
+  - missiles/ms_blb12.cl2
+  - missiles/ms_blb13.cl2
+  - missiles/ms_blb14.cl2
+  - missiles/ms_blb15.cl2
+  - missiles/ms_blb16.cl2
+  anchor: missiles/ms_blb1.cl2
+  caption: ''
+missiles/ms_ora:
+  animations:
+  - missiles/ms_ora1.cl2
+  - missiles/ms_ora2.cl2
+  - missiles/ms_ora3.cl2
+  - missiles/ms_ora4.cl2
+  - missiles/ms_ora5.cl2
+  - missiles/ms_ora6.cl2
+  - missiles/ms_ora7.cl2
+  - missiles/ms_ora8.cl2
+  - missiles/ms_ora9.cl2
+  - missiles/ms_ora10.cl2
+  - missiles/ms_ora11.cl2
+  - missiles/ms_ora12.cl2
+  - missiles/ms_ora13.cl2
+  - missiles/ms_ora14.cl2
+  - missiles/ms_ora15.cl2
+  - missiles/ms_ora16.cl2
+  anchor: missiles/ms_ora1.cl2
+  caption: ''
+missiles/ms_reb:
+  animations:
+  - missiles/ms_reb1.cl2
+  - missiles/ms_reb2.cl2
+  - missiles/ms_reb3.cl2
+  - missiles/ms_reb4.cl2
+  - missiles/ms_reb5.cl2
+  - missiles/ms_reb6.cl2
+  - missiles/ms_reb7.cl2
+  - missiles/ms_reb8.cl2
+  - missiles/ms_reb9.cl2
+  - missiles/ms_reb10.cl2
+  - missiles/ms_reb11.cl2
+  - missiles/ms_reb12.cl2
+  - missiles/ms_reb13.cl2
+  - missiles/ms_reb14.cl2
+  - missiles/ms_reb15.cl2
+  - missiles/ms_reb16.cl2
+  anchor: missiles/ms_reb1.cl2
+  caption: ''
+missiles/ms_yeb:
+  animations:
+  - missiles/ms_yeb1.cl2
+  - missiles/ms_yeb2.cl2
+  - missiles/ms_yeb3.cl2
+  - missiles/ms_yeb4.cl2
+  - missiles/ms_yeb5.cl2
+  - missiles/ms_yeb6.cl2
+  - missiles/ms_yeb7.cl2
+  - missiles/ms_yeb8.cl2
+  - missiles/ms_yeb9.cl2
+  - missiles/ms_yeb10.cl2
+  - missiles/ms_yeb11.cl2
+  - missiles/ms_yeb12.cl2
+  - missiles/ms_yeb13.cl2
+  - missiles/ms_yeb14.cl2
+  - missiles/ms_yeb15.cl2
+  - missiles/ms_yeb16.cl2
+  anchor: missiles/ms_yeb1.cl2
+  caption: ''
+missiles/newexp:
+  animations:
+  - missiles/newexp.cl2
+  anchor: missiles/newexp.cl2
+  caption: ''
+missiles/portal:
+  animations:
+  - missiles/portal1.cl2
+  - missiles/portal2.cl2
+  - missiles/portal.cl2
+  anchor: missiles/portal1.cl2
+  caption: ''
+missiles/portalu:
+  animations:
+  - missiles/portalu.cl2
+  anchor: missiles/portalu.cl2
+  caption: ''
+missiles/reflect:
+  animations:
+  - missiles/reflect.cl2
+  anchor: missiles/reflect.cl2
+  caption: ''
+missiles/ressur:
+  animations:
+  - missiles/ressur1.cl2
+  anchor: missiles/ressur1.cl2
+  caption: ''
+missiles/rglows:
+  animations:
+  - missiles/rglows1.cl2
+  anchor: missiles/rglows1.cl2
+  caption: ''
+missiles/rportal:
+  animations:
+  - missiles/rportal1.cl2
+  - missiles/rportal2.cl2
+  anchor: missiles/rportal1.cl2
+  caption: ''
+missiles/scbsexpb:
+  animations:
+  - missiles/scbsexpb.cl2
+  anchor: missiles/scbsexpb.cl2
+  caption: ''
+missiles/scbsexpc:
+  animations:
+  - missiles/scbsexpc.cl2
+  anchor: missiles/scbsexpc.cl2
+  caption: ''
+missiles/scbsexpd:
+  animations:
+  - missiles/scbsexpd.cl2
+  anchor: missiles/scbsexpd.cl2
+  caption: ''
+missiles/scubmisb:
+  animations:
+  - missiles/scubmisb.cl2
+  anchor: missiles/scubmisb.cl2
+  caption: ''
+missiles/scubmisc:
+  animations:
+  - missiles/scubmisc.cl2
+  anchor: missiles/scubmisc.cl2
+  caption: ''
+missiles/scubmisd:
+  animations:
+  - missiles/scubmisd.cl2
+  anchor: missiles/scubmisd.cl2
+  caption: ''
+missiles/sentfr:
+  animations:
+  - missiles/sentfr.cel
+  anchor: missiles/sentfr.cel
+  caption: ''
+missiles/sentout:
+  animations:
+  - missiles/sentout.cel
+  anchor: missiles/sentout.cel
+  caption: ''
+missiles/sentup:
+  animations:
+  - missiles/sentup.cel
+  anchor: missiles/sentup.cel
+  caption: ''
+missiles/shatter:
+  animations:
+  - missiles/shatter1.cl2
+  anchor: missiles/shatter1.cl2
+  caption: ''
+missiles/sklball:
+  animations:
+  - missiles/sklball1.cl2
+  - missiles/sklball2.cl2
+  - missiles/sklball3.cl2
+  - missiles/sklball4.cl2
+  - missiles/sklball5.cl2
+  - missiles/sklball6.cl2
+  - missiles/sklball7.cl2
+  - missiles/sklball8.cl2
+  - missiles/sklball9.cl2
+  anchor: missiles/sklball1.cl2
+  caption: ''
+missiles/spawns:
+  animations:
+  - missiles/spawns1.cl2
+  - missiles/spawns2.cl2
+  - missiles/spawns3.cl2
+  - missiles/spawns4.cl2
+  - missiles/spawns5.cl2
+  - missiles/spawns6.cl2
+  - missiles/spawns7.cl2
+  - missiles/spawns8.cl2
+  anchor: missiles/spawns1.cl2
+  caption: ''
+missiles/thinlght:
+  animations:
+  - missiles/thinlght.cl2
+  anchor: missiles/thinlght.cl2
+  caption: ''
+monsters/acid:
+  animations:
+  - monsters/acid/acidn.cl2
+  - monsters/acid/acida.cl2
+  - monsters/acid/acidd.cl2
+  - monsters/acid/acidh.cl2
+  - monsters/acid/acidpud.cel
+  - monsters/acid/acids.cl2
+  - monsters/acid/acidw.cl2
+  anchor: monsters/acid/acidn.cl2
+  caption: ''
+monsters/antworm:
+  animations:
+  - monsters/antworm/wormn.cl2
+  - monsters/antworm/worma.cl2
+  - monsters/antworm/wormd.cl2
+  - monsters/antworm/wormh.cl2
+  - monsters/antworm/wormw.cl2
+  anchor: monsters/antworm/wormn.cl2
+  caption: ''
+monsters/bat:
+  animations:
+  - monsters/bat/batn.cl2
+  - monsters/bat/bata.cl2
+  - monsters/bat/batd.cl2
+  - monsters/bat/bath.cl2
+  - monsters/bat/batw.cl2
+  anchor: monsters/bat/batn.cl2
+  caption: ''
+monsters/bigfall:
+  animations:
+  - monsters/bigfall/fallgn.cl2
+  - monsters/bigfall/fallga.cl2
+  - monsters/bigfall/fallgd.cl2
+  - monsters/bigfall/fallgh.cl2
+  - monsters/bigfall/fallgw.cl2
+  anchor: monsters/bigfall/fallgn.cl2
+  caption: ''
+monsters/black:
+  animations:
+  - monsters/black/blackn.cl2
+  - monsters/black/blacka.cl2
+  - monsters/black/blackd.cl2
+  - monsters/black/blackh.cl2
+  - monsters/black/blackw.cl2
+  anchor: monsters/black/blackn.cl2
+  caption: ''
+monsters/bspidr:
+  animations:
+  - monsters/bspidr/bspidrn.cl2
+  - monsters/bspidr/bspidra.cl2
+  - monsters/bspidr/bspidrd.cl2
+  - monsters/bspidr/bspidrh.cl2
+  - monsters/bspidr/bspidrs.cl2
+  - monsters/bspidr/bspidrw.cl2
+  anchor: monsters/bspidr/bspidrn.cl2
+  caption: ''
+monsters/bubba:
+  animations:
+  - monsters/bubba/bubban.cl2
+  - monsters/bubba/bubbaa.cl2
+  - monsters/bubba/bubbad.cl2
+  - monsters/bubba/bubbah.cl2
+  - monsters/bubba/bubbaw.cl2
+  anchor: monsters/bubba/bubban.cl2
+  caption: ''
+monsters/byclps:
+  animations:
+  - monsters/byclps/byclpsn.cl2
+  - monsters/byclps/byclpsa.cl2
+  - monsters/byclps/byclpsd.cl2
+  - monsters/byclps/byclpsh.cl2
+  - monsters/byclps/byclpsw.cl2
+  anchor: monsters/byclps/byclpsn.cl2
+  caption: ''
+monsters/clasp:
+  animations:
+  - monsters/clasp/claspn.cl2
+  - monsters/clasp/claspa.cl2
+  - monsters/clasp/claspd.cl2
+  - monsters/clasp/clasph.cl2
+  - monsters/clasp/claspw.cl2
+  anchor: monsters/clasp/claspn.cl2
+  caption: ''
+monsters/darkmage:
+  animations:
+  - monsters/darkmage/dmagen.cl2
+  - monsters/darkmage/dmagea.cl2
+  - monsters/darkmage/dmaged.cl2
+  - monsters/darkmage/dmageh.cl2
+  - monsters/darkmage/dmages.cl2
+  - monsters/darkmage/dmagew.cl2
+  anchor: monsters/darkmage/dmagen.cl2
+  caption: ''
+monsters/demskel:
+  animations:
+  - monsters/demskel/demskln.cl2
+  - monsters/demskel/demskla.cl2
+  - monsters/demskel/demskld.cl2
+  - monsters/demskel/demsklh.cl2
+  - monsters/demskel/demskls.cl2
+  - monsters/demskel/demsklw.cl2
+  anchor: monsters/demskel/demskln.cl2
+  caption: ''
+monsters/diablo:
+  animations:
+  - monsters/diablo/diablon.cl2
+  - monsters/diablo/diabloa.cl2
+  - monsters/diablo/diablod.cl2
+  - monsters/diablo/diabloh.cl2
+  - monsters/diablo/diablos.cl2
+  - monsters/diablo/diablow.cl2
+  anchor: monsters/diablo/diablon.cl2
+  caption: ''
+monsters/eye:
+  animations:
+  - monsters/eye/eyen.cl2
+  - monsters/eye/eyea.cl2
+  - monsters/eye/eyed.cl2
+  - monsters/eye/eyeh.cl2
+  - monsters/eye/eyew.cl2
+  anchor: monsters/eye/eyen.cl2
+  caption: ''
+monsters/eye2:
+  animations:
+  - monsters/eye2/eye2n.cl2
+  - monsters/eye2/eye2a.cl2
+  - monsters/eye2/eye2d.cl2
+  - monsters/eye2/eye2h.cl2
+  - monsters/eye2/eye2w.cl2
+  anchor: monsters/eye2/eye2n.cl2
+  caption: ''
+monsters/falspear:
+  animations:
+  - monsters/falspear/phalln.cl2
+  - monsters/falspear/phalla.cl2
+  - monsters/falspear/phalld.cl2
+  - monsters/falspear/phallh.cl2
+  - monsters/falspear/phalls.cl2
+  - monsters/falspear/phallw.cl2
+  anchor: monsters/falspear/phalln.cl2
+  caption: ''
+monsters/falsword:
+  animations:
+  - monsters/falsword/falln.cl2
+  - monsters/falsword/falla.cl2
+  - monsters/falsword/falld.cl2
+  - monsters/falsword/fallh.cl2
+  - monsters/falsword/falls.cl2
+  - monsters/falsword/fallw.cl2
+  anchor: monsters/falsword/falln.cl2
+  caption: ''
+monsters/fat:
+  animations:
+  - monsters/fat/fatn.cl2
+  - monsters/fat/fata.cl2
+  - monsters/fat/fatd.cl2
+  - monsters/fat/fath.cl2
+  - monsters/fat/fats.cl2
+  - monsters/fat/fatw.cl2
+  anchor: monsters/fat/fatn.cl2
+  caption: ''
+monsters/fatc:
+  animations:
+  - monsters/fatc/fatcn.cl2
+  - monsters/fatc/fatca.cl2
+  - monsters/fatc/fatcd.cl2
+  - monsters/fatc/fatch.cl2
+  - monsters/fatc/fatcw.cl2
+  anchor: monsters/fatc/fatcn.cl2
+  caption: ''
+monsters/fireman:
+  animations:
+  - monsters/fireman/firemn.cl2
+  - monsters/fireman/firema.cl2
+  - monsters/fireman/firemd.cl2
+  - monsters/fireman/firemh.cl2
+  - monsters/fireman/firems.cl2
+  - monsters/fireman/firemw.cl2
+  anchor: monsters/fireman/firemn.cl2
+  caption: ''
+monsters/flesh:
+  animations:
+  - monsters/flesh/fleshn.cl2
+  - monsters/flesh/flesha.cl2
+  - monsters/flesh/fleshd.cl2
+  - monsters/flesh/fleshh.cl2
+  - monsters/flesh/fleshw.cl2
+  anchor: monsters/flesh/fleshn.cl2
+  caption: ''
+monsters/fork:
+  animations:
+  - monsters/fork/forkn.cl2
+  - monsters/fork/forka.cl2
+  - monsters/fork/forkd.cl2
+  - monsters/fork/forkh.cl2
+  - monsters/fork/forkw.cl2
+  anchor: monsters/fork/forkn.cl2
+  caption: ''
+monsters/gargoyle:
+  animations:
+  - monsters/gargoyle/gargon.cl2
+  - monsters/gargoyle/gargoa.cl2
+  - monsters/gargoyle/gargod.cl2
+  - monsters/gargoyle/gargoh.cl2
+  - monsters/gargoyle/gargos.cl2
+  - monsters/gargoyle/gargow.cl2
+  anchor: monsters/gargoyle/gargon.cl2
+  caption: ''
+monsters/goatbow:
+  animations:
+  - monsters/goatbow/goatbn.cl2
+  - monsters/goatbow/goatba.cl2
+  - monsters/goatbow/goatbd.cl2
+  - monsters/goatbow/goatbh.cl2
+  - monsters/goatbow/goatbw.cl2
+  anchor: monsters/goatbow/goatbn.cl2
+  caption: ''
+monsters/goatlord:
+  animations:
+  - monsters/goatlord/goatln.cl2
+  - monsters/goatlord/goatla.cl2
+  - monsters/goatlord/goatld.cl2
+  - monsters/goatlord/goatlh.cl2
+  - monsters/goatlord/goatlw.cl2
+  anchor: monsters/goatlord/goatln.cl2
+  caption: ''
+monsters/goatmace:
+  animations:
+  - monsters/goatmace/goatn.cl2
+  - monsters/goatmace/goata.cl2
+  - monsters/goatmace/goatd.cl2
+  - monsters/goatmace/goath.cl2
+  - monsters/goatmace/goats.cl2
+  - monsters/goatmace/goatw.cl2
+  anchor: monsters/goatmace/goatn.cl2
+  caption: ''
+monsters/golem:
+  animations:
+  - monsters/golem/golema.cl2
+  - monsters/golem/golemd.cl2
+  - monsters/golem/golems.cl2
+  - monsters/golem/golemw.cl2
+  anchor: monsters/golem/golema.cl2
+  caption: ''
+monsters/gravdg:
+  animations:
+  - monsters/gravdg/gravdgn.cl2
+  - monsters/gravdg/gravdga.cl2
+  - monsters/gravdg/gravdgd.cl2
+  - monsters/gravdg/gravdgh.cl2
+  - monsters/gravdg/gravdgs.cl2
+  - monsters/gravdg/gravdgw.cl2
+  anchor: monsters/gravdg/gravdgn.cl2
+  caption: ''
+monsters/hellbat:
+  animations:
+  - monsters/hellbat/helbatn.cl2
+  - monsters/hellbat/helbata.cl2
+  - monsters/hellbat/helbatd.cl2
+  - monsters/hellbat/helbath.cl2
+  - monsters/hellbat/helbats.cl2
+  - monsters/hellbat/helbatw.cl2
+  anchor: monsters/hellbat/helbatn.cl2
+  caption: ''
+monsters/hellbat2:
+  animations:
+  - monsters/hellbat2/bhelbtn.cl2
+  - monsters/hellbat2/bhelbta.cl2
+  - monsters/hellbat2/bhelbtd.cl2
+  - monsters/hellbat2/bhelbth.cl2
+  - monsters/hellbat2/bhelbts.cl2
+  - monsters/hellbat2/bhelbtw.cl2
+  anchor: monsters/hellbat2/bhelbtn.cl2
+  caption: ''
+monsters/hellbug:
+  animations:
+  - monsters/hellbug/hellbgn.cl2
+  - monsters/hellbug/hellbga.cl2
+  - monsters/hellbug/hellbgd.cl2
+  - monsters/hellbug/hellbgh.cl2
+  - monsters/hellbug/hellbgs.cl2
+  - monsters/hellbug/hellbgw.cl2
+  anchor: monsters/hellbug/hellbgn.cl2
+  caption: ''
+monsters/horkd:
+  animations:
+  - monsters/horkd/horkdn.cl2
+  - monsters/horkd/horkda.cl2
+  - monsters/horkd/horkdd.cl2
+  - monsters/horkd/horkdh.cl2
+  - monsters/horkd/horkds.cl2
+  - monsters/horkd/horkdw.cl2
+  anchor: monsters/horkd/horkdn.cl2
+  caption: ''
+monsters/lich:
+  animations:
+  - monsters/lich/lichn.cl2
+  - monsters/lich/licha.cl2
+  - monsters/lich/lichd.cl2
+  - monsters/lich/lichh.cl2
+  - monsters/lich/lichw.cl2
+  anchor: monsters/lich/lichn.cl2
+  caption: ''
+monsters/lich2:
+  animations:
+  - monsters/lich2/lich2n.cl2
+  - monsters/lich2/lich2a.cl2
+  - monsters/lich2/lich2d.cl2
+  - monsters/lich2/lich2h.cl2
+  - monsters/lich2/lich2w.cl2
+  anchor: monsters/lich2/lich2n.cl2
+  caption: ''
+monsters/mage:
+  animations:
+  - monsters/mage/magen.cl2
+  - monsters/mage/magea.cl2
+  - monsters/mage/maged.cl2
+  - monsters/mage/mageh.cl2
+  - monsters/mage/mages.cl2
+  - monsters/mage/magew.cl2
+  anchor: monsters/mage/magen.cl2
+  caption: ''
+monsters/magma:
+  animations:
+  - monsters/magma/magman.cl2
+  - monsters/magma/magball1.cel
+  - monsters/magma/magball2.cel
+  - monsters/magma/magball3.cel
+  - monsters/magma/magball4.cel
+  - monsters/magma/magball5.cel
+  - monsters/magma/magball6.cel
+  - monsters/magma/magball7.cel
+  - monsters/magma/magball8.cel
+  - monsters/magma/magblos.cel
+  - monsters/magma/magmaa.cl2
+  - monsters/magma/magmad.cl2
+  - monsters/magma/magmah.cl2
+  - monsters/magma/magmas.cl2
+  - monsters/magma/magmaw.cl2
+  anchor: monsters/magma/magman.cl2
+  caption: >-
+    SUBJECT: A humanoid demon. It has a stocky, muscular build and hunched posture, with a heavy torso, thick arms, and short legs. Its head is small relative to its body. Image 1 shows its standing pose from eight directions; it stands hunched and leaning forward.
+
+
+    BODY AND MATERIALS: The entire body appears composed of dark, textured organic material, possibly charred flesh or rock-like skin. This base surface is covered in branching, glowing cracks that resemble hot magma or lava veins. There are no visible cloth, leather, or metal components on the body itself.
+
+
+    EQUIPMENT: None. The creature is unarmed and unarmored.
+
+
+    COLOURS: The primary color is a very dark grey or black for the solid body mass. The cracks are bright orange and red, with small patches of yellow-white at their brightest points.
+
+
+    SHADOW: Each frame casts a soft, dark shadow directly beneath the figure, extending slightly to the left and rear. The shadow conforms to the character's footprint.
+
+
+    INVARIANTS: The pattern of glowing cracks must remain consistent across all frames and directions, shifting only with the limb movement. The hunched posture, relative limb thickness, and dark body-to-glow ratio are constant. Image 2 displays first frames of other animations: its thrown projectile, a ball of dark rock laced with the same glowing lava cracks, and the first frames of the creature's own attack, hit, death and walk animations.
+monsters/mega:
+  animations:
+  - monsters/mega/megan.cl2
+  - monsters/mega/megaa.cl2
+  - monsters/mega/megad.cl2
+  - monsters/mega/megah.cl2
+  - monsters/mega/megas.cl2
+  - monsters/mega/megaw.cl2
+  anchor: monsters/mega/megan.cl2
+  caption: ''
+monsters/nkr:
+  animations:
+  - monsters/nkr/nkrn.cl2
+  - monsters/nkr/nkra.cl2
+  - monsters/nkr/nkrd.cl2
+  - monsters/nkr/nkrh.cl2
+  - monsters/nkr/nkrs.cl2
+  - monsters/nkr/nkrw.cl2
+  anchor: monsters/nkr/nkrn.cl2
+  caption: >-
+    SUBJECT: A large bipedal demon with a hulking, armoured body, broad shoulders, thick legs and clawed three-toed feet. Its head is sunk low between the shoulders. Image 1 shows its standing pose from eight directions; Image 2 shows the first frames of its other animations, including a death in which it bursts into fire.
+
+
+    BODY AND MATERIALS: Its whole body is covered in glossy crimson chitin plates, ridged and segmented like an insect's shell, with paler pinkish flesh showing between the plates on the chest and belly. Long segmented tentacles rise from its back and arch over its head, each ending in a curved steel-grey sickle blade; more segmented whip-like tendrils hang from its forearms.
+
+
+    EQUIPMENT: None carried. The blades are part of its body.
+
+
+    COLOURS: Crimson and bright red plates with dark maroon shading; pale pink flesh between plates; small olive-green accents at the elbows; the sickle blades steel grey. The death animation adds orange and yellow flames at its feet.
+
+
+    SHADOW: A dark, soft-edged shadow on the ground, cast behind the figure to the left.
+
+
+    INVARIANTS: The number and placement of the blade-tipped back tentacles, the forearm tendrils, the red chitin armour and the clawed feet stay the same in every frame and direction.
+monsters/rat:
+  animations:
+  - monsters/rat/ratn.cl2
+  - monsters/rat/rata.cl2
+  - monsters/rat/ratd.cl2
+  - monsters/rat/rath.cl2
+  - monsters/rat/ratw.cl2
+  anchor: monsters/rat/ratn.cl2
+  caption: ''
+monsters/reaper:
+  animations:
+  - monsters/reaper/reapn.cl2
+  - monsters/reaper/reapa.cl2
+  - monsters/reaper/reapd.cl2
+  - monsters/reaper/reaph.cl2
+  - monsters/reaper/reapw.cl2
+  anchor: monsters/reaper/reapn.cl2
+  caption: ''
+monsters/rhino:
+  animations:
+  - monsters/rhino/rhinon.cl2
+  - monsters/rhino/rhinoa.cl2
+  - monsters/rhino/rhinod.cl2
+  - monsters/rhino/rhinoh.cl2
+  - monsters/rhino/rhinos1.cel
+  - monsters/rhino/rhinos2.cel
+  - monsters/rhino/rhinos3.cel
+  - monsters/rhino/rhinos4.cel
+  - monsters/rhino/rhinos5.cel
+  - monsters/rhino/rhinos6.cel
+  - monsters/rhino/rhinos7.cel
+  - monsters/rhino/rhinos8.cel
+  - monsters/rhino/rhinos.cl2
+  - monsters/rhino/rhinow.cl2
+  anchor: monsters/rhino/rhinon.cl2
+  caption: ''
+monsters/scav:
+  animations:
+  - monsters/scav/scavn.cl2
+  - monsters/scav/scava.cl2
+  - monsters/scav/scavd.cl2
+  - monsters/scav/scavh.cl2
+  - monsters/scav/scavs.cl2
+  - monsters/scav/scavw.cl2
+  anchor: monsters/scav/scavn.cl2
+  caption: ''
+monsters/scorp:
+  animations:
+  - monsters/scorp/scorpn.cl2
+  - monsters/scorp/scorpa.cl2
+  - monsters/scorp/scorpd.cl2
+  - monsters/scorp/scorph.cl2
+  - monsters/scorp/scorpw.cl2
+  anchor: monsters/scorp/scorpn.cl2
+  caption: ''
+monsters/skelaxe:
+  animations:
+  - monsters/skelaxe/sklaxn.cl2
+  - monsters/skelaxe/sklaxa.cl2
+  - monsters/skelaxe/sklaxd.cl2
+  - monsters/skelaxe/sklaxh.cl2
+  - monsters/skelaxe/sklaxs.cl2
+  - monsters/skelaxe/sklaxw.cl2
+  anchor: monsters/skelaxe/sklaxn.cl2
+  caption: ''
+monsters/skelbow:
+  animations:
+  - monsters/skelbow/sklbwn.cl2
+  - monsters/skelbow/sklbwa.cl2
+  - monsters/skelbow/sklbwd.cl2
+  - monsters/skelbow/sklbwh.cl2
+  - monsters/skelbow/sklbws.cl2
+  - monsters/skelbow/sklbww.cl2
+  anchor: monsters/skelbow/sklbwn.cl2
+  caption: ''
+monsters/skelsd:
+  animations:
+  - monsters/skelsd/sklsrn.cl2
+  - monsters/skelsd/sklsra.cl2
+  - monsters/skelsd/sklsrd.cl2
+  - monsters/skelsd/sklsrh.cl2
+  - monsters/skelsd/sklsrs.cl2
+  - monsters/skelsd/sklsrw.cl2
+  anchor: monsters/skelsd/sklsrn.cl2
+  caption: ''
+monsters/sking:
+  animations:
+  - monsters/sking/skingn.cl2
+  - monsters/sking/skinga.cl2
+  - monsters/sking/skingd.cl2
+  - monsters/sking/skingh.cl2
+  - monsters/sking/skings.cl2
+  - monsters/sking/skingw.cl2
+  anchor: monsters/sking/skingn.cl2
+  caption: ''
+monsters/snake:
+  animations:
+  - monsters/snake/snaken.cl2
+  - monsters/snake/snakea.cl2
+  - monsters/snake/snaked.cl2
+  - monsters/snake/snakeh.cl2
+  - monsters/snake/snakes.cl2
+  - monsters/snake/snakew.cl2
+  anchor: monsters/snake/snaken.cl2
+  caption: ''
+monsters/sneak:
+  animations:
+  - monsters/sneak/sneakn.cl2
+  - monsters/sneak/sneaka.cl2
+  - monsters/sneak/sneakd.cl2
+  - monsters/sneak/sneakh.cl2
+  - monsters/sneak/sneaks.cl2
+  - monsters/sneak/sneakw.cl2
+  anchor: monsters/sneak/sneakn.cl2
+  caption: ''
+monsters/spawn:
+  animations:
+  - monsters/spawn/spawnn.cl2
+  - monsters/spawn/spawna.cl2
+  - monsters/spawn/spawnd.cl2
+  - monsters/spawn/spawnh.cl2
+  - monsters/spawn/spawnw.cl2
+  anchor: monsters/spawn/spawnn.cl2
+  caption: ''
+monsters/spider:
+  animations:
+  - monsters/spider/spidern.cl2
+  - monsters/spider/spidera.cl2
+  - monsters/spider/spiderd.cl2
+  - monsters/spider/spiderh.cl2
+  - monsters/spider/spiderw.cl2
+  anchor: monsters/spider/spidern.cl2
+  caption: ''
+monsters/succ:
+  animations:
+  - monsters/succ/scbsn.cl2
+  - monsters/succ/flare.cel
+  - monsters/succ/flarexp.cel
+  - monsters/succ/scbsa.cl2
+  - monsters/succ/scbsd.cl2
+  - monsters/succ/scbsh.cl2
+  - monsters/succ/scbsw.cl2
+  anchor: monsters/succ/scbsn.cl2
+  caption: ''
+monsters/thin:
+  animations:
+  - monsters/thin/thinn.cl2
+  - monsters/thin/lghning.cel
+  - monsters/thin/thina.cl2
+  - monsters/thin/thind.cl2
+  - monsters/thin/thinh.cl2
+  - monsters/thin/thins.cl2
+  - monsters/thin/thinw.cl2
+  anchor: monsters/thin/thinn.cl2
+  caption: ''
+monsters/tsneak:
+  animations:
+  - monsters/tsneak/tsneakn.cl2
+  - monsters/tsneak/tsneaka.cl2
+  - monsters/tsneak/tsneakd.cl2
+  - monsters/tsneak/tsneakh.cl2
+  - monsters/tsneak/tsneakw.cl2
+  anchor: monsters/tsneak/tsneakn.cl2
+  caption: ''
+monsters/unrav:
+  animations:
+  - monsters/unrav/unravn.cl2
+  - monsters/unrav/unrava.cl2
+  - monsters/unrav/unravd.cl2
+  - monsters/unrav/unravh.cl2
+  - monsters/unrav/unravs.cl2
+  - monsters/unrav/unravw.cel
+  - monsters/unrav/unravw.cl2
+  anchor: monsters/unrav/unravn.cl2
+  caption: ''
+monsters/wscorp:
+  animations:
+  - monsters/wscorp/wscorpn.cl2
+  - monsters/wscorp/wscorpa.cl2
+  - monsters/wscorp/wscorpd.cl2
+  - monsters/wscorp/wscorph.cl2
+  - monsters/wscorp/wscorpw.cl2
+  anchor: monsters/wscorp/wscorpn.cl2
+  caption: ''
+monsters/zombie:
+  animations:
+  - monsters/zombie/zombien.cl2
+  - monsters/zombie/zombiea.cl2
+  - monsters/zombie/zombied.cl2
+  - monsters/zombie/zombieh.cl2
+  - monsters/zombie/zombies.cl2
+  - monsters/zombie/zombiew.cl2
+  anchor: monsters/zombie/zombien.cl2
+  caption: >-
+    SUBJECT: A gaunt humanoid zombie with a slightly hunched, forward-leaning stance and long thin limbs. Image 1 shows its standing pose from eight directions; Image 2 shows the first frames of its other animations (attacking, hit, death, walking).
+
+
+    BODY AND MATERIALS: Naked, emaciated body of rotting, leathery skin stretched over wiry muscle, with raw bloody wounds. Bald head. No clothing, hair or bone showing through.
+
+
+    EQUIPMENT: None. It fights with its bare hands.
+
+
+    COLOURS: Skin olive-khaki to dull ochre with darker brown-green shading; the wounds are dark blood red, on the crown of the head, the shoulders and upper back, and in patches on the arms and legs.
+
+
+    SHADOW: A dark, soft-edged shadow on the ground, cast behind the figure to the left.
+
+
+    INVARIANTS: The gaunt proportions, the olive rotting skin and the placement of the red wounds (crown, shoulders, back, limbs) stay the same in every frame and direction.
+plrgfx/monk/mha:
+  animations:
+  - plrgfx/monk/mha/mhast.cl2
+  - plrgfx/monk/mha/mhaas.cl2
+  - plrgfx/monk/mha/mhaat.cl2
+  - plrgfx/monk/mha/mhaaw.cl2
+  - plrgfx/monk/mha/mhadt.cl2
+  - plrgfx/monk/mha/mhafm.cl2
+  - plrgfx/monk/mha/mhaht.cl2
+  - plrgfx/monk/mha/mhalm.cl2
+  - plrgfx/monk/mha/mhaqm.cl2
+  - plrgfx/monk/mha/mhawl.cl2
+  anchor: plrgfx/monk/mha/mhast.cl2
+  caption: ''
+plrgfx/monk/mhb:
+  animations:
+  - plrgfx/monk/mhb/mhbst.cl2
+  - plrgfx/monk/mhb/mhbas.cl2
+  - plrgfx/monk/mhb/mhbat.cl2
+  - plrgfx/monk/mhb/mhbaw.cl2
+  - plrgfx/monk/mhb/mhbdt.cl2
+  - plrgfx/monk/mhb/mhbfm.cl2
+  - plrgfx/monk/mhb/mhbht.cl2
+  - plrgfx/monk/mhb/mhblm.cl2
+  - plrgfx/monk/mhb/mhbqm.cl2
+  - plrgfx/monk/mhb/mhbwl.cl2
+  anchor: plrgfx/monk/mhb/mhbst.cl2
+  caption: ''
+plrgfx/monk/mhd:
+  animations:
+  - plrgfx/monk/mhd/mhdst.cl2
+  - plrgfx/monk/mhd/mhdas.cl2
+  - plrgfx/monk/mhd/mhdat.cl2
+  - plrgfx/monk/mhd/mhdaw.cl2
+  - plrgfx/monk/mhd/mhdbl.cl2
+  - plrgfx/monk/mhd/mhddt.cl2
+  - plrgfx/monk/mhd/mhdfm.cl2
+  - plrgfx/monk/mhd/mhdht.cl2
+  - plrgfx/monk/mhd/mhdlm.cl2
+  - plrgfx/monk/mhd/mhdqm.cl2
+  - plrgfx/monk/mhd/mhdwl.cl2
+  anchor: plrgfx/monk/mhd/mhdst.cl2
+  caption: ''
+plrgfx/monk/mhh:
+  animations:
+  - plrgfx/monk/mhh/mhhst.cl2
+  - plrgfx/monk/mhh/mhhas.cl2
+  - plrgfx/monk/mhh/mhhat.cl2
+  - plrgfx/monk/mhh/mhhaw.cl2
+  - plrgfx/monk/mhh/mhhbl.cl2
+  - plrgfx/monk/mhh/mhhdt.cl2
+  - plrgfx/monk/mhh/mhhfm.cl2
+  - plrgfx/monk/mhh/mhhht.cl2
+  - plrgfx/monk/mhh/mhhlm.cl2
+  - plrgfx/monk/mhh/mhhqm.cl2
+  - plrgfx/monk/mhh/mhhwl.cl2
+  anchor: plrgfx/monk/mhh/mhhst.cl2
+  caption: ''
+plrgfx/monk/mhm:
+  animations:
+  - plrgfx/monk/mhm/mhmst.cl2
+  - plrgfx/monk/mhm/mhmas.cl2
+  - plrgfx/monk/mhm/mhmat.cl2
+  - plrgfx/monk/mhm/mhmaw.cl2
+  - plrgfx/monk/mhm/mhmbl.cl2
+  - plrgfx/monk/mhm/mhmdt.cl2
+  - plrgfx/monk/mhm/mhmfm.cl2
+  - plrgfx/monk/mhm/mhmht.cl2
+  - plrgfx/monk/mhm/mhmlm.cl2
+  - plrgfx/monk/mhm/mhmqm.cl2
+  - plrgfx/monk/mhm/mhmwl.cl2
+  anchor: plrgfx/monk/mhm/mhmst.cl2
+  caption: ''
+plrgfx/monk/mhn:
+  animations:
+  - plrgfx/monk/mhn/mhnst.cl2
+  - plrgfx/monk/mhn/mhnas.cl2
+  - plrgfx/monk/mhn/mhnat.cl2
+  - plrgfx/monk/mhn/mhnaw.cl2
+  - plrgfx/monk/mhn/mhnbl.cl2
+  - plrgfx/monk/mhn/mhndt.cl2
+  - plrgfx/monk/mhn/mhnfm.cl2
+  - plrgfx/monk/mhn/mhnht.cl2
+  - plrgfx/monk/mhn/mhnlm.cl2
+  - plrgfx/monk/mhn/mhnqm.cl2
+  - plrgfx/monk/mhn/mhnwl.cl2
+  anchor: plrgfx/monk/mhn/mhnst.cl2
+  caption: ''
+plrgfx/monk/mhs:
+  animations:
+  - plrgfx/monk/mhs/mhsst.cl2
+  - plrgfx/monk/mhs/mhsas.cl2
+  - plrgfx/monk/mhs/mhsat.cl2
+  - plrgfx/monk/mhs/mhsaw.cl2
+  - plrgfx/monk/mhs/mhsbl.cl2
+  - plrgfx/monk/mhs/mhsdt.cl2
+  - plrgfx/monk/mhs/mhsfm.cl2
+  - plrgfx/monk/mhs/mhsht.cl2
+  - plrgfx/monk/mhs/mhslm.cl2
+  - plrgfx/monk/mhs/mhsqm.cl2
+  - plrgfx/monk/mhs/mhswl.cl2
+  anchor: plrgfx/monk/mhs/mhsst.cl2
+  caption: ''
+plrgfx/monk/mht:
+  animations:
+  - plrgfx/monk/mht/mhtst.cl2
+  - plrgfx/monk/mht/mhtas.cl2
+  - plrgfx/monk/mht/mhtat.cl2
+  - plrgfx/monk/mht/mhtaw.cl2
+  - plrgfx/monk/mht/mhtbl.cl2
+  - plrgfx/monk/mht/mhtdt.cl2
+  - plrgfx/monk/mht/mhtfm.cl2
+  - plrgfx/monk/mht/mhtht.cl2
+  - plrgfx/monk/mht/mhtlm.cl2
+  - plrgfx/monk/mht/mhtqm.cl2
+  - plrgfx/monk/mht/mhtwl.cl2
+  anchor: plrgfx/monk/mht/mhtst.cl2
+  caption: ''
+plrgfx/monk/mhu:
+  animations:
+  - plrgfx/monk/mhu/mhust.cl2
+  - plrgfx/monk/mhu/mhuas.cl2
+  - plrgfx/monk/mhu/mhuat.cl2
+  - plrgfx/monk/mhu/mhuaw.cl2
+  - plrgfx/monk/mhu/mhubl.cl2
+  - plrgfx/monk/mhu/mhudt.cl2
+  - plrgfx/monk/mhu/mhufm.cl2
+  - plrgfx/monk/mhu/mhuht.cl2
+  - plrgfx/monk/mhu/mhulm.cl2
+  - plrgfx/monk/mhu/mhuqm.cl2
+  - plrgfx/monk/mhu/mhuwl.cl2
+  anchor: plrgfx/monk/mhu/mhust.cl2
+  caption: ''
+plrgfx/monk/mla:
+  animations:
+  - plrgfx/monk/mla/mlast.cl2
+  - plrgfx/monk/mla/mlaas.cl2
+  - plrgfx/monk/mla/mlaat.cl2
+  - plrgfx/monk/mla/mlaaw.cl2
+  - plrgfx/monk/mla/mladt.cl2
+  - plrgfx/monk/mla/mlafm.cl2
+  - plrgfx/monk/mla/mlaht.cl2
+  - plrgfx/monk/mla/mlalm.cl2
+  - plrgfx/monk/mla/mlaqm.cl2
+  - plrgfx/monk/mla/mlawl.cl2
+  anchor: plrgfx/monk/mla/mlast.cl2
+  caption: ''
+plrgfx/monk/mlb:
+  animations:
+  - plrgfx/monk/mlb/mlbst.cl2
+  - plrgfx/monk/mlb/mlbas.cl2
+  - plrgfx/monk/mlb/mlbat.cl2
+  - plrgfx/monk/mlb/mlbaw.cl2
+  - plrgfx/monk/mlb/mlbdt.cl2
+  - plrgfx/monk/mlb/mlbfm.cl2
+  - plrgfx/monk/mlb/mlbht.cl2
+  - plrgfx/monk/mlb/mlblm.cl2
+  - plrgfx/monk/mlb/mlbqm.cl2
+  - plrgfx/monk/mlb/mlbwl.cl2
+  anchor: plrgfx/monk/mlb/mlbst.cl2
+  caption: ''
+plrgfx/monk/mld:
+  animations:
+  - plrgfx/monk/mld/mldst.cl2
+  - plrgfx/monk/mld/mldas.cl2
+  - plrgfx/monk/mld/mldat.cl2
+  - plrgfx/monk/mld/mldaw.cl2
+  - plrgfx/monk/mld/mldbl.cl2
+  - plrgfx/monk/mld/mlddt.cl2
+  - plrgfx/monk/mld/mldfm.cl2
+  - plrgfx/monk/mld/mldht.cl2
+  - plrgfx/monk/mld/mldlm.cl2
+  - plrgfx/monk/mld/mldqm.cl2
+  - plrgfx/monk/mld/mldwl.cl2
+  anchor: plrgfx/monk/mld/mldst.cl2
+  caption: ''
+plrgfx/monk/mlh:
+  animations:
+  - plrgfx/monk/mlh/mlhst.cl2
+  - plrgfx/monk/mlh/mlhas.cl2
+  - plrgfx/monk/mlh/mlhat.cl2
+  - plrgfx/monk/mlh/mlhaw.cl2
+  - plrgfx/monk/mlh/mlhbl.cl2
+  - plrgfx/monk/mlh/mlhdt.cl2
+  - plrgfx/monk/mlh/mlhfm.cl2
+  - plrgfx/monk/mlh/mlhht.cl2
+  - plrgfx/monk/mlh/mlhlm.cl2
+  - plrgfx/monk/mlh/mlhqm.cl2
+  - plrgfx/monk/mlh/mlhwl.cl2
+  anchor: plrgfx/monk/mlh/mlhst.cl2
+  caption: ''
+plrgfx/monk/mlm:
+  animations:
+  - plrgfx/monk/mlm/mlmst.cl2
+  - plrgfx/monk/mlm/mlmas.cl2
+  - plrgfx/monk/mlm/mlmat.cl2
+  - plrgfx/monk/mlm/mlmaw.cl2
+  - plrgfx/monk/mlm/mlmbl.cl2
+  - plrgfx/monk/mlm/mlmdt.cl2
+  - plrgfx/monk/mlm/mlmfm.cl2
+  - plrgfx/monk/mlm/mlmht.cl2
+  - plrgfx/monk/mlm/mlmlm.cl2
+  - plrgfx/monk/mlm/mlmqm.cl2
+  - plrgfx/monk/mlm/mlmwl.cl2
+  anchor: plrgfx/monk/mlm/mlmst.cl2
+  caption: ''
+plrgfx/monk/mln:
+  animations:
+  - plrgfx/monk/mln/mlnst.cl2
+  - plrgfx/monk/mln/mlnas.cl2
+  - plrgfx/monk/mln/mlnat.cl2
+  - plrgfx/monk/mln/mlnaw.cl2
+  - plrgfx/monk/mln/mlnbl.cl2
+  - plrgfx/monk/mln/mlndt.cl2
+  - plrgfx/monk/mln/mlnfm.cl2
+  - plrgfx/monk/mln/mlnht.cl2
+  - plrgfx/monk/mln/mlnlm.cl2
+  - plrgfx/monk/mln/mlnqm.cl2
+  - plrgfx/monk/mln/mlnwl.cl2
+  anchor: plrgfx/monk/mln/mlnst.cl2
+  caption: ''
+plrgfx/monk/mls:
+  animations:
+  - plrgfx/monk/mls/mlsst.cl2
+  - plrgfx/monk/mls/mlsas.cl2
+  - plrgfx/monk/mls/mlsat.cl2
+  - plrgfx/monk/mls/mlsaw.cl2
+  - plrgfx/monk/mls/mlsbl.cl2
+  - plrgfx/monk/mls/mlsdt.cl2
+  - plrgfx/monk/mls/mlsfm.cl2
+  - plrgfx/monk/mls/mlsht.cl2
+  - plrgfx/monk/mls/mlslm.cl2
+  - plrgfx/monk/mls/mlsqm.cl2
+  - plrgfx/monk/mls/mlswl.cl2
+  anchor: plrgfx/monk/mls/mlsst.cl2
+  caption: ''
+plrgfx/monk/mlt:
+  animations:
+  - plrgfx/monk/mlt/mltst.cl2
+  - plrgfx/monk/mlt/mltas.cl2
+  - plrgfx/monk/mlt/mltat.cl2
+  - plrgfx/monk/mlt/mltaw.cl2
+  - plrgfx/monk/mlt/mltbl.cl2
+  - plrgfx/monk/mlt/mltdt.cl2
+  - plrgfx/monk/mlt/mltfm.cl2
+  - plrgfx/monk/mlt/mltht.cl2
+  - plrgfx/monk/mlt/mltlm.cl2
+  - plrgfx/monk/mlt/mltqm.cl2
+  - plrgfx/monk/mlt/mltwl.cl2
+  anchor: plrgfx/monk/mlt/mltst.cl2
+  caption: ''
+plrgfx/monk/mlu:
+  animations:
+  - plrgfx/monk/mlu/mlust.cl2
+  - plrgfx/monk/mlu/mluas.cl2
+  - plrgfx/monk/mlu/mluat.cl2
+  - plrgfx/monk/mlu/mluaw.cl2
+  - plrgfx/monk/mlu/mlubl.cl2
+  - plrgfx/monk/mlu/mludt.cl2
+  - plrgfx/monk/mlu/mlufm.cl2
+  - plrgfx/monk/mlu/mluht.cl2
+  - plrgfx/monk/mlu/mlulm.cl2
+  - plrgfx/monk/mlu/mluqm.cl2
+  - plrgfx/monk/mlu/mluwl.cl2
+  anchor: plrgfx/monk/mlu/mlust.cl2
+  caption: ''
+plrgfx/monk/mma:
+  animations:
+  - plrgfx/monk/mma/mmast.cl2
+  - plrgfx/monk/mma/mmaas.cl2
+  - plrgfx/monk/mma/mmaat.cl2
+  - plrgfx/monk/mma/mmaaw.cl2
+  - plrgfx/monk/mma/mmadt.cl2
+  - plrgfx/monk/mma/mmafm.cl2
+  - plrgfx/monk/mma/mmaht.cl2
+  - plrgfx/monk/mma/mmalm.cl2
+  - plrgfx/monk/mma/mmaqm.cl2
+  - plrgfx/monk/mma/mmawl.cl2
+  anchor: plrgfx/monk/mma/mmast.cl2
+  caption: ''
+plrgfx/monk/mmb:
+  animations:
+  - plrgfx/monk/mmb/mmbst.cl2
+  - plrgfx/monk/mmb/mmbas.cl2
+  - plrgfx/monk/mmb/mmbat.cl2
+  - plrgfx/monk/mmb/mmbaw.cl2
+  - plrgfx/monk/mmb/mmbdt.cl2
+  - plrgfx/monk/mmb/mmbfm.cl2
+  - plrgfx/monk/mmb/mmbht.cl2
+  - plrgfx/monk/mmb/mmblm.cl2
+  - plrgfx/monk/mmb/mmbqm.cl2
+  - plrgfx/monk/mmb/mmbwl.cl2
+  anchor: plrgfx/monk/mmb/mmbst.cl2
+  caption: ''
+plrgfx/monk/mmd:
+  animations:
+  - plrgfx/monk/mmd/mmdst.cl2
+  - plrgfx/monk/mmd/mmdas.cl2
+  - plrgfx/monk/mmd/mmdat.cl2
+  - plrgfx/monk/mmd/mmdaw.cl2
+  - plrgfx/monk/mmd/mmdbl.cl2
+  - plrgfx/monk/mmd/mmddt.cl2
+  - plrgfx/monk/mmd/mmdfm.cl2
+  - plrgfx/monk/mmd/mmdht.cl2
+  - plrgfx/monk/mmd/mmdlm.cl2
+  - plrgfx/monk/mmd/mmdqm.cl2
+  - plrgfx/monk/mmd/mmdwl.cl2
+  anchor: plrgfx/monk/mmd/mmdst.cl2
+  caption: ''
+plrgfx/monk/mmh:
+  animations:
+  - plrgfx/monk/mmh/mmhst.cl2
+  - plrgfx/monk/mmh/mmhas.cl2
+  - plrgfx/monk/mmh/mmhat.cl2
+  - plrgfx/monk/mmh/mmhaw.cl2
+  - plrgfx/monk/mmh/mmhbl.cl2
+  - plrgfx/monk/mmh/mmhdt.cl2
+  - plrgfx/monk/mmh/mmhfm.cl2
+  - plrgfx/monk/mmh/mmhht.cl2
+  - plrgfx/monk/mmh/mmhlm.cl2
+  - plrgfx/monk/mmh/mmhqm.cl2
+  - plrgfx/monk/mmh/mmhwl.cl2
+  anchor: plrgfx/monk/mmh/mmhst.cl2
+  caption: ''
+plrgfx/monk/mmm:
+  animations:
+  - plrgfx/monk/mmm/mmmst.cl2
+  - plrgfx/monk/mmm/mmmas.cl2
+  - plrgfx/monk/mmm/mmmat.cl2
+  - plrgfx/monk/mmm/mmmaw.cl2
+  - plrgfx/monk/mmm/mmmbl.cl2
+  - plrgfx/monk/mmm/mmmdt.cl2
+  - plrgfx/monk/mmm/mmmfm.cl2
+  - plrgfx/monk/mmm/mmmht.cl2
+  - plrgfx/monk/mmm/mmmlm.cl2
+  - plrgfx/monk/mmm/mmmqm.cl2
+  - plrgfx/monk/mmm/mmmwl.cl2
+  anchor: plrgfx/monk/mmm/mmmst.cl2
+  caption: ''
+plrgfx/monk/mmn:
+  animations:
+  - plrgfx/monk/mmn/mmnst.cl2
+  - plrgfx/monk/mmn/mmnas.cl2
+  - plrgfx/monk/mmn/mmnat.cl2
+  - plrgfx/monk/mmn/mmnaw.cl2
+  - plrgfx/monk/mmn/mmnbl.cl2
+  - plrgfx/monk/mmn/mmndt.cl2
+  - plrgfx/monk/mmn/mmnfm.cl2
+  - plrgfx/monk/mmn/mmnht.cl2
+  - plrgfx/monk/mmn/mmnlm.cl2
+  - plrgfx/monk/mmn/mmnqm.cl2
+  - plrgfx/monk/mmn/mmnwl.cl2
+  anchor: plrgfx/monk/mmn/mmnst.cl2
+  caption: ''
+plrgfx/monk/mms:
+  animations:
+  - plrgfx/monk/mms/mmsst.cl2
+  - plrgfx/monk/mms/mmsas.cl2
+  - plrgfx/monk/mms/mmsat.cl2
+  - plrgfx/monk/mms/mmsaw.cl2
+  - plrgfx/monk/mms/mmsbl.cl2
+  - plrgfx/monk/mms/mmsdt.cl2
+  - plrgfx/monk/mms/mmsfm.cl2
+  - plrgfx/monk/mms/mmsht.cl2
+  - plrgfx/monk/mms/mmslm.cl2
+  - plrgfx/monk/mms/mmsqm.cl2
+  - plrgfx/monk/mms/mmswl.cl2
+  anchor: plrgfx/monk/mms/mmsst.cl2
+  caption: ''
+plrgfx/monk/mmt:
+  animations:
+  - plrgfx/monk/mmt/mmtst.cl2
+  - plrgfx/monk/mmt/mmtas.cl2
+  - plrgfx/monk/mmt/mmtat.cl2
+  - plrgfx/monk/mmt/mmtaw.cl2
+  - plrgfx/monk/mmt/mmtbl.cl2
+  - plrgfx/monk/mmt/mmtdt.cl2
+  - plrgfx/monk/mmt/mmtfm.cl2
+  - plrgfx/monk/mmt/mmtht.cl2
+  - plrgfx/monk/mmt/mmtlm.cl2
+  - plrgfx/monk/mmt/mmtqm.cl2
+  - plrgfx/monk/mmt/mmtwl.cl2
+  anchor: plrgfx/monk/mmt/mmtst.cl2
+  caption: ''
+plrgfx/monk/mmu:
+  animations:
+  - plrgfx/monk/mmu/mmust.cl2
+  - plrgfx/monk/mmu/mmuas.cl2
+  - plrgfx/monk/mmu/mmuat.cl2
+  - plrgfx/monk/mmu/mmuaw.cl2
+  - plrgfx/monk/mmu/mmubl.cl2
+  - plrgfx/monk/mmu/mmudt.cl2
+  - plrgfx/monk/mmu/mmufm.cl2
+  - plrgfx/monk/mmu/mmuht.cl2
+  - plrgfx/monk/mmu/mmulm.cl2
+  - plrgfx/monk/mmu/mmuqm.cl2
+  - plrgfx/monk/mmu/mmuwl.cl2
+  anchor: plrgfx/monk/mmu/mmust.cl2
+  caption: ''
+plrgfx/rogue/rha:
+  animations:
+  - plrgfx/rogue/rha/rhast.cl2
+  - plrgfx/rogue/rha/rhaas.cl2
+  - plrgfx/rogue/rha/rhaat.cl2
+  - plrgfx/rogue/rha/rhaaw.cl2
+  - plrgfx/rogue/rha/rhafm.cl2
+  - plrgfx/rogue/rha/rhaht.cl2
+  - plrgfx/rogue/rha/rhalm.cl2
+  - plrgfx/rogue/rha/rhaqm.cl2
+  - plrgfx/rogue/rha/rhawl.cl2
+  anchor: plrgfx/rogue/rha/rhast.cl2
+  caption: ''
+plrgfx/rogue/rhb:
+  animations:
+  - plrgfx/rogue/rhb/rhbst.cl2
+  - plrgfx/rogue/rhb/rhbas.cl2
+  - plrgfx/rogue/rhb/rhbat.cl2
+  - plrgfx/rogue/rhb/rhbaw.cl2
+  - plrgfx/rogue/rhb/rhbfm.cl2
+  - plrgfx/rogue/rhb/rhbht.cl2
+  - plrgfx/rogue/rhb/rhblm.cl2
+  - plrgfx/rogue/rhb/rhbqm.cl2
+  - plrgfx/rogue/rhb/rhbwl.cl2
+  anchor: plrgfx/rogue/rhb/rhbst.cl2
+  caption: ''
+plrgfx/rogue/rhd:
+  animations:
+  - plrgfx/rogue/rhd/rhdst.cl2
+  - plrgfx/rogue/rhd/rhdas.cl2
+  - plrgfx/rogue/rhd/rhdat.cl2
+  - plrgfx/rogue/rhd/rhdaw.cl2
+  - plrgfx/rogue/rhd/rhdbl.cl2
+  - plrgfx/rogue/rhd/rhdfm.cl2
+  - plrgfx/rogue/rhd/rhdht.cl2
+  - plrgfx/rogue/rhd/rhdlm.cl2
+  - plrgfx/rogue/rhd/rhdqm.cl2
+  - plrgfx/rogue/rhd/rhdwl.cl2
+  anchor: plrgfx/rogue/rhd/rhdst.cl2
+  caption: ''
+plrgfx/rogue/rhh:
+  animations:
+  - plrgfx/rogue/rhh/rhhst.cl2
+  - plrgfx/rogue/rhh/rhhas.cl2
+  - plrgfx/rogue/rhh/rhhat.cl2
+  - plrgfx/rogue/rhh/rhhaw.cl2
+  - plrgfx/rogue/rhh/rhhbl.cl2
+  - plrgfx/rogue/rhh/rhhfm.cl2
+  - plrgfx/rogue/rhh/rhhht.cl2
+  - plrgfx/rogue/rhh/rhhlm.cl2
+  - plrgfx/rogue/rhh/rhhqm.cl2
+  - plrgfx/rogue/rhh/rhhwl.cl2
+  anchor: plrgfx/rogue/rhh/rhhst.cl2
+  caption: ''
+plrgfx/rogue/rhm:
+  animations:
+  - plrgfx/rogue/rhm/rhmst.cl2
+  - plrgfx/rogue/rhm/rhmas.cl2
+  - plrgfx/rogue/rhm/rhmat.cl2
+  - plrgfx/rogue/rhm/rhmaw.cl2
+  - plrgfx/rogue/rhm/rhmfm.cl2
+  - plrgfx/rogue/rhm/rhmht.cl2
+  - plrgfx/rogue/rhm/rhmlm.cl2
+  - plrgfx/rogue/rhm/rhmqm.cl2
+  - plrgfx/rogue/rhm/rhmwl.cl2
+  anchor: plrgfx/rogue/rhm/rhmst.cl2
+  caption: ''
+plrgfx/rogue/rhn:
+  animations:
+  - plrgfx/rogue/rhn/rhnst.cl2
+  - plrgfx/rogue/rhn/rhnas.cl2
+  - plrgfx/rogue/rhn/rhnat.cl2
+  - plrgfx/rogue/rhn/rhnaw.cl2
+  - plrgfx/rogue/rhn/rhndt.cl2
+  - plrgfx/rogue/rhn/rhnfm.cl2
+  - plrgfx/rogue/rhn/rhnht.cl2
+  - plrgfx/rogue/rhn/rhnlm.cl2
+  - plrgfx/rogue/rhn/rhnqm.cl2
+  - plrgfx/rogue/rhn/rhnwl.cl2
+  anchor: plrgfx/rogue/rhn/rhnst.cl2
+  caption: ''
+plrgfx/rogue/rhs:
+  animations:
+  - plrgfx/rogue/rhs/rhsst.cl2
+  - plrgfx/rogue/rhs/rhsas.cl2
+  - plrgfx/rogue/rhs/rhsat.cl2
+  - plrgfx/rogue/rhs/rhsaw.cl2
+  - plrgfx/rogue/rhs/rhsfm.cl2
+  - plrgfx/rogue/rhs/rhsht.cl2
+  - plrgfx/rogue/rhs/rhslm.cl2
+  - plrgfx/rogue/rhs/rhsqm.cl2
+  - plrgfx/rogue/rhs/rhswl.cl2
+  anchor: plrgfx/rogue/rhs/rhsst.cl2
+  caption: ''
+plrgfx/rogue/rht:
+  animations:
+  - plrgfx/rogue/rht/rhtst.cl2
+  - plrgfx/rogue/rht/rhtas.cl2
+  - plrgfx/rogue/rht/rhtat.cl2
+  - plrgfx/rogue/rht/rhtaw.cl2
+  - plrgfx/rogue/rht/rhtfm.cl2
+  - plrgfx/rogue/rht/rhtht.cl2
+  - plrgfx/rogue/rht/rhtlm.cl2
+  - plrgfx/rogue/rht/rhtqm.cl2
+  - plrgfx/rogue/rht/rhtwl.cl2
+  anchor: plrgfx/rogue/rht/rhtst.cl2
+  caption: ''
+plrgfx/rogue/rhu:
+  animations:
+  - plrgfx/rogue/rhu/rhust.cl2
+  - plrgfx/rogue/rhu/rhuas.cl2
+  - plrgfx/rogue/rhu/rhuat.cl2
+  - plrgfx/rogue/rhu/rhuaw.cl2
+  - plrgfx/rogue/rhu/rhubl.cl2
+  - plrgfx/rogue/rhu/rhufm.cl2
+  - plrgfx/rogue/rhu/rhuht.cl2
+  - plrgfx/rogue/rhu/rhulm.cl2
+  - plrgfx/rogue/rhu/rhuqm.cl2
+  - plrgfx/rogue/rhu/rhuwl.cl2
+  anchor: plrgfx/rogue/rhu/rhust.cl2
+  caption: ''
+plrgfx/rogue/rla:
+  animations:
+  - plrgfx/rogue/rla/rlast.cl2
+  - plrgfx/rogue/rla/rlaas.cl2
+  - plrgfx/rogue/rla/rlaat.cl2
+  - plrgfx/rogue/rla/rlaaw.cl2
+  - plrgfx/rogue/rla/rlafm.cl2
+  - plrgfx/rogue/rla/rlaht.cl2
+  - plrgfx/rogue/rla/rlalm.cl2
+  - plrgfx/rogue/rla/rlaqm.cl2
+  - plrgfx/rogue/rla/rlawl.cl2
+  anchor: plrgfx/rogue/rla/rlast.cl2
+  caption: ''
+plrgfx/rogue/rlb:
+  animations:
+  - plrgfx/rogue/rlb/rlbst.cl2
+  - plrgfx/rogue/rlb/rlbas.cl2
+  - plrgfx/rogue/rlb/rlbat.cl2
+  - plrgfx/rogue/rlb/rlbaw.cl2
+  - plrgfx/rogue/rlb/rlbfm.cl2
+  - plrgfx/rogue/rlb/rlbht.cl2
+  - plrgfx/rogue/rlb/rlblm.cl2
+  - plrgfx/rogue/rlb/rlbqm.cl2
+  - plrgfx/rogue/rlb/rlbwl.cl2
+  anchor: plrgfx/rogue/rlb/rlbst.cl2
+  caption: ''
+plrgfx/rogue/rld:
+  animations:
+  - plrgfx/rogue/rld/rldst.cl2
+  - plrgfx/rogue/rld/rldas.cl2
+  - plrgfx/rogue/rld/rldat.cl2
+  - plrgfx/rogue/rld/rldaw.cl2
+  - plrgfx/rogue/rld/rldbl.cl2
+  - plrgfx/rogue/rld/rldfm.cl2
+  - plrgfx/rogue/rld/rldht.cl2
+  - plrgfx/rogue/rld/rldlm.cl2
+  - plrgfx/rogue/rld/rldqm.cl2
+  - plrgfx/rogue/rld/rldwl.cl2
+  anchor: plrgfx/rogue/rld/rldst.cl2
+  caption: ''
+plrgfx/rogue/rlh:
+  animations:
+  - plrgfx/rogue/rlh/rlhst.cl2
+  - plrgfx/rogue/rlh/rlhas.cl2
+  - plrgfx/rogue/rlh/rlhat.cl2
+  - plrgfx/rogue/rlh/rlhaw.cl2
+  - plrgfx/rogue/rlh/rlhbl.cl2
+  - plrgfx/rogue/rlh/rlhfm.cl2
+  - plrgfx/rogue/rlh/rlhht.cl2
+  - plrgfx/rogue/rlh/rlhlm.cl2
+  - plrgfx/rogue/rlh/rlhqm.cl2
+  - plrgfx/rogue/rlh/rlhwl.cl2
+  anchor: plrgfx/rogue/rlh/rlhst.cl2
+  caption: ''
+plrgfx/rogue/rlm:
+  animations:
+  - plrgfx/rogue/rlm/rlmst.cl2
+  - plrgfx/rogue/rlm/rlmas.cl2
+  - plrgfx/rogue/rlm/rlmat.cl2
+  - plrgfx/rogue/rlm/rlmaw.cl2
+  - plrgfx/rogue/rlm/rlmfm.cl2
+  - plrgfx/rogue/rlm/rlmht.cl2
+  - plrgfx/rogue/rlm/rlmlm.cl2
+  - plrgfx/rogue/rlm/rlmqm.cl2
+  - plrgfx/rogue/rlm/rlmwl.cl2
+  anchor: plrgfx/rogue/rlm/rlmst.cl2
+  caption: ''
+plrgfx/rogue/rln:
+  animations:
+  - plrgfx/rogue/rln/rlnst.cl2
+  - plrgfx/rogue/rln/rlnas.cl2
+  - plrgfx/rogue/rln/rlnat.cl2
+  - plrgfx/rogue/rln/rlnaw.cl2
+  - plrgfx/rogue/rln/rlndt.cl2
+  - plrgfx/rogue/rln/rlnfm.cl2
+  - plrgfx/rogue/rln/rlnht.cl2
+  - plrgfx/rogue/rln/rlnlm.cl2
+  - plrgfx/rogue/rln/rlnqm.cl2
+  - plrgfx/rogue/rln/rlnwl.cl2
+  anchor: plrgfx/rogue/rln/rlnst.cl2
+  caption: ''
+plrgfx/rogue/rls:
+  animations:
+  - plrgfx/rogue/rls/rlsst.cl2
+  - plrgfx/rogue/rls/rlsas.cl2
+  - plrgfx/rogue/rls/rlsat.cl2
+  - plrgfx/rogue/rls/rlsaw.cl2
+  - plrgfx/rogue/rls/rlsfm.cl2
+  - plrgfx/rogue/rls/rlsht.cl2
+  - plrgfx/rogue/rls/rlslm.cl2
+  - plrgfx/rogue/rls/rlsqm.cl2
+  - plrgfx/rogue/rls/rlswl.cl2
+  anchor: plrgfx/rogue/rls/rlsst.cl2
+  caption: ''
+plrgfx/rogue/rlt:
+  animations:
+  - plrgfx/rogue/rlt/rltst.cl2
+  - plrgfx/rogue/rlt/rltas.cl2
+  - plrgfx/rogue/rlt/rltat.cl2
+  - plrgfx/rogue/rlt/rltaw.cl2
+  - plrgfx/rogue/rlt/rltfm.cl2
+  - plrgfx/rogue/rlt/rltht.cl2
+  - plrgfx/rogue/rlt/rltlm.cl2
+  - plrgfx/rogue/rlt/rltqm.cl2
+  - plrgfx/rogue/rlt/rltwl.cl2
+  anchor: plrgfx/rogue/rlt/rltst.cl2
+  caption: ''
+plrgfx/rogue/rlu:
+  animations:
+  - plrgfx/rogue/rlu/rlust.cl2
+  - plrgfx/rogue/rlu/rluas.cl2
+  - plrgfx/rogue/rlu/rluat.cl2
+  - plrgfx/rogue/rlu/rluaw.cl2
+  - plrgfx/rogue/rlu/rlubl.cl2
+  - plrgfx/rogue/rlu/rlufm.cl2
+  - plrgfx/rogue/rlu/rluht.cl2
+  - plrgfx/rogue/rlu/rlulm.cl2
+  - plrgfx/rogue/rlu/rluqm.cl2
+  - plrgfx/rogue/rlu/rluwl.cl2
+  anchor: plrgfx/rogue/rlu/rlust.cl2
+  caption: ''
+plrgfx/rogue/rma:
+  animations:
+  - plrgfx/rogue/rma/rmast.cl2
+  - plrgfx/rogue/rma/rmaas.cl2
+  - plrgfx/rogue/rma/rmaat.cl2
+  - plrgfx/rogue/rma/rmaaw.cl2
+  - plrgfx/rogue/rma/rmafm.cl2
+  - plrgfx/rogue/rma/rmaht.cl2
+  - plrgfx/rogue/rma/rmalm.cl2
+  - plrgfx/rogue/rma/rmaqm.cl2
+  - plrgfx/rogue/rma/rmawl.cl2
+  anchor: plrgfx/rogue/rma/rmast.cl2
+  caption: ''
+plrgfx/rogue/rmb:
+  animations:
+  - plrgfx/rogue/rmb/rmbst.cl2
+  - plrgfx/rogue/rmb/rmbas.cl2
+  - plrgfx/rogue/rmb/rmbat.cl2
+  - plrgfx/rogue/rmb/rmbaw.cl2
+  - plrgfx/rogue/rmb/rmbfm.cl2
+  - plrgfx/rogue/rmb/rmbht.cl2
+  - plrgfx/rogue/rmb/rmblm.cl2
+  - plrgfx/rogue/rmb/rmbqm.cl2
+  - plrgfx/rogue/rmb/rmbwl.cl2
+  anchor: plrgfx/rogue/rmb/rmbst.cl2
+  caption: ''
+plrgfx/rogue/rmd:
+  animations:
+  - plrgfx/rogue/rmd/rmdst.cl2
+  - plrgfx/rogue/rmd/rmdas.cl2
+  - plrgfx/rogue/rmd/rmdat.cl2
+  - plrgfx/rogue/rmd/rmdaw.cl2
+  - plrgfx/rogue/rmd/rmdbl.cl2
+  - plrgfx/rogue/rmd/rmdfm.cl2
+  - plrgfx/rogue/rmd/rmdht.cl2
+  - plrgfx/rogue/rmd/rmdlm.cl2
+  - plrgfx/rogue/rmd/rmdqm.cl2
+  - plrgfx/rogue/rmd/rmdwl.cl2
+  anchor: plrgfx/rogue/rmd/rmdst.cl2
+  caption: ''
+plrgfx/rogue/rmh:
+  animations:
+  - plrgfx/rogue/rmh/rmhst.cl2
+  - plrgfx/rogue/rmh/rmhas.cl2
+  - plrgfx/rogue/rmh/rmhat.cl2
+  - plrgfx/rogue/rmh/rmhaw.cl2
+  - plrgfx/rogue/rmh/rmhbl.cl2
+  - plrgfx/rogue/rmh/rmhfm.cl2
+  - plrgfx/rogue/rmh/rmhht.cl2
+  - plrgfx/rogue/rmh/rmhlm.cl2
+  - plrgfx/rogue/rmh/rmhqm.cl2
+  - plrgfx/rogue/rmh/rmhwl.cl2
+  anchor: plrgfx/rogue/rmh/rmhst.cl2
+  caption: ''
+plrgfx/rogue/rmm:
+  animations:
+  - plrgfx/rogue/rmm/rmmst.cl2
+  - plrgfx/rogue/rmm/rmmas.cl2
+  - plrgfx/rogue/rmm/rmmat.cl2
+  - plrgfx/rogue/rmm/rmmaw.cl2
+  - plrgfx/rogue/rmm/rmmfm.cl2
+  - plrgfx/rogue/rmm/rmmht.cl2
+  - plrgfx/rogue/rmm/rmmlm.cl2
+  - plrgfx/rogue/rmm/rmmqm.cl2
+  - plrgfx/rogue/rmm/rmmwl.cl2
+  anchor: plrgfx/rogue/rmm/rmmst.cl2
+  caption: ''
+plrgfx/rogue/rmn:
+  animations:
+  - plrgfx/rogue/rmn/rmnst.cl2
+  - plrgfx/rogue/rmn/rmnas.cl2
+  - plrgfx/rogue/rmn/rmnat.cl2
+  - plrgfx/rogue/rmn/rmnaw.cl2
+  - plrgfx/rogue/rmn/rmndt.cl2
+  - plrgfx/rogue/rmn/rmnfm.cl2
+  - plrgfx/rogue/rmn/rmnht.cl2
+  - plrgfx/rogue/rmn/rmnlm.cl2
+  - plrgfx/rogue/rmn/rmnqm.cl2
+  - plrgfx/rogue/rmn/rmnwl.cl2
+  anchor: plrgfx/rogue/rmn/rmnst.cl2
+  caption: ''
+plrgfx/rogue/rms:
+  animations:
+  - plrgfx/rogue/rms/rmsst.cl2
+  - plrgfx/rogue/rms/rmsas.cl2
+  - plrgfx/rogue/rms/rmsat.cl2
+  - plrgfx/rogue/rms/rmsaw.cl2
+  - plrgfx/rogue/rms/rmsfm.cl2
+  - plrgfx/rogue/rms/rmsht.cl2
+  - plrgfx/rogue/rms/rmslm.cl2
+  - plrgfx/rogue/rms/rmsqm.cl2
+  - plrgfx/rogue/rms/rmswl.cl2
+  anchor: plrgfx/rogue/rms/rmsst.cl2
+  caption: ''
+plrgfx/rogue/rmt:
+  animations:
+  - plrgfx/rogue/rmt/rmtst.cl2
+  - plrgfx/rogue/rmt/rmtas.cl2
+  - plrgfx/rogue/rmt/rmtat.cl2
+  - plrgfx/rogue/rmt/rmtaw.cl2
+  - plrgfx/rogue/rmt/rmtfm.cl2
+  - plrgfx/rogue/rmt/rmtht.cl2
+  - plrgfx/rogue/rmt/rmtlm.cl2
+  - plrgfx/rogue/rmt/rmtqm.cl2
+  - plrgfx/rogue/rmt/rmtwl.cl2
+  anchor: plrgfx/rogue/rmt/rmtst.cl2
+  caption: ''
+plrgfx/rogue/rmu:
+  animations:
+  - plrgfx/rogue/rmu/rmust.cl2
+  - plrgfx/rogue/rmu/rmuas.cl2
+  - plrgfx/rogue/rmu/rmuat.cl2
+  - plrgfx/rogue/rmu/rmuaw.cl2
+  - plrgfx/rogue/rmu/rmubl.cl2
+  - plrgfx/rogue/rmu/rmufm.cl2
+  - plrgfx/rogue/rmu/rmuht.cl2
+  - plrgfx/rogue/rmu/rmulm.cl2
+  - plrgfx/rogue/rmu/rmuqm.cl2
+  - plrgfx/rogue/rmu/rmuwl.cl2
+  anchor: plrgfx/rogue/rmu/rmust.cl2
+  caption: ''
+plrgfx/sorceror/sha:
+  animations:
+  - plrgfx/sorceror/sha/shast.cl2
+  - plrgfx/sorceror/sha/shaas.cl2
+  - plrgfx/sorceror/sha/shaat.cl2
+  - plrgfx/sorceror/sha/shaaw.cl2
+  - plrgfx/sorceror/sha/shafm.cl2
+  - plrgfx/sorceror/sha/shaht.cl2
+  - plrgfx/sorceror/sha/shalm.cl2
+  - plrgfx/sorceror/sha/shaqm.cl2
+  - plrgfx/sorceror/sha/shawl.cl2
+  anchor: plrgfx/sorceror/sha/shast.cl2
+  caption: ''
+plrgfx/sorceror/shb:
+  animations:
+  - plrgfx/sorceror/shb/shbst.cl2
+  - plrgfx/sorceror/shb/shbas.cl2
+  - plrgfx/sorceror/shb/shbat.cl2
+  - plrgfx/sorceror/shb/shbaw.cl2
+  - plrgfx/sorceror/shb/shbfm.cl2
+  - plrgfx/sorceror/shb/shbht.cl2
+  - plrgfx/sorceror/shb/shblm.cl2
+  - plrgfx/sorceror/shb/shbqm.cl2
+  - plrgfx/sorceror/shb/shbwl.cl2
+  anchor: plrgfx/sorceror/shb/shbst.cl2
+  caption: ''
+plrgfx/sorceror/shd:
+  animations:
+  - plrgfx/sorceror/shd/shdst.cl2
+  - plrgfx/sorceror/shd/shdas.cl2
+  - plrgfx/sorceror/shd/shdat.cl2
+  - plrgfx/sorceror/shd/shdaw.cl2
+  - plrgfx/sorceror/shd/shdbl.cl2
+  - plrgfx/sorceror/shd/shdfm.cl2
+  - plrgfx/sorceror/shd/shdht.cl2
+  - plrgfx/sorceror/shd/shdlm.cl2
+  - plrgfx/sorceror/shd/shdqm.cl2
+  - plrgfx/sorceror/shd/shdwl.cl2
+  anchor: plrgfx/sorceror/shd/shdst.cl2
+  caption: ''
+plrgfx/sorceror/shh:
+  animations:
+  - plrgfx/sorceror/shh/shhst.cl2
+  - plrgfx/sorceror/shh/shhas.cl2
+  - plrgfx/sorceror/shh/shhat.cl2
+  - plrgfx/sorceror/shh/shhaw.cl2
+  - plrgfx/sorceror/shh/shhbl.cl2
+  - plrgfx/sorceror/shh/shhfm.cl2
+  - plrgfx/sorceror/shh/shhht.cl2
+  - plrgfx/sorceror/shh/shhlm.cl2
+  - plrgfx/sorceror/shh/shhqm.cl2
+  - plrgfx/sorceror/shh/shhwl.cl2
+  anchor: plrgfx/sorceror/shh/shhst.cl2
+  caption: ''
+plrgfx/sorceror/shm:
+  animations:
+  - plrgfx/sorceror/shm/shmst.cl2
+  - plrgfx/sorceror/shm/shmas.cl2
+  - plrgfx/sorceror/shm/shmat.cl2
+  - plrgfx/sorceror/shm/shmaw.cl2
+  - plrgfx/sorceror/shm/shmfm.cl2
+  - plrgfx/sorceror/shm/shmht.cl2
+  - plrgfx/sorceror/shm/shmlm.cl2
+  - plrgfx/sorceror/shm/shmqm.cl2
+  - plrgfx/sorceror/shm/shmwl.cl2
+  anchor: plrgfx/sorceror/shm/shmst.cl2
+  caption: ''
+plrgfx/sorceror/shn:
+  animations:
+  - plrgfx/sorceror/shn/shnst.cl2
+  - plrgfx/sorceror/shn/shnas.cl2
+  - plrgfx/sorceror/shn/shnat.cl2
+  - plrgfx/sorceror/shn/shnaw.cl2
+  - plrgfx/sorceror/shn/shndt.cl2
+  - plrgfx/sorceror/shn/shnfm.cl2
+  - plrgfx/sorceror/shn/shnht.cl2
+  - plrgfx/sorceror/shn/shnlm.cl2
+  - plrgfx/sorceror/shn/shnqm.cl2
+  - plrgfx/sorceror/shn/shnwl.cl2
+  anchor: plrgfx/sorceror/shn/shnst.cl2
+  caption: ''
+plrgfx/sorceror/shs:
+  animations:
+  - plrgfx/sorceror/shs/shsst.cl2
+  - plrgfx/sorceror/shs/shsas.cl2
+  - plrgfx/sorceror/shs/shsat.cl2
+  - plrgfx/sorceror/shs/shsaw.cl2
+  - plrgfx/sorceror/shs/shsfm.cl2
+  - plrgfx/sorceror/shs/shsht.cl2
+  - plrgfx/sorceror/shs/shslm.cl2
+  - plrgfx/sorceror/shs/shsqm.cl2
+  - plrgfx/sorceror/shs/shswl.cl2
+  anchor: plrgfx/sorceror/shs/shsst.cl2
+  caption: ''
+plrgfx/sorceror/sht:
+  animations:
+  - plrgfx/sorceror/sht/shtst.cl2
+  - plrgfx/sorceror/sht/shtas.cl2
+  - plrgfx/sorceror/sht/shtat.cl2
+  - plrgfx/sorceror/sht/shtaw.cl2
+  - plrgfx/sorceror/sht/shtfm.cl2
+  - plrgfx/sorceror/sht/shtht.cl2
+  - plrgfx/sorceror/sht/shtlm.cl2
+  - plrgfx/sorceror/sht/shtqm.cl2
+  - plrgfx/sorceror/sht/shtwl.cl2
+  anchor: plrgfx/sorceror/sht/shtst.cl2
+  caption: ''
+plrgfx/sorceror/shu:
+  animations:
+  - plrgfx/sorceror/shu/shust.cl2
+  - plrgfx/sorceror/shu/shuas.cl2
+  - plrgfx/sorceror/shu/shuat.cl2
+  - plrgfx/sorceror/shu/shuaw.cl2
+  - plrgfx/sorceror/shu/shubl.cl2
+  - plrgfx/sorceror/shu/shufm.cl2
+  - plrgfx/sorceror/shu/shuht.cl2
+  - plrgfx/sorceror/shu/shulm.cl2
+  - plrgfx/sorceror/shu/shuqm.cl2
+  - plrgfx/sorceror/shu/shuwl.cl2
+  anchor: plrgfx/sorceror/shu/shust.cl2
+  caption: ''
+plrgfx/sorceror/sla:
+  animations:
+  - plrgfx/sorceror/sla/slast.cl2
+  - plrgfx/sorceror/sla/slaas.cl2
+  - plrgfx/sorceror/sla/slaat.cl2
+  - plrgfx/sorceror/sla/slaaw.cl2
+  - plrgfx/sorceror/sla/slafm.cl2
+  - plrgfx/sorceror/sla/slaht.cl2
+  - plrgfx/sorceror/sla/slalm.cl2
+  - plrgfx/sorceror/sla/slaqm.cl2
+  - plrgfx/sorceror/sla/slawl.cl2
+  anchor: plrgfx/sorceror/sla/slast.cl2
+  caption: ''
+plrgfx/sorceror/slb:
+  animations:
+  - plrgfx/sorceror/slb/slbst.cl2
+  - plrgfx/sorceror/slb/slbas.cl2
+  - plrgfx/sorceror/slb/slbat.cl2
+  - plrgfx/sorceror/slb/slbaw.cl2
+  - plrgfx/sorceror/slb/slbfm.cl2
+  - plrgfx/sorceror/slb/slbht.cl2
+  - plrgfx/sorceror/slb/slblm.cl2
+  - plrgfx/sorceror/slb/slbqm.cl2
+  - plrgfx/sorceror/slb/slbwl.cl2
+  anchor: plrgfx/sorceror/slb/slbst.cl2
+  caption: ''
+plrgfx/sorceror/sld:
+  animations:
+  - plrgfx/sorceror/sld/sldst.cl2
+  - plrgfx/sorceror/sld/sldas.cl2
+  - plrgfx/sorceror/sld/sldat.cl2
+  - plrgfx/sorceror/sld/sldaw.cl2
+  - plrgfx/sorceror/sld/sldbl.cl2
+  - plrgfx/sorceror/sld/sldfm.cl2
+  - plrgfx/sorceror/sld/sldht.cl2
+  - plrgfx/sorceror/sld/sldlm.cl2
+  - plrgfx/sorceror/sld/sldqm.cl2
+  - plrgfx/sorceror/sld/sldwl.cl2
+  anchor: plrgfx/sorceror/sld/sldst.cl2
+  caption: ''
+plrgfx/sorceror/slh:
+  animations:
+  - plrgfx/sorceror/slh/slhst.cl2
+  - plrgfx/sorceror/slh/slhas.cl2
+  - plrgfx/sorceror/slh/slhat.cl2
+  - plrgfx/sorceror/slh/slhaw.cl2
+  - plrgfx/sorceror/slh/slhbl.cl2
+  - plrgfx/sorceror/slh/slhfm.cl2
+  - plrgfx/sorceror/slh/slhht.cl2
+  - plrgfx/sorceror/slh/slhlm.cl2
+  - plrgfx/sorceror/slh/slhqm.cl2
+  - plrgfx/sorceror/slh/slhwl.cl2
+  anchor: plrgfx/sorceror/slh/slhst.cl2
+  caption: ''
+plrgfx/sorceror/slm:
+  animations:
+  - plrgfx/sorceror/slm/slmst.cl2
+  - plrgfx/sorceror/slm/slmas.cl2
+  - plrgfx/sorceror/slm/slmat.cl2
+  - plrgfx/sorceror/slm/slmaw.cl2
+  - plrgfx/sorceror/slm/slmfm.cl2
+  - plrgfx/sorceror/slm/slmht.cl2
+  - plrgfx/sorceror/slm/slmlm.cl2
+  - plrgfx/sorceror/slm/slmqm.cl2
+  - plrgfx/sorceror/slm/slmwl.cl2
+  anchor: plrgfx/sorceror/slm/slmst.cl2
+  caption: ''
+plrgfx/sorceror/sln:
+  animations:
+  - plrgfx/sorceror/sln/slnst.cl2
+  - plrgfx/sorceror/sln/slnas.cl2
+  - plrgfx/sorceror/sln/slnat.cl2
+  - plrgfx/sorceror/sln/slnaw.cl2
+  - plrgfx/sorceror/sln/slndt.cl2
+  - plrgfx/sorceror/sln/slnfm.cl2
+  - plrgfx/sorceror/sln/slnht.cl2
+  - plrgfx/sorceror/sln/slnlm.cl2
+  - plrgfx/sorceror/sln/slnqm.cl2
+  - plrgfx/sorceror/sln/slnwl.cl2
+  anchor: plrgfx/sorceror/sln/slnst.cl2
+  caption: ''
+plrgfx/sorceror/sls:
+  animations:
+  - plrgfx/sorceror/sls/slsst.cl2
+  - plrgfx/sorceror/sls/slsas.cl2
+  - plrgfx/sorceror/sls/slsat.cl2
+  - plrgfx/sorceror/sls/slsaw.cl2
+  - plrgfx/sorceror/sls/slsfm.cl2
+  - plrgfx/sorceror/sls/slsht.cl2
+  - plrgfx/sorceror/sls/slslm.cl2
+  - plrgfx/sorceror/sls/slsqm.cl2
+  - plrgfx/sorceror/sls/slswl.cl2
+  anchor: plrgfx/sorceror/sls/slsst.cl2
+  caption: ''
+plrgfx/sorceror/slt:
+  animations:
+  - plrgfx/sorceror/slt/sltst.cl2
+  - plrgfx/sorceror/slt/sltas.cl2
+  - plrgfx/sorceror/slt/sltat.cl2
+  - plrgfx/sorceror/slt/sltaw.cl2
+  - plrgfx/sorceror/slt/sltfm.cl2
+  - plrgfx/sorceror/slt/sltht.cl2
+  - plrgfx/sorceror/slt/sltlm.cl2
+  - plrgfx/sorceror/slt/sltqm.cl2
+  - plrgfx/sorceror/slt/sltwl.cl2
+  anchor: plrgfx/sorceror/slt/sltst.cl2
+  caption: ''
+plrgfx/sorceror/slu:
+  animations:
+  - plrgfx/sorceror/slu/slust.cl2
+  - plrgfx/sorceror/slu/sluas.cl2
+  - plrgfx/sorceror/slu/sluat.cl2
+  - plrgfx/sorceror/slu/sluaw.cl2
+  - plrgfx/sorceror/slu/slubl.cl2
+  - plrgfx/sorceror/slu/slufm.cl2
+  - plrgfx/sorceror/slu/sluht.cl2
+  - plrgfx/sorceror/slu/slulm.cl2
+  - plrgfx/sorceror/slu/sluqm.cl2
+  - plrgfx/sorceror/slu/sluwl.cl2
+  anchor: plrgfx/sorceror/slu/slust.cl2
+  caption: ''
+plrgfx/sorceror/sma:
+  animations:
+  - plrgfx/sorceror/sma/smast.cl2
+  - plrgfx/sorceror/sma/smaas.cl2
+  - plrgfx/sorceror/sma/smaat.cl2
+  - plrgfx/sorceror/sma/smaaw.cl2
+  - plrgfx/sorceror/sma/smafm.cl2
+  - plrgfx/sorceror/sma/smaht.cl2
+  - plrgfx/sorceror/sma/smalm.cl2
+  - plrgfx/sorceror/sma/smaqm.cl2
+  - plrgfx/sorceror/sma/smawl.cl2
+  anchor: plrgfx/sorceror/sma/smast.cl2
+  caption: ''
+plrgfx/sorceror/smb:
+  animations:
+  - plrgfx/sorceror/smb/smbst.cl2
+  - plrgfx/sorceror/smb/smbas.cl2
+  - plrgfx/sorceror/smb/smbat.cl2
+  - plrgfx/sorceror/smb/smbaw.cl2
+  - plrgfx/sorceror/smb/smbfm.cl2
+  - plrgfx/sorceror/smb/smbht.cl2
+  - plrgfx/sorceror/smb/smblm.cl2
+  - plrgfx/sorceror/smb/smbqm.cl2
+  - plrgfx/sorceror/smb/smbwl.cl2
+  anchor: plrgfx/sorceror/smb/smbst.cl2
+  caption: ''
+plrgfx/sorceror/smd:
+  animations:
+  - plrgfx/sorceror/smd/smdst.cl2
+  - plrgfx/sorceror/smd/smdas.cl2
+  - plrgfx/sorceror/smd/smdat.cl2
+  - plrgfx/sorceror/smd/smdaw.cl2
+  - plrgfx/sorceror/smd/smdbl.cl2
+  - plrgfx/sorceror/smd/smdfm.cl2
+  - plrgfx/sorceror/smd/smdht.cl2
+  - plrgfx/sorceror/smd/smdlm.cl2
+  - plrgfx/sorceror/smd/smdqm.cl2
+  - plrgfx/sorceror/smd/smdwl.cl2
+  anchor: plrgfx/sorceror/smd/smdst.cl2
+  caption: ''
+plrgfx/sorceror/smh:
+  animations:
+  - plrgfx/sorceror/smh/smhst.cl2
+  - plrgfx/sorceror/smh/smhas.cl2
+  - plrgfx/sorceror/smh/smhat.cl2
+  - plrgfx/sorceror/smh/smhaw.cl2
+  - plrgfx/sorceror/smh/smhbl.cl2
+  - plrgfx/sorceror/smh/smhfm.cl2
+  - plrgfx/sorceror/smh/smhht.cl2
+  - plrgfx/sorceror/smh/smhlm.cl2
+  - plrgfx/sorceror/smh/smhqm.cl2
+  - plrgfx/sorceror/smh/smhwl.cl2
+  anchor: plrgfx/sorceror/smh/smhst.cl2
+  caption: ''
+plrgfx/sorceror/smm:
+  animations:
+  - plrgfx/sorceror/smm/smmst.cl2
+  - plrgfx/sorceror/smm/smmas.cl2
+  - plrgfx/sorceror/smm/smmat.cl2
+  - plrgfx/sorceror/smm/smmaw.cl2
+  - plrgfx/sorceror/smm/smmfm.cl2
+  - plrgfx/sorceror/smm/smmht.cl2
+  - plrgfx/sorceror/smm/smmlm.cl2
+  - plrgfx/sorceror/smm/smmqm.cl2
+  - plrgfx/sorceror/smm/smmwl.cl2
+  anchor: plrgfx/sorceror/smm/smmst.cl2
+  caption: ''
+plrgfx/sorceror/smn:
+  animations:
+  - plrgfx/sorceror/smn/smnst.cl2
+  - plrgfx/sorceror/smn/smnas.cl2
+  - plrgfx/sorceror/smn/smnat.cl2
+  - plrgfx/sorceror/smn/smnaw.cl2
+  - plrgfx/sorceror/smn/smndt.cl2
+  - plrgfx/sorceror/smn/smnfm.cl2
+  - plrgfx/sorceror/smn/smnht.cl2
+  - plrgfx/sorceror/smn/smnlm.cl2
+  - plrgfx/sorceror/smn/smnqm.cl2
+  - plrgfx/sorceror/smn/smnwl.cl2
+  anchor: plrgfx/sorceror/smn/smnst.cl2
+  caption: ''
+plrgfx/sorceror/sms:
+  animations:
+  - plrgfx/sorceror/sms/smsst.cl2
+  - plrgfx/sorceror/sms/smsas.cl2
+  - plrgfx/sorceror/sms/smsat.cl2
+  - plrgfx/sorceror/sms/smsaw.cl2
+  - plrgfx/sorceror/sms/smsfm.cl2
+  - plrgfx/sorceror/sms/smsht.cl2
+  - plrgfx/sorceror/sms/smslm.cl2
+  - plrgfx/sorceror/sms/smsqm.cl2
+  - plrgfx/sorceror/sms/smswl.cl2
+  anchor: plrgfx/sorceror/sms/smsst.cl2
+  caption: ''
+plrgfx/sorceror/smt:
+  animations:
+  - plrgfx/sorceror/smt/smtst.cl2
+  - plrgfx/sorceror/smt/smtas.cl2
+  - plrgfx/sorceror/smt/smtat.cl2
+  - plrgfx/sorceror/smt/smtaw.cl2
+  - plrgfx/sorceror/smt/smtfm.cl2
+  - plrgfx/sorceror/smt/smtht.cl2
+  - plrgfx/sorceror/smt/smtlm.cl2
+  - plrgfx/sorceror/smt/smtqm.cl2
+  - plrgfx/sorceror/smt/smtwl.cl2
+  anchor: plrgfx/sorceror/smt/smtst.cl2
+  caption: ''
+plrgfx/sorceror/smu:
+  animations:
+  - plrgfx/sorceror/smu/smust.cl2
+  - plrgfx/sorceror/smu/smuas.cl2
+  - plrgfx/sorceror/smu/smuat.cl2
+  - plrgfx/sorceror/smu/smuaw.cl2
+  - plrgfx/sorceror/smu/smubl.cl2
+  - plrgfx/sorceror/smu/smufm.cl2
+  - plrgfx/sorceror/smu/smuht.cl2
+  - plrgfx/sorceror/smu/smulm.cl2
+  - plrgfx/sorceror/smu/smuqm.cl2
+  - plrgfx/sorceror/smu/smuwl.cl2
+  anchor: plrgfx/sorceror/smu/smust.cl2
+  caption: ''
+plrgfx/warrior/wha:
+  animations:
+  - plrgfx/warrior/wha/whast.cl2
+  - plrgfx/warrior/wha/whaas.cl2
+  - plrgfx/warrior/wha/whaat.cl2
+  - plrgfx/warrior/wha/whaaw.cl2
+  - plrgfx/warrior/wha/whafm.cl2
+  - plrgfx/warrior/wha/whaht.cl2
+  - plrgfx/warrior/wha/whalm.cl2
+  - plrgfx/warrior/wha/whaqm.cl2
+  - plrgfx/warrior/wha/whawl.cl2
+  anchor: plrgfx/warrior/wha/whast.cl2
+  caption: ''
+plrgfx/warrior/whb:
+  animations:
+  - plrgfx/warrior/whb/whbst.cl2
+  - plrgfx/warrior/whb/whbas.cl2
+  - plrgfx/warrior/whb/whbat.cl2
+  - plrgfx/warrior/whb/whbaw.cl2
+  - plrgfx/warrior/whb/whbfm.cl2
+  - plrgfx/warrior/whb/whbht.cl2
+  - plrgfx/warrior/whb/whblm.cl2
+  - plrgfx/warrior/whb/whbqm.cl2
+  - plrgfx/warrior/whb/whbwl.cl2
+  anchor: plrgfx/warrior/whb/whbst.cl2
+  caption: ''
+plrgfx/warrior/whd:
+  animations:
+  - plrgfx/warrior/whd/whdst.cl2
+  - plrgfx/warrior/whd/whdas.cl2
+  - plrgfx/warrior/whd/whdat.cl2
+  - plrgfx/warrior/whd/whdaw.cl2
+  - plrgfx/warrior/whd/whdbl.cl2
+  - plrgfx/warrior/whd/whdfm.cl2
+  - plrgfx/warrior/whd/whdht.cl2
+  - plrgfx/warrior/whd/whdlm.cl2
+  - plrgfx/warrior/whd/whdqm.cl2
+  - plrgfx/warrior/whd/whdwl.cl2
+  anchor: plrgfx/warrior/whd/whdst.cl2
+  caption: ''
+plrgfx/warrior/whh:
+  animations:
+  - plrgfx/warrior/whh/whhst.cl2
+  - plrgfx/warrior/whh/whhas.cl2
+  - plrgfx/warrior/whh/whhat.cl2
+  - plrgfx/warrior/whh/whhaw.cl2
+  - plrgfx/warrior/whh/whhbl.cl2
+  - plrgfx/warrior/whh/whhfm.cl2
+  - plrgfx/warrior/whh/whhht.cl2
+  - plrgfx/warrior/whh/whhlm.cl2
+  - plrgfx/warrior/whh/whhqm.cl2
+  - plrgfx/warrior/whh/whhwl.cl2
+  anchor: plrgfx/warrior/whh/whhst.cl2
+  caption: ''
+plrgfx/warrior/whm:
+  animations:
+  - plrgfx/warrior/whm/whmst.cl2
+  - plrgfx/warrior/whm/whmas.cl2
+  - plrgfx/warrior/whm/whmat.cl2
+  - plrgfx/warrior/whm/whmaw.cl2
+  - plrgfx/warrior/whm/whmfm.cl2
+  - plrgfx/warrior/whm/whmht.cl2
+  - plrgfx/warrior/whm/whmlm.cl2
+  - plrgfx/warrior/whm/whmqm.cl2
+  - plrgfx/warrior/whm/whmwl.cl2
+  anchor: plrgfx/warrior/whm/whmst.cl2
+  caption: ''
+plrgfx/warrior/whn:
+  animations:
+  - plrgfx/warrior/whn/whnst.cl2
+  - plrgfx/warrior/whn/whnas.cl2
+  - plrgfx/warrior/whn/whnat.cl2
+  - plrgfx/warrior/whn/whnaw.cl2
+  - plrgfx/warrior/whn/whndt.cl2
+  - plrgfx/warrior/whn/whnfm.cl2
+  - plrgfx/warrior/whn/whnht.cl2
+  - plrgfx/warrior/whn/whnlm.cl2
+  - plrgfx/warrior/whn/whnqm.cl2
+  - plrgfx/warrior/whn/whnwl.cl2
+  anchor: plrgfx/warrior/whn/whnst.cl2
+  caption: ''
+plrgfx/warrior/whs:
+  animations:
+  - plrgfx/warrior/whs/whsst.cl2
+  - plrgfx/warrior/whs/whsas.cl2
+  - plrgfx/warrior/whs/whsat.cl2
+  - plrgfx/warrior/whs/whsaw.cl2
+  - plrgfx/warrior/whs/whsfm.cl2
+  - plrgfx/warrior/whs/whsht.cl2
+  - plrgfx/warrior/whs/whslm.cl2
+  - plrgfx/warrior/whs/whsqm.cl2
+  - plrgfx/warrior/whs/whswl.cl2
+  anchor: plrgfx/warrior/whs/whsst.cl2
+  caption: ''
+plrgfx/warrior/wht:
+  animations:
+  - plrgfx/warrior/wht/whtst.cl2
+  - plrgfx/warrior/wht/whtas.cl2
+  - plrgfx/warrior/wht/whtat.cl2
+  - plrgfx/warrior/wht/whtaw.cl2
+  - plrgfx/warrior/wht/whtfm.cl2
+  - plrgfx/warrior/wht/whtht.cl2
+  - plrgfx/warrior/wht/whtlm.cl2
+  - plrgfx/warrior/wht/whtqm.cl2
+  - plrgfx/warrior/wht/whtwl.cl2
+  anchor: plrgfx/warrior/wht/whtst.cl2
+  caption: ''
+plrgfx/warrior/whu:
+  animations:
+  - plrgfx/warrior/whu/whust.cl2
+  - plrgfx/warrior/whu/whuas.cl2
+  - plrgfx/warrior/whu/whuat.cl2
+  - plrgfx/warrior/whu/whuaw.cl2
+  - plrgfx/warrior/whu/whubl.cl2
+  - plrgfx/warrior/whu/whufm.cl2
+  - plrgfx/warrior/whu/whuht.cl2
+  - plrgfx/warrior/whu/whulm.cl2
+  - plrgfx/warrior/whu/whuqm.cl2
+  - plrgfx/warrior/whu/whuwl.cl2
+  anchor: plrgfx/warrior/whu/whust.cl2
+  caption: ''
+plrgfx/warrior/wla:
+  animations:
+  - plrgfx/warrior/wla/wlast.cl2
+  - plrgfx/warrior/wla/wlaas.cl2
+  - plrgfx/warrior/wla/wlaat.cl2
+  - plrgfx/warrior/wla/wlaaw.cl2
+  - plrgfx/warrior/wla/wlafm.cl2
+  - plrgfx/warrior/wla/wlaht.cl2
+  - plrgfx/warrior/wla/wlalm.cl2
+  - plrgfx/warrior/wla/wlaqm.cl2
+  - plrgfx/warrior/wla/wlawl.cl2
+  anchor: plrgfx/warrior/wla/wlast.cl2
+  caption: ''
+plrgfx/warrior/wlb:
+  animations:
+  - plrgfx/warrior/wlb/wlbst.cl2
+  - plrgfx/warrior/wlb/wlbas.cl2
+  - plrgfx/warrior/wlb/wlbat.cl2
+  - plrgfx/warrior/wlb/wlbaw.cl2
+  - plrgfx/warrior/wlb/wlbfm.cl2
+  - plrgfx/warrior/wlb/wlbht.cl2
+  - plrgfx/warrior/wlb/wlblm.cl2
+  - plrgfx/warrior/wlb/wlbqm.cl2
+  - plrgfx/warrior/wlb/wlbwl.cl2
+  anchor: plrgfx/warrior/wlb/wlbst.cl2
+  caption: ''
+plrgfx/warrior/wld:
+  animations:
+  - plrgfx/warrior/wld/wldst.cl2
+  - plrgfx/warrior/wld/wldas.cl2
+  - plrgfx/warrior/wld/wldat.cl2
+  - plrgfx/warrior/wld/wldaw.cl2
+  - plrgfx/warrior/wld/wldbl.cl2
+  - plrgfx/warrior/wld/wldfm.cl2
+  - plrgfx/warrior/wld/wldht.cl2
+  - plrgfx/warrior/wld/wldlm.cl2
+  - plrgfx/warrior/wld/wldqm.cl2
+  - plrgfx/warrior/wld/wldwl.cl2
+  anchor: plrgfx/warrior/wld/wldst.cl2
+  caption: ''
+plrgfx/warrior/wlh:
+  animations:
+  - plrgfx/warrior/wlh/wlhst.cl2
+  - plrgfx/warrior/wlh/wlhas.cl2
+  - plrgfx/warrior/wlh/wlhat.cl2
+  - plrgfx/warrior/wlh/wlhaw.cl2
+  - plrgfx/warrior/wlh/wlhbl.cl2
+  - plrgfx/warrior/wlh/wlhfm.cl2
+  - plrgfx/warrior/wlh/wlhht.cl2
+  - plrgfx/warrior/wlh/wlhlm.cl2
+  - plrgfx/warrior/wlh/wlhqm.cl2
+  - plrgfx/warrior/wlh/wlhwl.cl2
+  anchor: plrgfx/warrior/wlh/wlhst.cl2
+  caption: ''
+plrgfx/warrior/wlm:
+  animations:
+  - plrgfx/warrior/wlm/wlmst.cl2
+  - plrgfx/warrior/wlm/wlmas.cl2
+  - plrgfx/warrior/wlm/wlmat.cl2
+  - plrgfx/warrior/wlm/wlmaw.cl2
+  - plrgfx/warrior/wlm/wlmfm.cl2
+  - plrgfx/warrior/wlm/wlmht.cl2
+  - plrgfx/warrior/wlm/wlmlm.cl2
+  - plrgfx/warrior/wlm/wlmqm.cl2
+  - plrgfx/warrior/wlm/wlmwl.cl2
+  anchor: plrgfx/warrior/wlm/wlmst.cl2
+  caption: >-
+    SUBJECT: A human male warrior, medium athletic build, standing upright. Image 1 shows his standing pose from eight directions; Image 2 shows the first frames of his other animations: mace swings, a hit reaction, walking and a death fall.
+
+
+    BODY AND MATERIALS: Bare, tanned arms; dark brown hair tied back. He wears a sleeveless red leather jerkin laced with dark straps over the chest, and a single steel pauldron on his left shoulder. Red leather bracers on the forearms. Blue-grey cloth trousers tucked into tall red leather boots.
+
+
+    EQUIPMENT: A one-handed flanged steel mace with a short reddish-brown haft, held in his right hand. No shield, no helmet, nothing on his back.
+
+
+    COLOURS: Jerkin, bracers and boots in rust red with dark brown shading; trousers blue-grey; skin warm tan; hair dark brown; pauldron and mace head grey steel.
+
+
+    SHADOW: A solid black shadow on the ground, cast behind the figure to the left.
+
+
+    INVARIANTS: The single left-shoulder pauldron, the red jerkin with bare arms, the blue trousers and red boots, the ponytail, and the short one-handed mace keep their places and proportions in every frame and direction.
+plrgfx/warrior/wln:
+  animations:
+  - plrgfx/warrior/wln/wlnst.cl2
+  - plrgfx/warrior/wln/wlnas.cl2
+  - plrgfx/warrior/wln/wlnat.cl2
+  - plrgfx/warrior/wln/wlnaw.cl2
+  - plrgfx/warrior/wln/wlndt.cl2
+  - plrgfx/warrior/wln/wlnfm.cl2
+  - plrgfx/warrior/wln/wlnht.cl2
+  - plrgfx/warrior/wln/wlnlm.cl2
+  - plrgfx/warrior/wln/wlnqm.cl2
+  - plrgfx/warrior/wln/wlnwl.cl2
+  anchor: plrgfx/warrior/wln/wlnst.cl2
+  caption: ''
+plrgfx/warrior/wls:
+  animations:
+  - plrgfx/warrior/wls/wlsst.cl2
+  - plrgfx/warrior/wls/wlsas.cl2
+  - plrgfx/warrior/wls/wlsat.cl2
+  - plrgfx/warrior/wls/wlsaw.cl2
+  - plrgfx/warrior/wls/wlsfm.cl2
+  - plrgfx/warrior/wls/wlsht.cl2
+  - plrgfx/warrior/wls/wlslm.cl2
+  - plrgfx/warrior/wls/wlsqm.cl2
+  - plrgfx/warrior/wls/wlswl.cl2
+  anchor: plrgfx/warrior/wls/wlsst.cl2
+  caption: ''
+plrgfx/warrior/wlt:
+  animations:
+  - plrgfx/warrior/wlt/wltst.cl2
+  - plrgfx/warrior/wlt/wltas.cl2
+  - plrgfx/warrior/wlt/wltat.cl2
+  - plrgfx/warrior/wlt/wltaw.cl2
+  - plrgfx/warrior/wlt/wltfm.cl2
+  - plrgfx/warrior/wlt/wltht.cl2
+  - plrgfx/warrior/wlt/wltlm.cl2
+  - plrgfx/warrior/wlt/wltqm.cl2
+  - plrgfx/warrior/wlt/wltwl.cl2
+  anchor: plrgfx/warrior/wlt/wltst.cl2
+  caption: ''
+plrgfx/warrior/wlu:
+  animations:
+  - plrgfx/warrior/wlu/wlust.cl2
+  - plrgfx/warrior/wlu/wluas.cl2
+  - plrgfx/warrior/wlu/wluat.cl2
+  - plrgfx/warrior/wlu/wluaw.cl2
+  - plrgfx/warrior/wlu/wlubl.cl2
+  - plrgfx/warrior/wlu/wlufm.cl2
+  - plrgfx/warrior/wlu/wluht.cl2
+  - plrgfx/warrior/wlu/wlulm.cl2
+  - plrgfx/warrior/wlu/wluqm.cl2
+  - plrgfx/warrior/wlu/wluwl.cl2
+  anchor: plrgfx/warrior/wlu/wlust.cl2
+  caption: ''
+plrgfx/warrior/wma:
+  animations:
+  - plrgfx/warrior/wma/wmast.cl2
+  - plrgfx/warrior/wma/wmaas.cl2
+  - plrgfx/warrior/wma/wmaat.cl2
+  - plrgfx/warrior/wma/wmaaw.cl2
+  - plrgfx/warrior/wma/wmafm.cl2
+  - plrgfx/warrior/wma/wmaht.cl2
+  - plrgfx/warrior/wma/wmalm.cl2
+  - plrgfx/warrior/wma/wmaqm.cl2
+  - plrgfx/warrior/wma/wmawl.cl2
+  anchor: plrgfx/warrior/wma/wmast.cl2
+  caption: ''
+plrgfx/warrior/wmb:
+  animations:
+  - plrgfx/warrior/wmb/wmbst.cl2
+  - plrgfx/warrior/wmb/wmbas.cl2
+  - plrgfx/warrior/wmb/wmbat.cl2
+  - plrgfx/warrior/wmb/wmbaw.cl2
+  - plrgfx/warrior/wmb/wmbfm.cl2
+  - plrgfx/warrior/wmb/wmbht.cl2
+  - plrgfx/warrior/wmb/wmblm.cl2
+  - plrgfx/warrior/wmb/wmbqm.cl2
+  - plrgfx/warrior/wmb/wmbwl.cl2
+  anchor: plrgfx/warrior/wmb/wmbst.cl2
+  caption: ''
+plrgfx/warrior/wmd:
+  animations:
+  - plrgfx/warrior/wmd/wmdst.cl2
+  - plrgfx/warrior/wmd/wmdas.cl2
+  - plrgfx/warrior/wmd/wmdat.cl2
+  - plrgfx/warrior/wmd/wmdaw.cl2
+  - plrgfx/warrior/wmd/wmdbl.cl2
+  - plrgfx/warrior/wmd/wmdfm.cl2
+  - plrgfx/warrior/wmd/wmdht.cl2
+  - plrgfx/warrior/wmd/wmdlm.cl2
+  - plrgfx/warrior/wmd/wmdqm.cl2
+  - plrgfx/warrior/wmd/wmdwl.cl2
+  anchor: plrgfx/warrior/wmd/wmdst.cl2
+  caption: ''
+plrgfx/warrior/wmh:
+  animations:
+  - plrgfx/warrior/wmh/wmhst.cl2
+  - plrgfx/warrior/wmh/wmhas.cl2
+  - plrgfx/warrior/wmh/wmhat.cl2
+  - plrgfx/warrior/wmh/wmhaw.cl2
+  - plrgfx/warrior/wmh/wmhbl.cl2
+  - plrgfx/warrior/wmh/wmhfm.cl2
+  - plrgfx/warrior/wmh/wmhht.cl2
+  - plrgfx/warrior/wmh/wmhlm.cl2
+  - plrgfx/warrior/wmh/wmhqm.cl2
+  - plrgfx/warrior/wmh/wmhwl.cl2
+  anchor: plrgfx/warrior/wmh/wmhst.cl2
+  caption: ''
+plrgfx/warrior/wmm:
+  animations:
+  - plrgfx/warrior/wmm/wmmst.cl2
+  - plrgfx/warrior/wmm/wmmas.cl2
+  - plrgfx/warrior/wmm/wmmat.cl2
+  - plrgfx/warrior/wmm/wmmaw.cl2
+  - plrgfx/warrior/wmm/wmmfm.cl2
+  - plrgfx/warrior/wmm/wmmht.cl2
+  - plrgfx/warrior/wmm/wmmlm.cl2
+  - plrgfx/warrior/wmm/wmmqm.cl2
+  - plrgfx/warrior/wmm/wmmwl.cl2
+  anchor: plrgfx/warrior/wmm/wmmst.cl2
+  caption: ''
+plrgfx/warrior/wmn:
+  animations:
+  - plrgfx/warrior/wmn/wmnst.cl2
+  - plrgfx/warrior/wmn/wmnas.cl2
+  - plrgfx/warrior/wmn/wmnat.cl2
+  - plrgfx/warrior/wmn/wmnaw.cl2
+  - plrgfx/warrior/wmn/wmndt.cl2
+  - plrgfx/warrior/wmn/wmnfm.cl2
+  - plrgfx/warrior/wmn/wmnht.cl2
+  - plrgfx/warrior/wmn/wmnlm.cl2
+  - plrgfx/warrior/wmn/wmnqm.cl2
+  - plrgfx/warrior/wmn/wmnwl.cl2
+  anchor: plrgfx/warrior/wmn/wmnst.cl2
+  caption: ''
+plrgfx/warrior/wms:
+  animations:
+  - plrgfx/warrior/wms/wmsst.cl2
+  - plrgfx/warrior/wms/wmsas.cl2
+  - plrgfx/warrior/wms/wmsat.cl2
+  - plrgfx/warrior/wms/wmsaw.cl2
+  - plrgfx/warrior/wms/wmsfm.cl2
+  - plrgfx/warrior/wms/wmsht.cl2
+  - plrgfx/warrior/wms/wmslm.cl2
+  - plrgfx/warrior/wms/wmsqm.cl2
+  - plrgfx/warrior/wms/wmswl.cl2
+  anchor: plrgfx/warrior/wms/wmsst.cl2
+  caption: ''
+plrgfx/warrior/wmt:
+  animations:
+  - plrgfx/warrior/wmt/wmtst.cl2
+  - plrgfx/warrior/wmt/wmtas.cl2
+  - plrgfx/warrior/wmt/wmtat.cl2
+  - plrgfx/warrior/wmt/wmtaw.cl2
+  - plrgfx/warrior/wmt/wmtfm.cl2
+  - plrgfx/warrior/wmt/wmtht.cl2
+  - plrgfx/warrior/wmt/wmtlm.cl2
+  - plrgfx/warrior/wmt/wmtqm.cl2
+  - plrgfx/warrior/wmt/wmtwl.cl2
+  anchor: plrgfx/warrior/wmt/wmtst.cl2
+  caption: ''
+plrgfx/warrior/wmu:
+  animations:
+  - plrgfx/warrior/wmu/wmust.cl2
+  - plrgfx/warrior/wmu/wmuas.cl2
+  - plrgfx/warrior/wmu/wmuat.cl2
+  - plrgfx/warrior/wmu/wmuaw.cl2
+  - plrgfx/warrior/wmu/wmubl.cl2
+  - plrgfx/warrior/wmu/wmufm.cl2
+  - plrgfx/warrior/wmu/wmuht.cl2
+  - plrgfx/warrior/wmu/wmulm.cl2
+  - plrgfx/warrior/wmu/wmuqm.cl2
+  - plrgfx/warrior/wmu/wmuwl.cl2
+  anchor: plrgfx/warrior/wmu/wmust.cl2
+  caption: ''
+towners/animals:
+  animations:
+  - towners/animals/cow.cel
+  anchor: towners/animals/cow.cel
+  caption: ''
+towners/butch:
+  animations:
+  - towners/butch/deadguy.cel
+  anchor: towners/butch/deadguy.cel
+  caption: ''
+towners/drunk:
+  animations:
+  - towners/drunk/twndrunk.cel
+  anchor: towners/drunk/twndrunk.cel
+  caption: ''
+towners/farmer:
+  animations:
+  - towners/farmer/cfrmrn2.cel
+  - towners/farmer/farmrn2.cel
+  - towners/farmer/mfrmrn2.cel
+  anchor: towners/farmer/cfrmrn2.cel
+  caption: ''
+towners/girl:
+  animations:
+  - towners/girl/girls1.cel
+  - towners/girl/girlw1.cel
+  anchor: towners/girl/girls1.cel
+  caption: ''
+towners/healer:
+  animations:
+  - towners/healer/healer.cel
+  anchor: towners/healer/healer.cel
+  caption: ''
+towners/priest:
+  animations:
+  - towners/priest/priest8.cel
+  anchor: towners/priest/priest8.cel
+  caption: ''
+towners/smith:
+  animations:
+  - towners/smith/smithn.cel
+  - towners/smith/smithw.cel
+  anchor: towners/smith/smithn.cel
+  caption: >-
+    SUBJECT: The town blacksmith: a stout, heavy-set middle-aged man with a big belly and thick arms. Image 1 is his standing pose; Image 2 shows him walking. Both face mostly toward the viewer.
+
+
+    BODY AND MATERIALS: Bald head with a short grey beard; ruddy pink skin. He wears a sleeveless rust-red wool tunic belted at the waist, red trousers, pale cloth wrappings on the shins, and brown leather boots. His arms are bare with leather wrist bands.
+
+
+    EQUIPMENT: A wide dark leather belt with a metal buckle. No tools, weapons or armour in these frames.
+
+
+    COLOURS: Tunic and trousers rust red to brick red with darker maroon shading; skin ruddy pink; beard grey; belt, boots and wrist bands dark brown leather; shin wrappings pale beige.
+
+
+    SHADOW: A solid dark shadow on the ground, cast behind him to the left.
+
+
+    INVARIANTS: His bald head and grey beard, the sleeveless red tunic and wide belt, and his heavy proportions stay the same in every frame and direction.
+towners/strytell:
+  animations:
+  - towners/strytell/strytell.cel
+  anchor: towners/strytell/strytell.cel
+  caption: ''
+towners/townboy:
+  animations:
+  - towners/townboy/pegkid1.cel
+  anchor: towners/townboy/pegkid1.cel
+  caption: ''
+towners/townwmn1:
+  animations:
+  - towners/townwmn1/witch.cel
+  - towners/townwmn1/wmnn.cel
+  - towners/townwmn1/wmnw.cel
+  anchor: towners/townwmn1/witch.cel
+  caption: ''
+towners/trader:
+  animations:
+  - towners/trader/tradern.cel
+  - towners/trader/traderw.cel
+  anchor: towners/trader/tradern.cel
+  caption: ''
+towners/twnf:
+  animations:
+  - towners/twnf/twnfn.cel
+  - towners/twnf/twnfw.cel
+  anchor: towners/twnf/twnfn.cel
+  caption: ''

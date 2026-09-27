@@ -381,7 +381,8 @@ def fallback_for(dst, key, workflow, reviews):
 
 def finish_sheet(canvas, sheet, anim, frames_rgba, guides, strength, background):
     """Cut the rendered `canvas` into its frames, colour-match each toward its
-    guide over its outline, lock the outline, and check them all.
+    guide over its outline, lock the outline and the black ground shadow, and
+    check them all.
     Returns ({frame index: RGBA image at SCALE}, SheetResult)."""
     items, outputs = [], {}
     for cell in sheet.cells:
@@ -391,6 +392,7 @@ def finish_sheet(canvas, sheet, anim, frames_rgba, guides, strength, background)
         raw = sheet_layout.frame_rgb(canvas, cell, size, background)
         matched = colour_match.match(raw, guides[cell.frame], strength,
                                      mask=sheet_layout.hard_alpha(mask) > 0)
+        matched = sheet_layout.keep_shadow(matched, frames_rgba[cell.frame])
         items.append((frame.png, frame.group, matched.resize(size, Image.Resampling.BOX),
                       sheet_layout.guide_native(frames_rgba[cell.frame], background), mask))
         outputs[cell.frame] = sheet_layout.finish_frame(matched, mask)

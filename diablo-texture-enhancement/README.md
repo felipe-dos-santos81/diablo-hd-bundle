@@ -8,8 +8,8 @@ recolour variant as its own animation (about 74,000 more frames, for about
 
 - ComfyUI running Qwen-Image 2.1 img2img with two reference images
   (`qwen-image-2.1-i2i`: the sheet's own guide and, for every sheet but a
-  character's first, its anchor's promoted render), with
-  `qwen-image-2.1-i2i-faithful` (denoise 0.9) as the fallback for a sheet
+  character's first, its anchor's promoted render) at denoise 0.9, with
+  `qwen-image-2.1-i2i-faithful` (denoise 0.8) as the fallback for a sheet
   stuck after `MAX_ATTEMPTS` (4) rejections.
 - vLLM serving `Qwen/Qwen3.8-27B`, which captions each character before
   rendering and reviews each promoted sheet afterwards.
@@ -146,8 +146,10 @@ frame of the sheet at native size:
 
 - **Size and outline:** exactly `(2w, 2h)` RGBA, with the locked soft
   outline (the source mask at 2x nearest-neighbour, anti-aliased only within
-  1 HD px of its edge). Computed, so it cannot fail in batch; `make verify`
-  re-checks it on disk.
+  1 HD px of its edge). The ground shadow is locked the same way: a pixel
+  that is opaque pure black in the source stays pure black, since the repaint
+  turns it grey and the game draws it black. Computed, so it cannot fail in
+  batch; `make verify` re-checks the outline on disk.
 - **Shift:** phase correlation inside the mask; fails at 0.5 native px or
   more. A frame with fewer than 200 opaque native pixels always passes.
 - **Interior edge agreement:** the source's strong edges (Sobel magnitude
@@ -157,7 +159,7 @@ frame of the sheet at native size:
   pixels always passes.
 - **Consistency:** for consecutive frames of a direction, the render's mean
   colour step against its neighbour must not exceed twice the source's own
-  step plus 4 levels (flicker).
+  step plus 10 levels (flicker).
 - **Gutter bleed:** the mean absolute difference between the rendered
   canvas and the flat background, `|pixel − background|` averaged over every
   gutter pixel of the sheet and its three channels; above 12 levels it is

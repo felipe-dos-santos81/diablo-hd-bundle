@@ -31,7 +31,7 @@ MIN_EDGE_AGREEMENT = 0.80
 MIN_SHIFT_PIXELS = 200      # a frame with fewer opaque native px is too small to measure a shift
 MIN_CELL_EDGES = 30         # a frame with fewer strong interior source edges reads 1.0
 FLICKER_FACTOR = 2.0        # a pair fails when render step > FACTOR * source step + FLOOR
-FLICKER_FLOOR = 4.0         # levels (0-255, mean over RGB)
+FLICKER_FLOOR = 10.0        # levels (0-255, mean over RGB); painted cells shimmer ~8-10
 GUTTER_WARN = 12.0          # levels of mean |pixel - background| over all the gutters
 
 

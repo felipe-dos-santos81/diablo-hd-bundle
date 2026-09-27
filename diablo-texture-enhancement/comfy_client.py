@@ -57,11 +57,11 @@ WORKFLOWS = {
         reference="<image1>", anchor_reference="<image2>",
         fallback="qwen-image-2.1-i2i-faithful"),
 }
-# The same graph below full denoise: a cleaner repaint that keeps closer to the
-# guide, for a sheet the gate or the review rejected MAX_ATTEMPTS times (the
-# Atlantis choice; the spike may change it).
+# The same graph at a lower denoise: a repaint that keeps closer to the guide,
+# for a sheet the gate or the review rejected MAX_ATTEMPTS times. The template
+# runs at 0.9, not full denoise: the live check found 1.0 moving cells 3-11 HD px.
 WORKFLOWS["qwen-image-2.1-i2i-faithful"] = WORKFLOWS["qwen-image-2.1-i2i"]._replace(
-    name="qwen-image-2.1-i2i-faithful", settings=((("13", "denoise"), 0.9),), fallback=None)
+    name="qwen-image-2.1-i2i-faithful", settings=((("13", "denoise"), 0.8),), fallback=None)
 DEFAULT_WORKFLOW = "qwen-image-2.1-i2i"
 
 

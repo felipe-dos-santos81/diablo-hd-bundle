@@ -118,6 +118,17 @@ class AlphaTests(unittest.TestCase):
         self.assertTrue((out[alpha > 0][:, :3] == (200, 40, 40)).all())
         self.assertEqual(int(out[alpha == 0].max()), 0)
 
+    def test_keep_shadow_paints_the_sources_pure_black_pixels_black(self):
+        mask = mask_at(8, 6, 20, 16)
+        frame = np.asarray(rgba(mask)).copy()
+        frame[12:16, 8:14, :3] = 0                      # a black ground shadow
+        painted = Image.new("RGB", (64, 48), (90, 90, 90))
+        out = np.asarray(sl.keep_shadow(painted, Image.fromarray(frame, "RGBA")))
+        shadow = np.zeros((48, 64), bool)
+        shadow[24:32, 16:28] = True
+        self.assertTrue((out[shadow] == 0).all())
+        self.assertTrue((out[~shadow] == 90).all(), msg="transparent black is not shadow")
+
     def test_an_empty_frame_comes_out_fully_transparent(self):
         empty = np.zeros((24, 32), bool)
         out = np.asarray(sl.finish_frame(Image.new("RGB", (64, 48), GREY), empty))

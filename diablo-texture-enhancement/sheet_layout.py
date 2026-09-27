@@ -9,7 +9,9 @@ rest filled with the background. A direction is never split across sheets.
 The outline is locked: a frame's alpha is its source mask at SCALE,
 nearest-neighbour, softened only within 1 HD pixel of its edge
 (`soft_alpha`). A pixel with partial alpha takes the colour of the nearest
-fully opaque pixel, so the background never tints the outline.
+fully opaque pixel, so the background never tints the outline. The ground
+shadow is locked too: a source pixel that is opaque pure black stays pure
+black (`keep_shadow`), since the repaint greys it and the game draws it black.
 
 Pure image maths on numpy arrays and Pillow images; knows no files or services.
 """
@@ -256,6 +258,16 @@ def finish_frame(rgb, mask):
     colours = fill_transparent(colours, alpha == 255, EDGE_FILL_RINGS)
     colours[alpha == 0] = 0
     return Image.fromarray(np.dstack([colours, alpha]), "RGBA")
+
+
+def keep_shadow(rgb, frame_rgba):
+    """`rgb` at SCALE with every pixel whose native source pixel in `frame_rgba`
+    is opaque pure black (Diablo's ground shadow) set back to pure black."""
+    source = np.asarray(frame_rgba.convert("RGBA"))
+    shadow = (source[..., 3] > 0) & (source[..., :3].max(-1) == 0)
+    out = np.array(rgb.convert("RGB"))
+    out[hard_alpha(shadow) > 0] = 0
+    return Image.fromarray(out)
 
 
 def nearest_frame(frame_rgba):

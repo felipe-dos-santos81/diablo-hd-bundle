@@ -71,12 +71,12 @@ class TemplateTests(unittest.TestCase):
                 for node_id, target in links(prompt):
                     self.assertIn(target, prompt, f"node {node_id} links to {target}")
 
-    def test_the_fallback_is_the_template_at_denoise_0_9(self):
+    def test_the_fallback_is_the_template_at_denoise_0_8(self):
         full = comfy_client.WORKFLOWS["qwen-image-2.1-i2i"]
         faithful = comfy_client.WORKFLOWS[full.fallback]
         expected = comfy_client.load_template(full)
-        self.assertEqual(expected["13"]["inputs"]["denoise"], 1.0)
-        expected["13"]["inputs"]["denoise"] = 0.9
+        self.assertEqual(expected["13"]["inputs"]["denoise"], 0.9)
+        expected["13"]["inputs"]["denoise"] = 0.8
         self.assertEqual(comfy_client.load_template(faithful), expected)
         self.assertIsNone(faithful.fallback)
 

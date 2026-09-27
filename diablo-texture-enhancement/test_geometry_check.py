@@ -51,10 +51,12 @@ class SheetTests(unittest.TestCase):
                 for i, render in enumerate(renders)]
 
     def test_consistency_flags_the_frame_that_flickers(self):
-        frames = [figure(10 + i)[0] for i in range(3)]
-        self.assertTrue(gc.check_sheet(self.items(frames)).passed)
-        other = figure(11, seed=9)[0]                              # frame 1 repainted differently
-        result = gc.check_sheet(self.items([frames[0], other, frames[2]]))
+        still, mask = figure(10)                                   # an idle: the source never moves
+        items = lambda renders: [(f"d0/f{i:03d}.png", 0, render, still, mask)
+                                 for i, render in enumerate(renders)]
+        self.assertTrue(gc.check_sheet(items([still] * 3)).passed)
+        other = figure(10, seed=9)[0]                              # frame 1 repainted differently
+        result = gc.check_sheet(items([still, other, still]))
         labels = [issue.split(" to ")[0] for issue in result.issues
                   if issue.startswith("consistency")]
         self.assertEqual(labels, ["consistency: d0/f000.png", "consistency: d0/f001.png"])
