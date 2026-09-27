@@ -2,6 +2,7 @@ import json
 import random
 import shutil
 import tempfile
+import threading
 import time
 import types
 import unittest
@@ -390,6 +391,19 @@ class CaptionReviewTests(DriverTest):
                          msg="a character with no frames is not captioned")
         images = mocks.caption.call_args_list[-1].args[0]
         self.assertEqual(len(images), 2, msg="the anchor's directions, then the other animations")
+
+    def test_caption_sends_requests_concurrently(self):
+        barrier = threading.Barrier(2, timeout=5)      # sequential requests would time out
+
+        def caption(images, *rest):
+            barrier.wait()
+            return "SUBJECT: seen together"
+        with testkit.vlm_stub(caption=caption):
+            code, out, err = testkit.run_cli(self.argv("caption", "--force", "--concurrency", "2"))
+        self.assertEqual(code, 0, err)
+        self.assertIn("captioned=2 skipped=1 failed=0", out)
+        self.assertEqual(load_characters(self.chars)["monsters/zombie"].caption,
+                         "SUBJECT: seen together")
 
     def test_review_judges_done_sheets_and_a_rejection_comes_back_as_corrections(self):
         self.batch("--character", "missiles/fireba")

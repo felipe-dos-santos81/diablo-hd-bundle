@@ -214,7 +214,7 @@ data/anims-ai/.quality/<sheet key>/
 
 | Target | What it does |
 |---|---|
-| `make caption [character=] [force=1]` | Seed and caption `characters.yaml` |
+| `make caption [character=] [concurrency=] [force=1]` | Seed and caption `characters.yaml` |
 | `make dry-run [character=] [anim=] [sheet=] [variants=0]` | Sheets, cells, canvas sizes, dependency order, stale and blocked sheets |
 | `make batch [character=] [anim=] [sheet=] [variant=] [variants=0] [workflow=] [strength=] [memcheck=0] [force=1]` | Render and promote into `data/anims-ai/` |
 | `make review [character=] [sheet=] [concurrency=] [force=1]` | Write `reviews.yaml` |

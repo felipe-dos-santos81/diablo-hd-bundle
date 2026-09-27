@@ -55,8 +55,8 @@ clean: ## Remove __pycache__ (never touches data/)
 
 # ── Pipeline ─────────────────────────────────────────────────────────────────
 
-caption: install ## [STEP 1] Seed characters.yaml, caption its characters with vLLM (character=, force=1)
-	./run_batch.sh caption $(ARGS) $(FORCE_ARG)
+caption: install ## [STEP 1] Seed characters.yaml, caption its characters with vLLM (character=, concurrency=, force=1)
+	./run_batch.sh caption $(ARGS) $(if $(concurrency),--concurrency $(concurrency)) $(FORCE_ARG)
 
 dry-run: install ## [STEP 2a] Show batch's sheets and statuses, without ComfyUI (character=, anim=, sheet=, variants=0)
 	./run_batch.sh batch --dry-run $(ARGS) $(BATCH_ARGS)

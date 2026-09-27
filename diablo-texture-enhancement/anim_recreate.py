@@ -70,7 +70,7 @@ MAX_ATTEMPTS = 4            # a sheet with this many rejected attempts, the late
 MAX_CONSECUTIVE_FAILURES = 3  # batch stops after this many failed sheets in a row
 FALLBACK_FIRST_KINDS = ("missile",)  # flames defeat the shift check at denoise 0.9 (spike)
 DEFAULT_MATCH_STRENGTH = 0.5
-DEFAULT_CONCURRENCY = 8     # review requests in flight at once
+DEFAULT_CONCURRENCY = 8     # caption and review requests in flight at once
 CAPTION_SCALE = 4           # the caption contact sheets enlarge frames this much
 CONTACT_COLUMNS = 8
 PREVIEW_BACKGROUND = (24, 24, 24)
@@ -763,24 +763,35 @@ def cmd_caption(args):
     code = vlm_preflight()
     if code is not None:
         return code
-    done = skipped = failed = 0
-    for i, name in enumerate(names, 1):
-        character = characters[name]
-        if (character.caption.strip() and not args.force) or not any(
-                args.source.animation(k).frames for k in character.animations):
-            skipped += 1
-            continue
-        print(f"[{i}/{len(names)}] caption {name}", flush=True)
+    todo = [name for name in names
+            if (not characters[name].caption.strip() or args.force) and any(
+                args.source.animation(k).frames for k in characters[name].animations)]
+    skipped = len(names) - len(todo)
+    done = failed = 0
+
+    def ask(name):
+        return caption_character(caption_images(args, characters[name]), comfy_client.http_json,
+                                 VLM_BASE_URL, VLM_MODEL, VLM_API_KEY)
+    with ThreadPoolExecutor(max_workers=args.concurrency) as pool:
+        futures = {pool.submit(ask, name): name for name in todo}
         try:
-            caption = caption_character(caption_images(args, character), comfy_client.http_json,
-                                        VLM_BASE_URL, VLM_MODEL, VLM_API_KEY)
-        except Exception as error:
-            failed += 1
-            print(f"  ERROR captioning {name}: {error}", file=sys.stderr, flush=True)
-            continue
-        characters[name] = replace(character, caption=caption)
-        save_characters(args.characters_file, characters)
-        done += 1
+            for n, future in enumerate(as_completed(futures), 1):
+                name = futures[future]
+                try:
+                    caption = future.result()
+                except Exception as error:
+                    failed += 1
+                    print(f"[{n}/{len(todo)}] ERROR captioning {name}: {error}",
+                          file=sys.stderr, flush=True)
+                    continue
+                characters[name] = replace(characters[name], caption=caption)
+                save_characters(args.characters_file, characters)
+                done += 1
+                print(f"[{n}/{len(todo)}] captioned {name}", flush=True)
+        except KeyboardInterrupt:
+            # As in review: drop the queued requests; the captions saved stay.
+            pool.shutdown(wait=False, cancel_futures=True)
+            raise
     print(f"done: captioned={done} skipped={skipped} failed={failed} -> {args.characters_file}")
     return 1 if failed else 0
 
@@ -1050,6 +1061,8 @@ def build_parser():
     common(caption, sheets=False)
     caption.add_argument("--force", action="store_true",
                          help="re-caption characters that already have a caption")
+    caption.add_argument("--concurrency", type=positive_int, default=DEFAULT_CONCURRENCY,
+                         metavar="N", help="requests in flight at once (default: %(default)s)")
     caption.set_defaults(func=cmd_caption)
 
     batch = sub.add_parser("batch", help="render sheets through ComfyUI")
