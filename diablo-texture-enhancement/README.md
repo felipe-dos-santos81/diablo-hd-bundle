@@ -70,6 +70,20 @@ data/anims-ai/ ◀──[batch]──── characters.yaml + reviews.yaml (reje
 corrections, and its status (including `blocked` and `stale`) — without
 touching ComfyUI.
 
+Steps 3-9 take days, so **`./full_run.sh`** runs them unattended, detached
+from the terminal (it survives closing it, and Claude Code):
+`./full_run.sh start` settles the bases, then the variants (batch passes
+until one renders nothing, then a review, until a review rejects nothing,
+up to `ROUNDS`=6 rounds a phase), then runs `make verify`, swapping ComfyUI
+and vLLM itself as each step needs. `./full_run.sh stop` Ctrl-Cs the whole
+run (the current sheet is abandoned cleanly); `start` again resumes where
+it stopped, since every status lives in the audit folders, and skips a
+phase that left `data/run/<phase>.settled`. `./full_run.sh status` shows
+where it is; `./full_run.sh log` follows `data/run/run.log` (the batch and
+review output are in `batch.log` and `review.log`). STUCK sheets are only
+listed, in `data/run/stuck.log`: fix their captions, run
+`make batch sheet=<key> force=1`, and start again.
+
 ## Swapping the services on this host
 
 vLLM (about 73 GB) and a render (about 45 GB) do not fit together in the

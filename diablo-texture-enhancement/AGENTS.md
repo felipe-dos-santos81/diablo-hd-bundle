@@ -65,8 +65,9 @@ Rules that must survive any change:
 - **Never loosen the gate to get a sheet through.** Fix its character's
   caption in `characters.yaml`, or the run's settings (`packing=`, `gutter=`,
   `background=`, `--workflow`) — never `geometry_check`'s thresholds.
-- **Services are external.** The driver never starts or stops vLLM or
-  ComfyUI. It checks `GET /v1/models` (vLLM) and `GET /queue` (ComfyUI). Its
+- **Services are external.** The driver (`anim_recreate.py`) never starts or stops vLLM or
+  ComfyUI (only `full_run.sh`, the unattended wrapper around it, swaps
+  them). It checks `GET /v1/models` (vLLM) and `GET /queue` (ComfyUI). Its
   only state-changing ComfyUI calls are `POST /free`
   (`comfy_client.free_models`, at the end of `batch` — even after a
   failure, so vLLM has room to start — and the start of `review`) and
