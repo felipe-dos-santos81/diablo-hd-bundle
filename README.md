@@ -12,6 +12,16 @@ this order:
 The enhancement kit reads `../diablo-textures-exporter/out` by default; set
 `DIA_SRC` to point it elsewhere. Each folder has its own README and Makefile.
 
+Status: the export, the kit, the caption review, the live check and the spike
+are done (see the kit's `NOTES.md`); the full run (about 11,400 base and 6,000
+variant sheets, roughly a week on a GB10) runs unattended:
+
+```bash
+cd diablo-texture-enhancement
+make run          # start or resume: bases, then variants, then verify
+make run-status   # where it is; make run-log follows the log; make run-stop stops it
+```
+
 Neither project commits game data or generated art: `out/`, `data/` and
 `reviews.yaml` are gitignored. You need your own copy of the game.
 

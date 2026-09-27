@@ -6,10 +6,11 @@ REPO = Path(__file__).resolve().parent
 
 
 def dry_make(*args):
-    """The ./run_* command lines `make -n` would run, whitespace collapsed."""
+    """The ./run_* and ./full_run.sh command lines `make -n` would run, whitespace collapsed."""
     out = subprocess.run(["make", "-n", "-s", *args], cwd=REPO, capture_output=True, text=True,
                          check=True).stdout
-    return [" ".join(line.split()) for line in out.splitlines() if line.startswith("./run_")]
+    return [" ".join(line.split()) for line in out.splitlines()
+            if line.startswith(("./run_", "./full_run", "ROUNDS="))]
 
 
 class MakeTests(unittest.TestCase):
@@ -37,6 +38,10 @@ class MakeTests(unittest.TestCase):
             ("preview", "character=missiles/fireba"):
                 "./run_batch.sh preview --character missiles/fireba",
             ("server",): "./run_server.sh",
+            ("run",): "./full_run.sh start",
+            ("run", "rounds=3"): "ROUNDS=3 ./full_run.sh start",
+            ("run-stop",): "./full_run.sh stop",
+            ("run-status",): "./full_run.sh status",
         }
         for args, expected in cases.items():
             with self.subTest(args=args):

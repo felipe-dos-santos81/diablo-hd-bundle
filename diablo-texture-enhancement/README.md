@@ -70,7 +70,7 @@ data/anims-ai/ ◀──[batch]──── characters.yaml + reviews.yaml (reje
 corrections, and its status (including `blocked` and `stale`) — without
 touching ComfyUI.
 
-Steps 3-9 take days, so **`./full_run.sh`** runs them unattended, detached
+Steps 3-9 take days, so **`make run`** (`./full_run.sh start`) runs them unattended, detached
 from the terminal (it survives closing it, and Claude Code):
 `./full_run.sh start` settles the bases, then the variants (batch passes
 until one renders nothing, then a review, until a review rejects nothing,
@@ -234,6 +234,7 @@ data/anims-ai/.quality/<sheet key>/
 | `make review [character=] [sheet=] [concurrency=] [force=1]` | Write `reviews.yaml` |
 | `make preview [character=] [anim=] [sheet=]` | An animated GIF per direction into `data/preview/<dst directory name>/<comfy name>/`: source (nearest-neighbour 2x) and render side by side |
 | `make verify [character=] [sheet=]` | Audit `data/anims-ai/` against the manifest, the 2x contract, the outline and the attempts |
+| `make run [rounds=]` / `run-stop` / `run-status` / `run-log` | The unattended full run (`full_run.sh start`/`stop`/`status`/`log`): start or resume, stop cleanly, show where it is, follow `data/run/run.log` |
 | `make server` / `install` / `check` / `test` / `clean` | Start ComfyUI from `~/ComfyUI` / create the venv / byte-compile / run the unit tests / remove `__pycache__` |
 
 `character=` selects by character key, `anim=` by record directory,
@@ -283,8 +284,9 @@ restore the settings the tree was rendered with.
 | `anim_qwen21_i2i.json` | The ComfyUI API graph |
 | `characters.yaml` | Character groupings, anchors, captions and `skip` lists (hand-owned; written by `make caption`'s first run) |
 | `Makefile`, `run_batch.sh`, `run_server.sh` | Targets and wrappers |
+| `full_run.sh` | The unattended full run: batch and review rounds per phase, swapping ComfyUI and vLLM, detached and resumable; logs in `data/run/` |
 | `testkit.py`, `test_*.py` | Test support and unit tests (no GPU, no network) |
-| `NOTES.md` | Live checks, spikes and runs (created by the first spike) |
+| `NOTES.md` | The extraction figures, the caption review, the live check, the spike, and the full run |
 
 The design spec and build plan are at the bundle root:
 [`../docs/superpowers/specs/2026-09-26-diablo-animation-regeneration-design.md`](../docs/superpowers/specs/2026-09-26-diablo-animation-regeneration-design.md),

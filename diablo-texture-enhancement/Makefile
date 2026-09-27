@@ -1,5 +1,6 @@
 # Makefile for the Diablo animation regeneration kit
 # Pipeline: caption -> (edit characters.yaml) -> batch -> review -> batch ... -> verify
+# Unattended: make run (full_run.sh settles bases, then variants, then verifies)
 SERVICE = Diablo Animation Regen
 
 VENV_DIR = .venv
@@ -22,6 +23,7 @@ gutter ?=
 background ?=
 anchor ?= 1
 concurrency ?=
+rounds ?=
 FORCE_ARG = $(if $(force),--force)
 ARGS = $(foreach c,$(character),--character $(c)) $(foreach a,$(anim),--anim $(a)) \
        $(foreach s,$(sheet),--sheet $(s)) \
@@ -32,7 +34,7 @@ ARGS = $(foreach c,$(character),--character $(c)) $(foreach a,$(anim),--anim $(a
 BATCH_ARGS = $(if $(filter 0,$(memcheck)),--no-memory-check) $(if $(strength),--match-strength $(strength)) \
              $(if $(workflow),--workflow $(workflow)) $(FORCE_ARG)
 
-.PHONY: help install server caption dry-run batch review verify preview check test clean
+.PHONY: help install server caption dry-run batch review verify preview run run-stop run-status run-log check test clean
 
 help: ## Print this help message
 	@printf '\033[01;32m${SERVICE}\033[00;37m\n\n'
@@ -72,6 +74,20 @@ verify: install ## [STEP 4] Audit data/anims-ai against the manifest, the 2x rul
 
 preview: install ## Write an animated GIF per direction into data/preview/<dst name> (character=, anim=, sheet=)
 	./run_batch.sh preview $(ARGS)
+
+# ── Unattended full run ──────────────────────────────────────────────────────
+
+run: install ## [STEPS 2-4] Start or resume the full run, detached: bases, variants, verify; swaps ComfyUI/vLLM (rounds=)
+	$(if $(rounds),ROUNDS=$(rounds) )./full_run.sh start
+
+run-stop: ## Stop the full run cleanly (make run resumes it)
+	./full_run.sh stop
+
+run-status: ## Where the full run is, and the sheet counts so far
+	./full_run.sh status
+
+run-log: ## Follow the full run's log (data/run/run.log)
+	./full_run.sh log
 
 # ── Development ──────────────────────────────────────────────────────────────
 

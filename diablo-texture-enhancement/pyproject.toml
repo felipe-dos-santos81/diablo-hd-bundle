@@ -1,6 +1,6 @@
 [project]
 name = "diablo_anim_regen"
-version = "0.1.0"
+version = "0.2.0"
 description = "Caption, render and review high-definition 2x recreations of Diablo's animated sprites with ComfyUI (Qwen-Image) and a local Qwen3.8 VLM"
 requires-python = ">=3.12"
 dependencies = [

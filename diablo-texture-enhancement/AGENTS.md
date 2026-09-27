@@ -28,6 +28,8 @@ Run order: `caption` (seeds and fills `characters.yaml`) → edit the file →
 `batch --no-variants` → `review` → repeat until the base animations settle
 (no more rejections) → `batch` (with the variants) → `review` → repeat until
 the variants settle too → `verify`.
+Everything after the caption edit runs unattended with `make run`
+(`full_run.sh`).
 
 Rules that must survive any change:
 
@@ -132,6 +134,7 @@ Rules that must survive any change:
 | `prompts.py` | caption, render and review prompts, VLM payloads, `parse_review`, `vlm_is_serving` | know files or make targets |
 | `comfy_client.py` | ComfyUI HTTP, the workflow registry, node ids, staging, output lookup, interrupt, sweep | decide what to render |
 | `anim_qwen21_i2i.json` | the ComfyUI API graph | — |
+| `full_run.sh` | the unattended full run: per phase (bases, then variants) batch passes until one renders nothing, then a review, until a review rejects nothing (`ROUNDS` 6); then `make verify`; swaps ComfyUI and vLLM; runs in its own session (`setsid -f`, so Ctrl-C reaches the batch: a script's `&` job would ignore SIGINT); state in `data/run/` (`driver.pid`, `<phase>.settled`, logs) | render or judge anything itself: it only calls make |
 
 `colour_match.py`, `comfy_client.py` and the attempt, status and fallback
 logic are ported from the Atlantis kit with the smallest changes that fit
