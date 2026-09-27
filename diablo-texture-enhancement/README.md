@@ -10,7 +10,9 @@ recolour variant as its own animation (about 74,000 more frames, for about
   (`qwen-image-2.1-i2i`: the sheet's own guide and, for every sheet but a
   character's first, its anchor's promoted render) at denoise 0.9, with
   `qwen-image-2.1-i2i-faithful` (denoise 0.8) as the fallback for a sheet
-  stuck after `MAX_ATTEMPTS` (4) rejections.
+  stuck after `MAX_ATTEMPTS` (4) rejections. Missiles (flames and bolts,
+  whose shapes defeat the shift check) render through the fallback from
+  their first attempt and have no second fallback.
 - vLLM serving `Qwen/Qwen3.8-27B`, which captions each character before
   rendering and reviews each promoted sheet afterwards.
 

@@ -182,7 +182,10 @@ Per sheet (`anim_recreate.render_sheet_job`, `sheet_inputs`, `finish_sheet`):
    a sheet stuck after `MAX_ATTEMPTS` (4) rejections renders once more
    through the fallback `qwen-image-2.1-i2i-faithful` (the same graph at
    denoise 0.8); the live check found full denoise moving cells 3-11 HD px
-   (NOTES.md, "Live check"). The
+   (NOTES.md, "Live check"). A sheet of a kind in `FALLBACK_FIRST_KINDS`
+   (`("missile",)`) starts on the fallback (`workflow_for`) and, since the
+   fallback has none of its own, goes STUCK after `MAX_ATTEMPTS` rejections.
+   The
    two canvases are staged into ComfyUI's `input/` as
    `__dia_<comfy name>_<part>.png` and deleted from it again once the render
    is over, whether it succeeded or not.
@@ -323,9 +326,9 @@ of it:
 
 Live checks, spikes and runs are in `NOTES.md`.
 
-The starting values below are the Atlantis kit's where one carries over
-unchanged, and are what the spike (design spec §10) recalibrates for
-sprites; record what changes, and why, in `NOTES.md`:
+The values below are those the live check and the spike settled
+(`NOTES.md`, "Live check" and "Spike"); record any later change, and why,
+in `NOTES.md`:
 
 - Layout: `SHEET_PACKING` = `"direction"`; `GUTTER` = 16 HD px;
   `CELL_MARGIN` = 8 HD px; `ALIGN` = 32; `MAX_CANVAS_PX` = 1,048,576;
@@ -333,7 +336,8 @@ sprites; record what changes, and why, in `NOTES.md`:
   (24, 24, 24)); the anchor reference on by default (`--no-anchor` off).
 - Render: the default workflow `qwen-image-2.1-i2i` at denoise 0.9, 40
   steps, cfg 1.0; its fallback `qwen-image-2.1-i2i-faithful` at denoise 0.8;
-  `DEFAULT_MATCH_STRENGTH` = 0.5; `MAX_ATTEMPTS` = 4; `SEED` = 42.
+  `FALLBACK_FIRST_KINDS` = `("missile",)`; `DEFAULT_MATCH_STRENGTH` = 0.5;
+  `MAX_ATTEMPTS` = 4; `SEED` = 42.
 - Checks (`geometry_check.py`): `MAX_SHIFT` = 0.5 native px;
   `MIN_SHIFT_PIXELS` = 200; `EDGE_THRESHOLD` = 80.0;
   `RENDER_EDGE_THRESHOLD` = 60.0; `MIN_EDGE_AGREEMENT` = 0.80;

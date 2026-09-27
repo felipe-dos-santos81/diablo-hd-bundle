@@ -73,3 +73,57 @@ About 16 s a sheet at 0.25-0.31 MP. 7 of 8 sheets promoted at the first
 attempt. Every attempt that carried a correction note (three at 1.0, one at
 0.9) moved further than the attempt before it: the spike should watch whether
 corrections help geometry at all.
+
+## Spike
+
+2026-09-26 22:03 to 2026-09-27 02:24 (4 h 20 min, 590 attempts), ComfyUI
+c194dd0, Qwen-Image 2.1 bf16, at the live check's settings (denoise 0.9,
+fallback 0.8, the black shadow locked, `FLICKER_FLOOR` 10). `base` rendered
+the plan's whole spike set (83 sheets: warrior stand/walk/attack, zombie idle
+and walk with `grey.trn`, nkr idle and death, smith, fireball, magma idle and
+projectile); to save GPU time the other variants rendered the smaller set
+without nkr, the smith and the fireball (65 sheets; 39 packed). Each variant
+in `data/spike/<name>`, batch repeated until a pass rendered nothing; the
+driver, the tables and the gate test are `data/spike/*.py`, `*.sh`, `*.txt`.
+
+| Variant | Sheets | Attempts | 1st-try pass | Promoted | Rejected (geometry / consistency / edge) | Reached the fallback | s/sheet | s/MP | Flicker mean / max | Flicker ratio (render/source) | Bleed mean / max |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| base | 83 | 115 | 60/82 | 82 | 33 (24 / 14 / 0) | 1 | 32.5 | 61 | 16.7 / 49.9 | 1.8 | 3.2 / 46.0 |
+| base (small set) | 65 | 84 | 51/65 | 65 | 19 (16 / 6 / 0) | – | 23.4 | 60 | 15.1 / 49.5 | 1.8 | 3.0 / 46.0 |
+| packed | 39 | 55 | 28/39 | 41 | 14 (14 / 2 / 0) | 0 | 39.4 | 65 | 14.7 / 49.8 | 1.7 | 2.8 / 8.3 |
+| gutter32 | 65 | 111 | 46/65 | 77 | 34 (33 / 6 / 1) | 1 | 30.2 | 60 | 15.5 / 53.0 | 1.8 | 2.5 / 19.2 |
+| noanchor | 65 | 97 | 51/65 | 77 | 20 (20 / 5 / 0) | 0 | 19.6 | 51 | 13.7 / 50.5 | 1.7 | 2.8 / 41.2 |
+| faithful (0.8) | 65 | 86 | 64/65 | 85 | 1 (1 / 0 / 0) | 0 | 23.3 | 60 | 13.8 / 56.4 | 1.6 | 2.3 / 23.7 |
+| dark | 65 | 100 | 52/65 | 80 | 20 (19 / 1 / 0) | 0 | 24.1 | 60 | 13.4 / 53.7 | 1.5 | 4.7 / 16.0 |
+
+Promoted can exceed the sheet count: a re-promoted anchor makes its
+dependants stale, and they render again.
+
+- **Time and memory.** About 60 s per megapixel at 40 steps (51 without the
+  anchor reference); nkr's 1920x1440 death sheets took about 170 s each.
+  Peak memory 47 GB used, 78 GB available, on those sheets. The GPU sits at
+  95-96 % during a render, so two batches in parallel would not be faster.
+- **Corrections do not help.** Retries (attempt 2+, which carry the
+  geometry correction) passed at the same rate as first attempts: 75 % at
+  0.9 (118/158 against 237/316), 96-98 % at 0.8.
+- **The fireball went STUCK** in `base`: four attempts at 0.9 off by 0.8,
+  2.6, 4.0 and 4.9 px, the fallback at 0.8 off by 0.6 on one frame. A
+  flame has no stable structure for phase correlation to lock onto.
+- **The gate** (`gate_test.py`, five promoted base sheets broken on
+  purpose): a whole sheet shifted 1 or 2 native px, or one cell shifted 2,
+  is caught every time (geometry); one cell replaced by the frame three
+  later is caught only where the animation moves a lot (zombie walk, warrior
+  attack; not magma idle, nkr death, smith); one cell recoloured (G and B
+  ×0.6) is never caught, since the colour match halves it and the gate reads
+  luminance only. Colour and a wrong frame of a still animation are left to
+  the VLM review.
+
+Decisions (the user, from `data/preview/compare.html`):
+- denoise stays 0.9 by default, fallback 0.8: 0.8 passes the gate far more
+  often, but 0.9 paints more;
+- the anchor reference stays on: the gate cannot see cross-direction
+  consistency, the GIFs can;
+- layout stays direction packing, gutter 16, grey background: gutter 32
+  doubled the geometry rejections, packed and dark gained nothing clear;
+- missiles start on the fallback (`FALLBACK_FIRST_KINDS`), since their
+  shapes defeat the shift check at 0.9.

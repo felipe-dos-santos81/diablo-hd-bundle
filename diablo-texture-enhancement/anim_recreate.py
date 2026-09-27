@@ -68,6 +68,7 @@ MEMORY_FLOOR_GB = 45
 SEED = 42                   # attempt N of a sheet uses SEED + N - 1
 MAX_ATTEMPTS = 4            # a sheet with this many rejected attempts, the latest among them, waits
 MAX_CONSECUTIVE_FAILURES = 3  # batch stops after this many failed sheets in a row
+FALLBACK_FIRST_KINDS = ("missile",)  # flames defeat the shift check at denoise 0.9 (spike)
 DEFAULT_MATCH_STRENGTH = 0.5
 DEFAULT_CONCURRENCY = 8     # review requests in flight at once
 CAPTION_SCALE = 4           # the caption contact sheets enlarge frames this much
@@ -366,6 +367,15 @@ def corrections_for(dst, key, reviews):
     return [GEOMETRY_CORRECTION] if review.source == "geometry" else list(review.issues)
 
 
+def workflow_for(sj, workflow):
+    """The workflow a sheet starts on: the run's, or its fallback for a kind in
+    FALLBACK_FIRST_KINDS (a flame has no stable structure for the shift check,
+    so a missile renders closer to its guide from the first attempt)."""
+    if sj.job.anim.kind in FALLBACK_FIRST_KINDS and workflow.fallback is not None:
+        return comfy_client.WORKFLOWS[workflow.fallback]
+    return workflow
+
+
 def fallback_for(dst, key, workflow, reviews):
     """The workflow to render a stuck sheet through once more: `workflow`'s
     fallback while no rejected attempt of the sheet (as sheet_status counts
@@ -605,15 +615,16 @@ def cmd_batch(args):
                                        and anchor_key(sj, characters) is not None):
                 counts["blocked"] += 1
                 continue
-            sheet_workflow = workflow
+            start = workflow_for(sj, workflow)
+            sheet_workflow = start
             if status == "stuck" and not args.force:
-                sheet_workflow = fallback_for(args.dst, sj.key, workflow, reviews)
+                sheet_workflow = fallback_for(args.dst, sj.key, start, reviews)
                 if sheet_workflow is None:
                     stuck.append(sj)
                     continue
             corrections = corrections_for(args.dst, sj.key, reviews)
             note = f" with {len(corrections)} correction(s)" if corrections else ""
-            if sheet_workflow is not workflow:
+            if sheet_workflow is not start:
                 note += f" through the fallback {sheet_workflow.name}"
             if status == "stale":
                 note += " (its anchor changed)"

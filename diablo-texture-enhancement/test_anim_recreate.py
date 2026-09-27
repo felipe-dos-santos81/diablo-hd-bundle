@@ -108,15 +108,34 @@ class BatchTests(DriverTest):
 
     def test_stuck_sheets_get_the_fallback_once_then_report_stuck(self):
         shifted = testkit.fake_render(testkit.shift_right)
-        args = ("--anim", "missiles/fireba1.cl2")
+        args = ("--anim", ZN, "--no-variants")
         for _ in range(a.MAX_ATTEMPTS):
             self.batch(*args, render=shifted)
         code, out, _, mocks = self.batch(*args, render=shifted)
-        self.assertEqual(mocks.render.call_args.args[0].name, "qwen-image-2.1-i2i-faithful")
+        self.assertEqual([c.args[0].name for c in mocks.render.call_args_list],
+                         ["qwen-image-2.1-i2i-faithful"], msg="s02 waits for its anchor")
         code, out, err, mocks = self.batch(*args, render=shifted)
         self.assertEqual((code, mocks.render.call_count), (1, 0))
+        self.assertIn(f"STUCK   {ZN}/s01", err)
+        self.assertIn(f"make batch sheet={ZN}/s01 force=1", err)
+
+    def test_missiles_start_on_the_fallback_and_have_no_second_one(self):
+        code, out, err, mocks = self.batch("--character", "missiles/fireba",
+                                           "--character", "monsters/zombie", "--no-variants")
+        self.assertEqual(code, 0, err)
+        workflows = {c.kwargs["name"].split("_a")[0]: c.args[0].name
+                     for c in mocks.render.call_args_list}
+        self.assertEqual(workflows[comfy_client.comfy_name("missiles/fireba1.cl2/s01")],
+                         "qwen-image-2.1-i2i-faithful")
+        self.assertEqual(workflows[comfy_client.comfy_name(f"{ZN}/s01")], "qwen-image-2.1-i2i")
+        self.assertNotIn("through the fallback", out)
+        shifted = testkit.fake_render(testkit.shift_right)
+        args = ("--anim", "missiles/fireba1.cl2", "--force")
+        for _ in range(a.MAX_ATTEMPTS):
+            self.batch(*args, render=shifted)
+        code, out, err, mocks = self.batch("--anim", "missiles/fireba1.cl2", render=shifted)
+        self.assertEqual((code, mocks.render.call_count), (1, 0))
         self.assertIn("STUCK   missiles/fireba1.cl2/s01", err)
-        self.assertIn("make batch sheet=missiles/fireba1.cl2/s01 force=1", err)
 
     def test_a_new_anchor_makes_its_dependants_stale(self):
         self.batch()
